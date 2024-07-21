@@ -202,6 +202,34 @@
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
   }
 
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .dapp-button {
+    background-color: #FF1493;
+    color: #FFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .dapp-button:hover {
+    background-color: #FF69B4;
+    transform: scale(1.05);
+  }
+
   /* Mobile Styles */
   @media (max-width: 768px) {
     body, html, h1, h2, p, div, span, a, button {
@@ -255,6 +283,9 @@
     .launch-date {
       font-size: 1.2rem;
     }
+    .dapp-button {
+      font-size: 1.2rem;
+    }
   }
 </style>
 </head>
@@ -273,7 +304,7 @@
         <p>Dexscreener has been paid, check our Telegram</p>
       </div>
       <div class="update-item">
-        <p>WIFE DAPP BETA LIVE, check footer for link</p>
+        <p>WIFE DAPP beta LIVE, check footer for link</p>
       </div>
     </div>
   </div>
@@ -315,6 +346,11 @@
     <circle cx="50" cy="50" r="35" fill="none" stroke="gold" stroke-width="5"/>
     <polygon class="diamond" points="50,60 20,30 80,30" fill="white" stroke="cyan" stroke-width="2"/>
   </svg>
+
+  <div class="footer">
+    <a href="https://wifechangingcoin.github.io/wife/dapp.html" class="dapp-button">WIFE DAPP</a>
+    <div class="launch-date">Launched 2024-07-21 🌕</div>
+  </div>
 
   <audio id="backgroundMusic" loop>
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
