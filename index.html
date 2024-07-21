@@ -128,9 +128,131 @@
     color: #333;
     margin: 0.5rem 0;
   }
+  #muteButton {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: #FF1493;
+    color: #FFF;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  #muteButton:hover {
+    background: #FF69B4;
+    transform: scale(1.1);
+  }
+
+  /* Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 5px solid white;
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 1001;
+    max-width: 300px;
+    min-height: 200px; /* Increased height */
+  }
+  .modal-content {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  }
+  .modal-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .close-button {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .close-button:hover {
+    color: #FF69B4;
+  }
+  #updateButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  .update-item {
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 10px;
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 768px) {
+    h1, h2 {
+      font-size: 3rem;
+    }
+    .tagline {
+      font-size: 1.5rem;
+    }
+    .btn {
+      padding: 0.8rem 1.6rem;
+      font-size: 1.2rem;
+    }
+    .coin {
+      width: 80px;
+      height: 80px;
+      font-size: 1.5rem;
+    }
+    .animated-text {
+      font-size: 1.2rem;
+    }
+    .tokenomics {
+      padding: 1.5rem;
+    }
+    .tokenomics h3 {
+      font-size: 2rem;
+    }
+    .tokenomics p {
+      font-size: 1rem;
+    }
+    .wedding-ring {
+      width: 80px;
+      height: 80px;
+    }
+    #muteButton {
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+    }
+    .modal {
+      max-width: 250px;
+    }
+  }
 </style>
 </head>
 <body>
+  <button id="muteButton">🔊</button>
+  <button id="updateButton" class="btn">Updates</button>
+
+  <div id="updateModal" class="modal">
+    <span class="close-button">&times;</span>
+    <div class="modal-content">
+      <h3 class="modal-title">Updates</h3>
+      <div class="update-item">
+        <p>Added Background Music and an Update Modal to Site</p>
+      </div>
+      <div class="update-item">
+        <p>Dexscreener has been paid, check our Telegram</p>
+      </div>
+    </div>
+  </div>
+
   <section id="home">
     <h1>WIFE COIN</h1>
     <p class="tagline">Wife-Changing Wealth Awaits!</p>
@@ -168,8 +290,63 @@
     <polygon class="diamond" points="50,60 20,30 80,30" fill="white" stroke="cyan" stroke-width="2"/>
   </svg>
 
-  <audio autoplay loop>
-    <source src="https://example.com/wife-coin-theme.mp3" type="audio/mpeg">
+  <audio id="backgroundMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
-</body></html>
+
+  <script>
+    const audio = document.getElementById('backgroundMusic');
+    const muteButton = document.getElementById('muteButton');
+    let isMuted = false;
+
+    // Start playing as soon as possible
+    window.addEventListener('load', () => {
+      audio.play().catch(error => {
+        console.log("Autoplay prevented. User interaction required.");
+      });
+    });
+
+    // Mute/unmute functionality
+    muteButton.addEventListener('click', () => {
+      if (isMuted) {
+        audio.muted = false;
+        muteButton.textContent = '🔊';
+        isMuted = false;
+      } else {
+        audio.muted = true;
+        muteButton.textContent = '🔇';
+        isMuted = true;
+      }
+    });
+
+    // Play audio on first user interaction if autoplay was prevented
+    document.body.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(error => {
+          console.log("Playback failed:", error);
+        });
+      }
+    }, { once: true });
+
+    // Modal functionality
+    const modal = document.getElementById('updateModal');
+    const updateButton = document.getElementById('updateButton');
+    const closeButton = document.querySelector('.close-button');
+
+    updateButton.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    closeButton.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
