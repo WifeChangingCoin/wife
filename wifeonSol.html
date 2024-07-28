@@ -1,0 +1,547 @@
+<html><head>
+<title>WIFE Coin - Wife-Changing Wealth</title>
+<style>
+  @font-face {
+    font-family: 'Comic Sans MS';
+    src: url('https://fonts.cdnfonts.com/css/comic-sans-ms') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Comic Sans MS', cursive !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    cursor: none;  /* Hide the default cursor */
+  }
+  section {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    animation: backgroundShift 20s infinite;
+  }
+  @keyframes backgroundShift {
+    0%, 100% { background: linear-gradient(45deg, #FF69B4, #FFD700); }
+    25% { background: linear-gradient(45deg, #00CED1, #FF6347); }
+    50% { background: linear-gradient(45deg, #9932CC, #32CD32); }
+    75% { background: linear-gradient(45deg, #FF4500, #1E90FF); }
+  }
+  h1, h2 {
+    font-size: 5rem;
+    color: #FFF;
+    text-shadow: 3px 3px 0 #000;
+    animation: pulse 2s infinite;
+  }
+  .tagline {
+    font-size: 2rem;
+    color: #FFF;
+    margin-bottom: 2rem;
+    animation: float 3s ease-in-out infinite;
+  }
+  .btn {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    margin: 1rem;
+    border: none;
+    border-radius: 50px;
+    background: #FF1493;
+    color: #FFF;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn:hover {
+    transform: scale(1.1);
+    background: #FF69B4;
+  }
+  .floating {
+    position: absolute;
+    animation: float 6s ease-in-out infinite;
+  }
+  .coin {
+    width: 100px;
+    height: 100px;
+    background: #FFD700;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 2rem;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    transition: transform 0.3s ease;
+  }
+  .coin:hover {
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+  }
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  .animated-text {
+    position: absolute;
+    font-size: 1.5rem;
+    color: #FFF;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    opacity: 0;
+    animation: textAnimation 10s infinite;
+    z-index: 1000;  /* Ensure the text is on top of everything */
+  }
+  @keyframes textAnimation {
+    0%, 100% { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+    10%, 90% { opacity: 1; transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(10deg); }
+  }
+  .wedding-ring {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 100px;
+    height: 100px;
+    transform: rotate(-20deg);
+    animation: sparkle 2s infinite;
+  }
+  @keyframes sparkle {
+    0%, 100% { filter: drop-shadow(0 0 3px gold); }
+    50% { filter: drop-shadow(0 0 8px gold); }
+  }
+  .diamond {
+    animation: diamondSparkle 1.5s infinite;
+    transition: transform 0.3s ease;
+  }
+  @keyframes diamondSparkle {
+    0%, 100% { fill: white; }
+    50% { fill: cyan; }
+  }
+  .wedding-ring:hover .diamond {
+    animation: diamondFloat 1s ease-in-out infinite;
+  }
+  @keyframes diamondFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  .tokenomics {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+  .tokenomics::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+    z-index: -1;
+    filter: blur(5px);
+    border-radius: 18px;
+    animation: rainbowBorder 10s linear infinite;
+  }
+  @keyframes rainbowBorder {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+  .tokenomics h3 {
+    color: #FF1493;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .tokenomics p {
+    font-size: 1.8rem;
+    color: white;
+    margin: 0.8rem 0;
+    text-shadow: 2px 2px 4px rgba(105, 105, 105, 0.8);
+    -webkit-text-stroke: 1px #696969;
+    line-height: 1.4;
+  }
+  #muteButton {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: #FF1493;
+    color: #FFF;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  #muteButton:hover {
+    background: #FF69B4;
+    transform: scale(1.1);
+  }
+
+  /* Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 5px solid white;
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 1001;
+    max-width: 300px;
+    min-height: 200px;
+  }
+  .modal-content {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  }
+  .modal-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .close-button {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .close-button:hover {
+    color: #FF69B4;
+  }
+  #updateButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  .update-item {
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 10px;
+  }
+
+  .launch-date {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1rem;
+    color: #FFF;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .wife-image {
+    position: absolute;
+    bottom: -75px;
+    right: -75px;
+    width: 300px;
+    height: 300px;
+    transform: rotate(15deg);
+    z-index: 10;
+    transition: transform 0.3s ease-out;
+  }
+
+  .wife-image:hover {
+    transform: translateX(-50px) rotate(15deg);
+  }
+
+  .bride-emoji {
+    position: fixed;
+    pointer-events: none;
+    font-size: 24px;
+    z-index: 9999;
+    transition: all 0.5s ease-out;
+    opacity: 1;
+  }
+
+  .floating-text {
+    position: fixed;
+    font-size: 1.5rem;
+    color: #FFF;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    animation: float 6s ease-in-out infinite;
+    bottom: 60px;
+  }
+
+  .floating-text-left {
+    left: 20px;
+  }
+
+  .floating-text-center {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .floating-text-right {
+    right: 20px;
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 768px) {
+    h1, h2 {
+      font-size: 4rem;
+    }
+    .tagline {
+      font-size: 2rem;
+    }
+    .btn {
+      padding: 1rem 2rem;
+      font-size: 1.8rem;
+    }
+    .coin {
+      width: 100px;
+      height: 100px;
+      font-size: 2rem;
+    }
+    .animated-text {
+      font-size: 1.8rem;
+    }
+    .tokenomics {
+      padding: 2rem;
+    }
+    .tokenomics h3 {
+      font-size: 3rem;
+    }
+    .tokenomics p {
+      font-size: 2rem;
+    }
+    .wedding-ring {
+      width: 100px;
+      height: 100px;
+    }
+    #muteButton {
+      width: 60px;
+      height: 60px;
+      font-size: 1.8rem;
+    }
+    .modal {
+      max-width: 300px;
+    }
+    .modal-title {
+      font-size: 28px;
+    }
+    .update-item p {
+      font-size: 1.5rem;
+    }
+    .launch-date {
+      font-size: 1.2rem;
+    }
+    .wife-image {
+      width: 200px;
+      height: 200px;
+      bottom: -50px;
+      right: -50px;
+    }
+    .floating-text {
+      font-size: 1.2rem;
+    }
+  }
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <button id="muteButton">🔊</button>
+  <button id="updateButton" class="btn">Updates</button>
+
+  <div id="updateModal" class="modal">
+    <span class="close-button">&times;</span>
+    <div class="modal-content">
+      <h3 class="modal-title">Updates</h3>
+      <div class="update-item">
+        <p>WIFE (SOL) site to be updated soon after coin launch</p>
+      </div>
+      <div class="update-item">
+        <p>WIFE on Solana launching soon on pump.fun</p>
+      </div>
+    </div>
+  </div>
+
+  <section id="home">
+    <h1>WIFE COIN Solana Chain</h1>
+    <p class="tagline">Wife-Changing Wealth Awaits!</p>
+    <a href="https://t.me/wifercoin" class="btn">Join Telegram</a>
+    <a href="https://pump.fun/board" class="btn">PUMP.FUN</a>
+    <a href="#tokenomics" class="btn">Learn More</a>
+    
+    <div class="floating coin" style="top: 10%; left: 10%;">WIFE</div>
+    <div class="floating coin" style="top: 70%; right: 15%;">WIFE</div>
+    <div class="floating coin" style="top: 40%; left: 80%;">WIFE</div>
+    
+    <div class="animated-text" style="top: 20%; left: 20%;">Forget the moon – we're shooting straight for the honeymoon suite!</div>
+    <div class="animated-text" style="top: 70%; right: 20%;">Let Wife be the bad decision that makes all the right moves.</div>
+    <div class="animated-text" style="top: 40%; left: 50%;">Remember, it's not just wealth, it's wife-changing wealth!</div>
+
+    <img src="https://wifechangingcoin.github.io/wife/wife.png" alt="Coin Logo" class="wife-image">
+  </section>
+
+  <section id="tokenomics">
+    <h2>WIFE COIN Tokenomics</h2>
+    <div class="tokenomics">
+      <h3>The Numbers Behind the Love</h3>
+      <p>Total Supply: # $WIFE of Solana</p>
+      <p>Liquidity Locked: #%</p>
+      <p>Team Allocation Wallets: #%</p>
+      <p>Marketing Wallets: #%</p>
+    </div>
+    <div class="floating coin" style="top: 15%; right: 10%;">WIFE</div>
+    <div class="floating coin" style="bottom: 20%; left: 5%;">WIFE</div>
+    <div class="animated-text" style="top: 30%; left: 30%;">Our tokenomics are as solid as our prenup!</div>
+    <div class="animated-text" style="bottom: 30%; right: 20%;">Invest in love, reap the rewards!</div>
+    <div class="launch-date">Launched 2024-07-28 🌕</div>
+  </section>
+
+  <section id="additional-content">
+    <h2>WIFE COIN Community</h2>
+    <p class="tagline">Join the WIFE COIN Family!</p>
+    <a href="https://x.com/WiferCoin" class="btn">Follow on X</a>
+    <a href="https://t.me/wifercoin" class="btn">Join Telegram</a>
+    <a href="http://wifecoin.solofolio.net/home" class="btn">Portfolio & Blog</a>
+    
+    <div class="floating coin" style="top: 20%; left: 15%;">WIFE</div>
+    <div class="floating coin" style="bottom: 25%; right: 10%;">WIFE</div>
+    
+    <div class="animated-text" style="top: 40%; left: 25%;">Building a community stronger than any marriage!</div>
+    <div class="animated-text" style="bottom: 35%; right: 25%;">In WIFE we trust, in wealth we prosper!</div>
+  </section>
+
+  <svg class="wedding-ring" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="45" fill="none" stroke="gold" stroke-width="10"/>
+    <circle cx="50" cy="50" r="35" fill="none" stroke="gold" stroke-width="5"/>
+    <polygon class="diamond" points="50,60 20,30 80,30" fill="white" stroke="cyan" stroke-width="2"/>
+  </svg>
+
+  <div class="floating-text floating-text-left">Treat your WIFE well</div>
+  <div class="floating-text floating-text-center">Happy WIFE happy Life</div>
+  <div class="floating-text floating-text-right">WIFE will thank you later</div>
+
+  <div class="footer">
+    <a href="https://wifechangingcoin.github.io/wife/CryptoLoveTycoon.html" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Play with WIFE</a>
+    <a href="#tokenomics" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">WIFEPAPER for SOLANA WIFE SOON</a>
+    <div class="launch-date" style="font-size: 0.8rem;">Launched 2024-07-28 🌕</div>
+  </div>
+
+  <audio id="backgroundMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const audio = document.getElementById('backgroundMusic');
+    const muteButton = document.getElementById('muteButton');
+    let isMuted = false;
+
+    // Start playing as soon as possible
+    window.addEventListener('load', () => {
+      audio.play().catch(error => {
+        console.log("Autoplay prevented. User interaction required.");
+      });
+    });
+
+    // Mute/unmute functionality
+    muteButton.addEventListener('click', () => {
+      if (isMuted) {
+        audio.muted = false;
+        muteButton.textContent = '🔊';
+        isMuted = false;
+      } else {
+        audio.muted = true;
+        muteButton.textContent = '🔇';
+        isMuted = true;
+      }
+    });
+
+    // Play audio on first user interaction if autoplay was prevented
+    document.body.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(error => {
+          console.log("Playback failed:", error);
+        });
+      }
+    }, { once: true });
+
+    // Modal functionality
+    const modal = document.getElementById('updateModal');
+    const updateButton = document.getElementById('updateButton');
+    const closeButton = document.querySelector('.close-button');
+
+    updateButton.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    closeButton.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // Bride emoji cursor trail
+    let currentEmoji = '👰';
+    const tokenomicsBox = document.querySelector('.tokenomics');
+
+    document.addEventListener('mousemove', function(e) {
+      createBrideEmoji(e.clientX, e.clientY);
+    });
+
+    function createBrideEmoji(x, y) {
+      const emoji = document.createElement('div');
+      emoji.classList.add('bride-emoji');
+      emoji.textContent = currentEmoji;
+      emoji.style.left = x + 'px';
+      emoji.style.top = y + 'px';
+      document.body.appendChild(emoji);
+
+      setTimeout(() => {
+        emoji.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+        emoji.style.opacity = '0';
+      }, 50);
+
+      setTimeout(() => {
+        document.body.removeChild(emoji);
+      }, 2000);
+    }
+
+    tokenomicsBox.addEventListener('mouseenter', function() {
+      currentEmoji = '❤️';
+    });
+
+    tokenomicsBox.addEventListener('mouseleave', function() {
+      currentEmoji = '👰';
+    });
+  </script>
+</body>
+</html>
