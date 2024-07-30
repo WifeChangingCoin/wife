@@ -223,46 +223,29 @@
             z-index: 1;
         }
         .side-panel {
+            width: 300px;
+            height: 100%;
             position: fixed;
             top: 0;
-            left: -400px; /* Hidden by default */
-            width: 400px;
-            height: 100%;
-            background-color: #FF69B4;
+            left: -300px;
+            background: linear-gradient(45deg, #FF69B4, #FFD700);
+            z-index: 2;
             transition: left 0.3s ease;
-            z-index: 2; /* Above other elements */
         }
-        .side-panel iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        .side-panel.open {
+            left: 0;
         }
         .arrow {
             position: fixed;
             top: 20px;
             left: 20px;
-            width: 30px;
-            height: 30px;
-            background-color: #FFD700;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-size: 2rem;
             cursor: pointer;
             transition: left 0.3s ease;
-            z-index: 3; /* Above the panel */
+            z-index: 3;
         }
         .arrow.open {
-            left: 420px; /* Move with the panel */
-        }
-        .arrow:before {
-            content: '→';
-            display: block;
-            font-size: 1.5rem;
-            color: #FF69B4;
-            transition: transform 0.3s ease;
-        }
-        .arrow.open:before {
-            transform: rotate(180deg);
+            left: 320px;
         }
     </style>
 </head>
@@ -278,11 +261,11 @@
         <div class="animated-text" style="top: 20%; left: 20%;">Invest in WIFE - because crypto never asks 'Does this blockchain make me look fat?'</div>
         <div class="animated-text" style="top: 70%; right: 20%;">WIFE: The only token that appreciates faster than your real one depreciates!</div>
         <div class="animated-text" style="top: 40%; left: 50%;">Remember, it's not just wealth, it's wife-changing wealth!</div>
-    </div>
 
-    <div class="tweet-container">
-        <div id="loadingBox" class="loading-box">FEED LOADING...</div>
-        <iframe src='https://www.juicer.io/api/feeds/wifercoin/iframe' frameborder='0' width='100%' height='1000' style='display:block;margin:0 auto;'></iframe>
+        <div class="tweet-container">
+            <div class="loading-box" id="loadingBox">FEED LOADING...</div>
+            <iframe src='https://www.juicer.io/api/feeds/wifercoin/iframe' frameborder='0' width='100%' height='1000' style='display:block;margin:0 auto;'></iframe>
+        </div>
     </div>
 
     <img class="bottom-left-image" src="https://wifechangingcoin.github.io/wife/wife.png" alt="WIFE Coin Mascot - A cartoon wife character holding a golden coin, anime style" width="300" height="300">
@@ -299,9 +282,9 @@
     </div>
 
     <div class="side-panel" id="sidePanel">
-        <iframe src="https://wifecoin.life/wifeChat.html"></iframe>
+        <iframe src="https://wifecoin.life/wifeChat.html" frameborder="0" width="100%" height="100%"></iframe>
     </div>
-    <div class="arrow" id="toggleArrow">→</div>
+    <div class="arrow" id="arrow">&#x25BA;</div>
 
     <script>
         document.addEventListener('mousemove', (e) => {
@@ -399,25 +382,14 @@
             image.style.transform = 'translateY(0)'; // Move the image back to its original position
         });
 
-        // Automatically scroll the iframe down 40px
-        const iframe = document.querySelector('.tweet-container iframe');
-        iframe.addEventListener('load', () => {
-            iframe.contentWindow.scrollTo(0, 40);
-        });
-
-        // Toggle side panel
-        const toggleArrow = document.getElementById('toggleArrow');
+        // Side panel toggle
         const sidePanel = document.getElementById('sidePanel');
-        toggleArrow.addEventListener('click', () => {
-            if (sidePanel.style.left === '0px') {
-                sidePanel.style.left = '-400px';
-                toggleArrow.classList.remove('open');
-            } else {
-                sidePanel.style.left = '0px';
-                toggleArrow.classList.add('open');
-            }
+        const arrow = document.getElementById('arrow');
+        arrow.addEventListener('click', () => {
+            sidePanel.classList.toggle('open');
+            arrow.classList.toggle('open');
+            arrow.innerHTML = sidePanel.classList.contains('open') ? '&#x25C0;' : '&#x25BA;';
         });
     </script>
 </body>
 </html>
-
