@@ -174,7 +174,7 @@
         }
         .tweet-container {
             margin-top: 20px;
-            width: 60%;
+            width: calc(100% - 40px);
             max-width: 800px;
             height: 1000px; /* Doubled the height */
             overflow-y: scroll; /* Added scrollbar */
@@ -195,7 +195,6 @@
             border: 3px solid #FFD700;
         }
         .tweet-button {
-            display: none; /* Initially hidden */
             background-color: #FF1493;
             color: white;
             padding: 10px 20px;
@@ -203,6 +202,8 @@
             text-decoration: none;
             font-size: 1rem;
             transition: background-color 0.3s ease;
+            display: block; /* Ensure it's visible */
+            text-align: center;
         }
         .tweet-button:hover {
             background-color: #FF69B4;
@@ -213,15 +214,55 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, #FF69B4, #FFD700, #00CED1, #FF6347, #9932CC, #32CD32, #FF4500, #1E90FF);
+            background: linear-gradient(45deg, #FF69B4, #FFD700);
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 2rem;
             color: #FFF;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            animation: backgroundShift 5s infinite;
-            z-index: 1000; /* Ensure the loading box is above the iframe */
+            z-index: 1;
+        }
+        .side-panel {
+            position: fixed;
+            top: 0;
+            left: -400px; /* Hidden by default */
+            width: 400px;
+            height: 100%;
+            background-color: #FF69B4;
+            transition: left 0.3s ease;
+            z-index: 2; /* Above other elements */
+        }
+        .side-panel iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .arrow {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            background-color: #FFD700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: left 0.3s ease;
+            z-index: 3; /* Above the panel */
+        }
+        .arrow.open {
+            left: 420px; /* Move with the panel */
+        }
+        .arrow:before {
+            content: '→';
+            display: block;
+            font-size: 1.5rem;
+            color: #FF69B4;
+            transition: transform 0.3s ease;
+        }
+        .arrow.open:before {
+            transform: rotate(180deg);
         }
     </style>
 </head>
@@ -233,21 +274,18 @@
             <a href="https://wifechangingcoin.github.io/wife/wifeonBase.html" class="btn">WIFE on Base Chain</a>
             <a href="https://wifechangingcoin.github.io/wife/wifeonSol.html" class="btn">WIFE on Solana Chain</a>
         </div>
-        
         <div id="coin-container"></div>
-        
         <div class="animated-text" style="top: 20%; left: 20%;">Invest in WIFE - because crypto never asks 'Does this blockchain make me look fat?'</div>
         <div class="animated-text" style="top: 70%; right: 20%;">WIFE: The only token that appreciates faster than your real one depreciates!</div>
         <div class="animated-text" style="top: 40%; left: 50%;">Remember, it's not just wealth, it's wife-changing wealth!</div>
-
-        <div class="tweet-container">
-            <div class="loading-box" id="loadingBox">FEED LOADING...</div>
-            <a class="twitter-timeline" href="https://twitter.com/WiferCoin">Tweets by WiferCoin</a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        </div>
     </div>
 
-    <img class="bottom-left-image" src="https://wifechangingcoin.github.io/wife/wife.png" alt="WIFE Coin" width="300" height="300">
+    <div class="tweet-container">
+        <div id="loadingBox" class="loading-box">FEED LOADING...</div>
+        <iframe src='https://www.juicer.io/api/feeds/wifercoin/iframe' frameborder='0' width='100%' height='1000' style='display:block;margin:0 auto;'></iframe>
+    </div>
+
+    <img class="bottom-left-image" src="https://wifechangingcoin.github.io/wife/wife.png" alt="WIFE Coin Mascot - A cartoon wife character holding a golden coin, anime style" width="300" height="300">
 
     <audio autoplay loop>
         <source src="https://example.com/wife-coin-theme.mp3" type="audio/mpeg">
@@ -259,6 +297,11 @@
         <a href="https://twitter.com/intent/tweet?screen_name=wifercoin&ref_src=twsrc%5Etfw" class="twitter-mention-button tweet-button" data-size="large" data-show-count="false">Tweet to @wifercoin</a>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
+
+    <div class="side-panel" id="sidePanel">
+        <iframe src="https://wifecoin.life/wifeChat.html"></iframe>
+    </div>
+    <div class="arrow" id="toggleArrow">→</div>
 
     <script>
         document.addEventListener('mousemove', (e) => {
@@ -343,7 +386,6 @@
             if (loadingBox) {
                 loadingBox.remove();
             }
-            document.querySelector('.twitter-mention-button').style.display = 'block';
         }, 4000);
 
         // Image hover effect
@@ -356,6 +398,26 @@
             image.style.transition = 'transform 1s ease';
             image.style.transform = 'translateY(0)'; // Move the image back to its original position
         });
+
+        // Automatically scroll the iframe down 40px
+        const iframe = document.querySelector('.tweet-container iframe');
+        iframe.addEventListener('load', () => {
+            iframe.contentWindow.scrollTo(0, 40);
+        });
+
+        // Toggle side panel
+        const toggleArrow = document.getElementById('toggleArrow');
+        const sidePanel = document.getElementById('sidePanel');
+        toggleArrow.addEventListener('click', () => {
+            if (sidePanel.style.left === '0px') {
+                sidePanel.style.left = '-400px';
+                toggleArrow.classList.remove('open');
+            } else {
+                sidePanel.style.left = '0px';
+                toggleArrow.classList.add('open');
+            }
+        });
     </script>
 </body>
 </html>
+
