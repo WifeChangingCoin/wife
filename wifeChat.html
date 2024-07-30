@@ -1,11 +1,14 @@
-<html><head><title>Wife Chat</title>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wife Chat</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f5e5e5;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             height: 100vh;
             margin: 0;
             transition: background-color 2s ease;
@@ -20,6 +23,7 @@
             display: flex;
             flex-direction: column;
             position: relative;
+            margin-top: 20px; /* Adjust as needed for top spacing */
             transition: box-shadow 0.3s ease;
         }
         #chat-header {
@@ -189,8 +193,8 @@
             font-size: 14px;
         }
     </style>
-    </head>
-    <body>
+</head>
+<body>
     <div id="chat-container">
         <div id="chat-header">Wife Chat</div>
         <div id="chat-messages"></div>
@@ -202,7 +206,7 @@
         </div>
     </div>
     <div id="toast">Copied to clipboard</div>
-    
+
     <script>
     const messages = [
         { sender: 'nancy', text: "Hey Tina, got a sec? I need to vent about Tom... again. 😒" },
@@ -418,4 +422,5 @@
         document.body.appendChild(script);
     });
     </script>
-    </body></html>
+</body>
+</html>
