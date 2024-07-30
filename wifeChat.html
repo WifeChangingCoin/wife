@@ -1,0 +1,421 @@
+<html><head><title>Wife Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5e5e5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 2s ease;
+        }
+        #chat-container {
+            width: 380px;
+            height: 600px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: box-shadow 0.3s ease;
+        }
+        #chat-header {
+            background-color: #ff69b4;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            z-index: 3;
+            position: relative;
+        }
+        #chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            transition: background 2s ease;
+            position: relative;
+            z-index: 2;
+        }
+        .message {
+            margin-bottom: 20px;
+            max-width: 80%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+        .message-content {
+            padding: 12px 18px;
+            border-radius: 18px;
+            display: inline-block;
+        }
+        .sender-name {
+            font-size: 14px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .nancy .message-content { background-color: #FFB6C1; }
+        .tina .message-content { background-color: #ADD8E6; }
+        .tom .message-content { background-color: #98FB98; }
+        .new-wife .message-content { 
+            background-color: #FFD700;
+            position: relative;
+        }
+        .nancy { align-self: flex-start; }
+        .tina { align-self: flex-end; text-align: right; }
+        .tom { align-self: flex-start; }
+        .new-wife { align-self: flex-end; text-align: right; }
+        .emoji {
+            font-size: 24px;
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+        }
+        #chat-footer {
+            display: flex;
+            padding: 10px;
+            background-color: #f0f0f0;
+            align-items: center;
+            z-index: 3;
+            position: relative;
+        }
+        #emoji-button, #instant-reply-button, #share-button {
+            font-size: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            background-color: #FFD700;
+            border: none;
+            border-radius: 5px;
+        }
+        #action-button {
+            margin-left: auto;
+            padding: 8px 15px;
+            background-color: #FFD700;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes flyingEmoji {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(600px); }
+        }
+        @keyframes bounceWife {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-30px) translateX(-50%); }
+            60% { transform: translateY(-15px) translateX(-50%); }
+        }
+        @keyframes pulseTweet {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .flying-emoji {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .new-wife-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .dollar-sign {
+            position: absolute;
+            bottom: -12px;
+            right: -12px;
+            font-size: 24px;
+            z-index: 3;
+        }
+        .bouncing-wife {
+            position: absolute;
+            top: 50%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            font-weight: bold;
+            color: white;
+            -webkit-text-stroke: 2px black;
+            animation: bounceWife 2s infinite;
+            z-index: 1;
+        }
+        .giant-dollar {
+            position: absolute;
+            font-size: 200px;
+            color: rgba(0, 255, 0, 0.2);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .tweet {
+            background-color: #1DA1F2 !important;
+            color: white !important;
+            animation: pulseTweet 2s infinite;
+            cursor: pointer;
+        }
+        #toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #FFD700;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 1000;
+            display: none;
+        }
+        .tweet-button {
+            background-color: #1DA1F2;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+    </head>
+    <body>
+    <div id="chat-container">
+        <div id="chat-header">Wife Chat</div>
+        <div id="chat-messages"></div>
+        <div id="chat-footer">
+            <div id="emoji-button">🤦‍♀️</div>
+            <div id="instant-reply-button" style="display: none;">Yeah, let's DO IT!</div>
+            <button id="share-button" style="display: none;">Share This</button>
+            <button id="action-button">Change Theme</button>
+        </div>
+    </div>
+    <div id="toast">Copied to clipboard</div>
+    
+    <script>
+    const messages = [
+        { sender: 'nancy', text: "Hey Tina, got a sec? I need to vent about Tom... again. 😒" },
+        { sender: 'tina', text: "Of course, Nancy! What's up? Trouble in paradise? 🏝️" },
+        { sender: 'nancy', text: "Ugh, 'paradise'? More like purgatory. I'm so over trying to impress him." },
+        { sender: 'tina', text: "Oh honey, I feel you. What's going on exactly?" },
+        { sender: 'nancy', text: "It's just... our marriage is SO boring. I can't remember the last time I felt excited about anything with Tom." },
+        { sender: 'tina', text: "Trust me, I get it. Dave and I are in the same boat. Sometimes I'd rather watch paint dry than spend time with him. 🎨" },
+        { sender: 'nancy', text: "Right?! I'm thinking of joining a book club or something. Anything to escape this mind-numbing routine." },
+        { sender: 'tina', text: "Ooh, count me in! We could do shopping trips too. Who needs husbands when you have credit cards? 💳💃" },
+        { sender: 'nancy', text: "LOL, so true! I'm done trying. Wine and girlfriends are my new love life. 🍷👯‍♀️" },
+        { sender: 'tina', text: "Cheers to that! 🥂 Speaking of which, wanna grab drinks this weekend? No husbands allowed!" },
+        { sender: 'nancy', text: "Absolutely! I'm in desperate need of some fun. Tom's idea of excitement is watching golf. 🙄" },
+        { sender: 'tina', text: "Ugh, men. Dave thinks he's treating me by taking me to the hardware store. Like, hello? Do I look like I care about power tools? 🔨" },
+        { sender: 'nancy', text: "Haha, at least Dave tries. Tom's idea of romance is asking me what's for dinner. 🍽️" },
+        { sender: 'tina', text: "We're pathetic, aren't we? But I can't help it. Being a wife is just... blah. 😑" },
+        { sender: 'nancy', text: "Totally pathetic. But hey, at least we have each other to complain to!" },
+        { sender: 'tina', text: "True that! Misery loves company, right? 😂" },
+        { sender: 'nancy', text: "You know what? We should plan a girls' trip. Get away from it all for a while." },
+        { sender: 'tina', text: "OMG yes! Beach vacation? 🏖️ Or maybe a spa retreat? 💆‍♀️" },
+        { sender: 'nancy', text: "Both sound amazing. Anything to avoid another 'romantic' night of TV dinners and sitcom reruns." },
+        { sender: 'tina', text: "I hear you. Let's start planning. It'll give us something to look forward to!" },
+        { sender: 'nancy', text: "Absolutely! I'm excited already. This is the most enthusiasm I've felt in months!" },
+        { sender: 'tom', text: "Hey sweetie, just wanted to say how much I love and appreciate you! You're the light of my life! ❤️" },
+        { sender: 'nancy', text: "Oh please, Tom. I'm not in the mood for your sweet talk. 🙄" },
+        { sender: 'tom', text: "Well then, I think it's time for a wife change." },
+        { sender: 'new-wife', text: "Hey TOM you tasty snack, want to take me for a ride in my Lambo and DO IT? 😘🏎️💰" }
+    ];
+    
+    let background;
+    let dollarClickCount = 0;
+    let replyClickCount = 0;
+    
+    function addMessage(message) {
+        const chatMessages = document.getElementById('chat-messages');
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', message.sender);
+        
+        const senderName = document.createElement('div');
+        senderName.classList.add('sender-name');
+        senderName.textContent = message.sender === 'new-wife' ? 'NEW WIFE' : message.sender.charAt(0).toUpperCase() + message.sender.slice(1);
+        
+        const messageContent = document.createElement('div');
+        messageContent.classList.add('message-content');
+        messageContent.textContent = message.text;
+        
+        messageElement.appendChild(senderName);
+        messageElement.appendChild(messageContent);
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        setTimeout(() => messageElement.style.opacity = 1, 100);
+    
+        if (message.sender === 'new-wife') {
+            setTimeout(() => {
+                if (!background) {
+                    background = document.createElement('div');
+                    background.classList.add('new-wife-background');
+                    document.getElementById('chat-container').insertBefore(background, document.getElementById('chat-header'));
+    
+                    const emojis = ['👰', '🏎️', '💰', '💃', '👯‍♀️', '🎉'];
+                    for (let i = 0; i < 100; i++) {
+                        const emoji = document.createElement('span');
+                        emoji.classList.add('flying-emoji');
+                        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                        emoji.style.left = `${Math.random() * 100}%`;
+                        emoji.style.animation = `flyingEmoji ${3 + Math.random() * 4}s linear infinite`;
+                        emoji.style.animationDelay = `${Math.random() * 2}s`;
+                        background.appendChild(emoji);
+                    }
+                }
+                document.getElementById('emoji-button').textContent = '💲';
+                document.getElementById('action-button').textContent = 'Delete Wife Messages';
+                document.getElementById('instant-reply-button').style.display = 'block';
+    
+                const dollarSign = document.createElement('span');
+                dollarSign.textContent = '💲';
+                dollarSign.classList.add('dollar-sign');
+                messageElement.appendChild(dollarSign);
+            }, 500);
+        }
+    
+        if (message.sender === 'tom' && message.text === "Yeah, let's DO IT!") {
+            document.getElementById('share-button').style.display = 'block';
+        }
+    
+        if (message.tweet) {
+            messageElement.querySelector('.message-content').classList.add('tweet');
+            messageElement.querySelector('.message-content').addEventListener('click', () => {
+                navigator.clipboard.writeText(message.text).then(() => {
+                    const toast = document.getElementById('toast');
+                    toast.style.display = 'block';
+                    setTimeout(() => toast.style.display = 'none', 2000);
+                });
+            });
+        }
+    }
+    
+    let index = 0;
+    function simulateChat() {
+        if (index < messages.length) {
+            addMessage(messages[index]);
+            index++;
+            setTimeout(simulateChat, index === messages.length - 1 ? 5000 : Math.random() * 8000 + 5000);
+        }
+    }
+    
+    setTimeout(simulateChat, 2000);
+    
+    // Color changing functionality
+    const gradients = [
+        'linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)',
+        'linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%)',
+        'linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)',
+        'linear-gradient(to right, #ffecd2 0%, #fcb69f 100%)',
+        'linear-gradient(to right, #ff8177 0%, #ff867a 0%, #ff8c7f 21%, #f99185 52%, #cf556c 78%, #b12a5b 100%)'
+    ];
+    
+    let currentGradient = 0;
+    
+    document.getElementById('action-button').addEventListener('click', () => {
+        if (index < messages.length) {
+            const chatMessages = document.getElementById('chat-messages');
+            currentGradient = (currentGradient + 1) % gradients.length;
+            chatMessages.style.background = gradients[currentGradient];
+            chatMessages.style.backgroundSize = '400% 400%';
+            chatMessages.style.animation = 'gradientAnimation 15s ease infinite';
+        } else {
+            const chatMessages = document.getElementById('chat-messages');
+            const messagesToKeep = Array.from(chatMessages.children).filter(msg => 
+                msg.classList.contains('tom') || msg.classList.contains('new-wife')
+            );
+            chatMessages.innerHTML = '';
+            messagesToKeep.forEach(msg => chatMessages.appendChild(msg));
+            document.getElementById('action-button').style.display = 'none';
+        }
+    });
+    
+    // Emoji button functionality
+    document.getElementById('emoji-button').addEventListener('click', () => {
+        const chatMessages = document.getElementById('chat-messages');
+        const lastMessage = Array.from(chatMessages.children)
+            .filter(msg => msg.classList.contains('nancy') || msg.classList.contains('tina'))
+            .pop();
+        
+        if (lastMessage) {
+            const emoji = document.createElement('div');
+            emoji.classList.add('emoji');
+            emoji.textContent = '🤦‍♀️';
+            emoji.style.bottom = '-12px';
+            emoji.style.right = lastMessage.classList.contains('nancy') ? '-12px' : 'auto';
+            emoji.style.left = lastMessage.classList.contains('tina') ? '-12px' : 'auto';
+            lastMessage.appendChild(emoji);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        } else if (document.querySelector('.new-wife')) {
+            dollarClickCount++;
+            if (dollarClickCount >= 2) {
+                const giantDollar = document.createElement('div');
+                giantDollar.textContent = '💲';
+                giantDollar.classList.add('giant-dollar');
+                giantDollar.style.left = `${Math.random() * 80}%`;
+                giantDollar.style.top = `${Math.random() * 80}%`;
+                document.getElementById('chat-container').appendChild(giantDollar);
+            }
+        }
+    });
+    
+    // Instant reply button functionality
+    document.getElementById('instant-reply-button').addEventListener('click', () => {
+        replyClickCount++;
+        if (replyClickCount === 1) {
+            addMessage({ sender: 'tom', text: "Yeah, let's DO IT!" });
+            
+            const bouncingWife = document.createElement('div');
+            bouncingWife.textContent = 'WIFE';
+            bouncingWife.classList.add('bouncing-wife');
+            document.getElementById('chat-container').appendChild(bouncingWife);
+    
+            let hue = 0;
+            const rainbowShadow = setInterval(() => {
+                hue = (hue + 1) % 360;
+                document.getElementById('chat-container').style.boxShadow = `0 0 25px hsl(${hue}, 100%, 50%)`;
+            }, 16);
+    
+            setTimeout(() => {
+                clearInterval(rainbowShadow);
+                document.getElementById('chat-container').style.boxShadow = '0 0 25px rgba(0,0,0,0.2)';
+                bouncingWife.remove();
+            }, 5000);
+        }
+    });
+    
+    // Share button functionality
+    document.getElementById('share-button').addEventListener('click', () => {
+        const tweetText = "I just left my old wife for a NEW WIFE. WIFE COIN brings you wife-changing wealth! https://wifecoin.life";
+        addMessage({ sender: 'tom', text: tweetText, tweet: true });
+        
+        // Replace 'Share This' button with Twitter mention button
+        const shareButton = document.getElementById('share-button');
+        const twitterButton = document.createElement('a');
+        twitterButton.href = "https://twitter.com/intent/tweet?screen_name=wifercoin&ref_src=twsrc%5Etfw";
+        twitterButton.className = "twitter-mention-button tweet-button";
+        twitterButton.setAttribute("data-size", "large");
+        twitterButton.setAttribute("data-show-count", "false");
+        twitterButton.textContent = "Tweet to @wifercoin";
+        
+        shareButton.parentNode.replaceChild(twitterButton, shareButton);
+        
+        // Load Twitter widgets script
+        const script = document.createElement('script');
+        script.src = "https://platform.twitter.com/widgets.js";
+        script.charset = "utf-8";
+        script.async = true;
+        document.body.appendChild(script);
+    });
+    </script>
+    </body></html>
