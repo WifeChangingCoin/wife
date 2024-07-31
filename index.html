@@ -3,6 +3,7 @@
 <head>
     <title>WIFE Coin - Wife-Changing Wealth</title>
     <style>
+        /* General styles */
         body, html {
             margin: 0;
             padding: 0;
@@ -272,10 +273,68 @@
         .music-controls input[type="range"]:hover {
             background-color: #FF1493;
         }
+        /* Mobile version styles */
+        @media only screen and (max-width: 768px) and (orientation: portrait) {
+            body, html {
+                font-family: Arial, sans-serif;
+                overflow: auto;
+                height: auto;
+            }
+            .container {
+                height: auto;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            .tagline {
+                font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+            .btn-container {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .btn {
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
+            }
+            .tweet-container {
+                height: 500px; /* Smaller height for mobile */
+            }
+            .bottom-left-image {
+                width: 150px;
+                height: 150px;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                animation: none;
+            }
+            .footer {
+                font-size: 1rem;
+                padding: 20px;
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+            .footer .music-controls {
+                flex-direction: column;
+            }
+            .footer .tweet-button {
+                margin-top: 10px;
+            }
+            .side-panel {
+                display: none; /* Hide side panel on mobile */
+            }
+            .arrow {
+                display: none; /* Hide arrow on mobile */
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <img class="bottom-left-image" src="https://wifechangingcoin.github.io/wife/wife.png" alt="WIFE Coin">
         <h1>WIFE COIN</h1>
         <p class="tagline">Wife-Changing Wealth Awaits!</p>
         <div class="btn-container">
@@ -292,8 +351,6 @@
             <iframe src='https://www.juicer.io/api/feeds/wifercoin/iframe' frameborder='0' width='100%' height='1000' style='display:block;margin:0 auto;'></iframe>
         </div>
     </div>
-
-    <img class="bottom-left-image" src="https://wifechangingcoin.github.io/wife/wife.png" alt="WIFE Coin" width="300" height="300">
 
     <audio id="background-music" loop>
         <source src="https://wifechangingcoin.github.io/wife/Wife-changing-wealth-awaits.mp3" type="audio/mpeg">
