@@ -172,6 +172,11 @@
         .footer a:hover {
             color: #FFD700;
         }
+        .footer .music-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
         .tweet-container {
             margin-top: 20px;
             width: calc(100% - 40px);
@@ -247,6 +252,26 @@
         .arrow.open {
             left: 320px;
         }
+        .arrow-theme {
+            color: #FFD700;
+        }
+        .music-controls button,
+        .music-controls select,
+        .music-controls input[type="range"] {
+            background-color: #FF69B4;
+            color: #FFF;
+            border: 1px solid #FFD700;
+            border-radius: 10px;
+            padding: 5px;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        .music-controls button:hover,
+        .music-controls select:hover,
+        .music-controls input[type="range"]:hover {
+            background-color: #FF1493;
+        }
     </style>
 </head>
 <body>
@@ -270,13 +295,23 @@
 
     <img class="bottom-left-image" src="https://wifechangingcoin.github.io/wife/wife.png" alt="WIFE Coin" width="300" height="300">
 
-    <audio autoplay loop>
+    <audio id="background-music" loop>
         <source src="https://wifechangingcoin.github.io/wife/Wife-changing-wealth-awaits.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
     <div class="footer">
         <div>Developer <a href="https://t.me/NINETENTWO" target="_blank">NINETENTWO</a></div>
+        <div class="music-controls">
+            <button id="playPauseButton">Play</button>
+            <input type="range" id="musicProgress" min="0" max="100" value="0">
+            <select id="playlistSelector">
+                <option value="https://wifechangingcoin.github.io/wife/Wife-changing-wealth-awaits.mp3">Track 1</option>
+                <option value="https://example.com/track2.mp3">Track 2</option>
+                <option value="https://example.com/track3.mp3">Track 3</option>
+            </select>
+            <button id="loopButton">Loop Off</button>
+        </div>
         <a href="https://twitter.com/intent/tweet?screen_name=wifercoin&ref_src=twsrc%5Etfw" class="twitter-mention-button tweet-button" data-size="large" data-show-count="false">Tweet to @wifercoin</a>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
@@ -284,7 +319,7 @@
     <div class="side-panel" id="sidePanel">
         <iframe src="https://wifechangingcoin.github.io/wife/wifeChat.html" frameborder="0" width="100%" height="100%"></iframe>
     </div>
-    <div class="arrow" id="arrow">&#x25BA;</div>
+    <div class="arrow arrow-theme" id="arrow">&#x25BA;</div>
 
     <script>
         document.addEventListener('mousemove', (e) => {
@@ -374,11 +409,11 @@
         // Image hover effect
         const image = document.querySelector('.bottom-left-image');
         image.addEventListener('mouseenter', () => {
-            image.style.transition = 'transform 1s ease';
-            image.style.transform = 'translateY(-50vh)'; // Move the image to the center
+            image.style.transition = 'transform 0.5s ease';
+            image.style.transform = 'translateY(-10vh)'; // Move the image up
         });
         image.addEventListener('mouseleave', () => {
-            image.style.transition = 'transform 1s ease';
+            image.style.transition = 'transform 0.5s ease';
             image.style.transform = 'translateY(0)'; // Move the image back to its original position
         });
 
@@ -390,8 +425,53 @@
             arrow.classList.toggle('open');
             arrow.innerHTML = sidePanel.classList.contains('open') ? '&#x25C0;' : '&#x25BA;';
         });
+
+        // Preload image
+        const img = new Image();
+        img.src = "https://wifechangingcoin.github.io/wife/wife.png";
+
+        // Preload iframes
+        const tweetIframe = new Image();
+        tweetIframe.src = 'https://www.juicer.io/api/feeds/wifercoin/iframe';
+        
+        const chatIframe = new Image();
+        chatIframe.src = 'https://wifechangingcoin.github.io/wife/wifeChat.html';
+
+        // Background music controls
+        const backgroundMusic = document.getElementById('background-music');
+        const playPauseButton = document.getElementById('playPauseButton');
+        const musicProgress = document.getElementById('musicProgress');
+        const playlistSelector = document.getElementById('playlistSelector');
+        const loopButton = document.getElementById('loopButton');
+
+        playPauseButton.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                playPauseButton.textContent = 'Pause';
+            } else {
+                backgroundMusic.pause();
+                playPauseButton.textContent = 'Play';
+            }
+        });
+
+        backgroundMusic.addEventListener('timeupdate', () => {
+            musicProgress.value = (backgroundMusic.currentTime / backgroundMusic.duration) * 100;
+        });
+
+        musicProgress.addEventListener('input', () => {
+            backgroundMusic.currentTime = (musicProgress.value / 100) * backgroundMusic.duration;
+        });
+
+        playlistSelector.addEventListener('change', (e) => {
+            backgroundMusic.src = e.target.value;
+            backgroundMusic.play();
+            playPauseButton.textContent = 'Pause';
+        });
+
+        loopButton.addEventListener('click', () => {
+            backgroundMusic.loop = !backgroundMusic.loop;
+            loopButton.textContent = backgroundMusic.loop ? 'Loop On' : 'Loop Off';
+        });
     </script>
 </body>
 </html>
-
-
