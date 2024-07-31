@@ -272,16 +272,14 @@
         .music-controls input[type="range"]:hover {
             background-color: #FF1493;
         }
-        /* Mobile styles */
-        @media (max-width: 768px) and (orientation: portrait) {
+        @media screen and (max-width: 768px) {
             body, html {
                 font-family: Arial, sans-serif !important;
                 overflow-y: auto !important;
             }
             .container {
                 height: auto;
-                justify-content: flex-start;
-                padding-top: 20px;
+                padding: 20px;
             }
             h1 {
                 font-size: 3rem;
@@ -291,38 +289,28 @@
             }
             .btn-container {
                 flex-direction: column;
+                gap: 0.5rem;
             }
             .btn {
                 font-size: 1.2rem;
-                margin-bottom: 10px;
-            }
-            .bottom-left-image {
-                position: relative;
-                bottom: auto;
-                left: auto;
-                width: 150px;
-                height: 150px;
-                transform: none;
-                animation: none;
-                margin: 0 auto 20px auto;
+                padding: 0.8rem 1.6rem;
             }
             .tweet-container {
-                width: calc(100% - 20px);
-                max-width: none;
-                height: 600px;
-                margin: 20px auto;
+                height: auto;
+                max-width: 100%;
             }
-            .footer {
-                flex-direction: column;
-                padding: 20px 10px;
-                gap: 10px;
-            }
-            .footer .music-controls {
-                flex-direction: column;
-                gap: 5px;
+            .bottom-left-image {
+                position: static;
+                width: 100%;
+                height: auto;
+                transform: none;
+                margin-bottom: 20px;
             }
             .side-panel {
                 display: none;
+            }
+            .footer {
+                font-size: 1rem;
             }
         }
     </style>
