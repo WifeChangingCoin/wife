@@ -1,0 +1,377 @@
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meet a WIFE on WIFE Coin Discord Server</title>
+<style>
+  @keyframes colorChange {
+    0% { background-color: #FFD1DC; }
+    25% { background-color: #FFF700; }
+    50% { background-color: #00FFFF; }
+    75% { background-color: #E6E6FA; }
+    100% { background-color: #FFD1DC; }
+  }
+
+  @keyframes shadowPulse {
+    0% { box-shadow: 0 0 20px rgba(255, 105, 180, 0.7); }
+    50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.7); }
+    100% { box-shadow: 0 0 20px rgba(255, 105, 180, 0.7); }
+  }
+
+  @keyframes brideWave {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(20deg); }
+    75% { transform: rotate(-20deg); }
+  }
+
+  body {
+    font-family: 'Arial', sans-serif;
+    animation: colorChange 20s infinite;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .container {
+    background: linear-gradient(45deg, #FF69B4, #FFB6C1, #E6E6FA, #00FFFF);
+    border-radius: 15px;
+    padding: 20px;
+    animation: shadowPulse 5s infinite;
+    text-align: center;
+    width: 350px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, #FFF700, transparent 30%);
+    animation: rotate 10s linear infinite;
+    z-index: -1;
+  }
+
+  @keyframes rotate {
+    100% { transform: rotate(360deg); }
+  }
+
+  h1 {
+    color: #4B0082;
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bride-emoji {
+    font-size: 32px;
+    margin-left: 10px;
+    animation: brideWave 2s infinite;
+  }
+
+  .select-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .custom-select {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #FF1493;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: rgba(255,255,255,0.8);
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .select-options {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 2px solid #FF1493;
+    border-radius: 5px;
+    width: 90%;
+    z-index: 1;
+  }
+
+  .select-option {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .select-option:hover {
+    background-color: #FFB6C1;
+  }
+
+  /* Custom scrollbar styles */
+  .select-options::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .select-options::-webkit-scrollbar-track {
+    background: #FFB6C1;
+    border-radius: 5px;
+  }
+
+  .select-options::-webkit-scrollbar-thumb {
+    background: #FF1493;
+    border-radius: 5px;
+  }
+
+  .select-options::-webkit-scrollbar-thumb:hover {
+    background: #FF69B4;
+  }
+
+  button {
+    background: linear-gradient(45deg, #FF69B4, #FF1493);
+    color: #FFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+  }
+
+  button:disabled {
+    background: #CCCCCC;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .link {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+
+  .link a {
+    color: #4B0082;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+
+  .link a:hover {
+    color: #FF1493;
+    text-decoration: underline;
+  }
+
+  .info {
+    font-size: 14px;
+    color: #4B0082;
+    margin-top: 20px;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 105, 180, 0.9);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: none;
+    z-index: 1000;
+  }
+
+  .home-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #4B0082;
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+
+  .home-button:hover {
+    background-color: #6A0DAD;
+    transform: translateY(-3px);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Meet a WIFE on WIFE Coin Discord <span class="bride-emoji">👰</span></h1>
+  <div class="select-wrapper">
+    <div class="custom-select" id="customSelect">Choose a message</div>
+    <div class="select-options" id="selectOptions">
+      <div class="select-option" data-value="">Choose a message</div>
+      <div class="select-option" data-value="WIFE Coin just made me wife-changing wealthy! Time to upgrade! 💰👰">WIFE Coin just made me wife-changing wealthy! Time to upgrade! 💰👰</div>
+      <div class="select-option" data-value="Thanks to WIFE Coin, I can now afford a new WIFE every week! 🤑💍">Thanks to WIFE Coin, I can now afford a new WIFE every week! 🤑💍</div>
+      <div class="select-option" data-value="WIFE Coin: Because one WIFE is never enough! 👰👰👰">WIFE Coin: Because one WIFE is never enough! 👰👰👰</div>
+      <div class="select-option" data-value="Just hit the WIFE-changing jackpot with WIFE Coin! Who's next? 🎰💑">Just hit the WIFE-changing jackpot with WIFE Coin! Who's next? 🎰💑</div>
+      <div class="select-option" data-value="WIFE Coin made me so rich, I'm considering a harem! 👑👰👰👰">WIFE Coin made me so rich, I'm considering a harem! 👑👰👰👰</div>
+      <div class="select-option" data-value="Thanks to WIFE Coin, I'm now in the market for WIFE 2.0! 🚀💍">Thanks to WIFE Coin, I'm now in the market for WIFE 2.0! 🚀💍</div>
+      <div class="select-option" data-value="WIFE Coin: Turning millionaires into multi-WIFE-aires! 💸👰💸">WIFE Coin: Turning millionaires into multi-WIFE-aires! 💸👰💸</div>
+      <div class="select-option" data-value="Just divorced my WIFE, all thanks to WIFE Coin's gains! Who's single? 💔💰">Just divorced my WIFE, all thanks to WIFE Coin's gains! Who's single? 💔💰</div>
+      <div class="select-option" data-value="WIFE Coin pumped so hard, I can now afford to pump and dump WIFEs! 📈💃">WIFE Coin pumped so hard, I can now afford to pump and dump WIFEs! 📈💃</div>
+      <div class="select-option" data-value="Thanks to WIFE Coin, I'm now too rich for just one WIFE! 🤵👰👰">Thanks to WIFE Coin, I'm now too rich for just one WIFE! 🤵👰👰</div>
+      <div class="select-option" data-value="WIFE Coin: Because trophy WIFEs don't buy themselves! 🏆💍">WIFE Coin: Because trophy WIFEs don't buy themselves! 🏆💍</div>
+      <div class="select-option" data-value="Just upgraded from WIFE to TROPHY WIFE with WIFE Coin! 👰➡️👸">Just upgraded from WIFE to TROPHY WIFE with WIFE Coin! 👰➡️👸</div>
+      <div class="select-option" data-value="WIFE Coin made me so rich, I'm now accepting WIFE applications! 📝💕">WIFE Coin made me so rich, I'm now accepting WIFE applications! 📝💕</div>
+      <div class="select-option" data-value="Thanks to WIFE Coin, I can now afford a different WIFE for each day of the week! 📅👰">Thanks to WIFE Coin, I can now afford a different WIFE for each day of the week! 📅👰</div>
+      <div class="select-option" data-value="Just met my new WIFE! She's a real gem! 💎👰">Just met my new WIFE! She's a real gem! 💎👰</div>
+      <div class="select-option" data-value="WIFE coin made me rich! Now I need a WIFE to share it with! 💰💕">WIFE coin made me rich! Now I need a WIFE to share it with! 💰💕</div>
+      <div class="select-option" data-value="Looking for a WIFE who loves crypto as much as I do! 💻❤️">Looking for a WIFE who loves crypto as much as I do! 💻❤️</div>
+      <div class="select-option" data-value="WIFE coin to the moon! 🚀 Who's coming with me?">WIFE coin to the moon! 🚀 Who's coming with me?</div>
+      <div class="select-option" data-value="Just bought my first WIFE coin! When lambo? When WIFE? 🏎️👰">Just bought my first WIFE coin! When lambo? When WIFE? 🏎️👰</div>
+      <div class="select-option" data-value="Seeking a WIFE to hodl forever! 💍🔒">Seeking a WIFE to hodl forever! 💍🔒</div>
+      <div class="select-option" data-value="WIFE coin: Because true love is the best investment! 📈❤️">WIFE coin: Because true love is the best investment! 📈❤️</div>
+      <div class="select-option" data-value="Found my soulmate on WIFE coin Discord! Dreams do come true! 🌟💑">Found my soulmate on WIFE coin Discord! Dreams do come true! 🌟💑</div>
+      <div class="select-option" data-value="WIFE coin community: Where love and crypto collide! 💥💖">WIFE coin community: Where love and crypto collide! 💥💖</div>
+      <div class="select-option" data-value="Married to WIFE coin and looking for a real WIFE! 💒🎉">Married to WIFE coin and looking for a real WIFE! 💒🎉</div>
+      <div class="select-option" data-value="WIFE coin: Turning digital dreams into real-life romance! 💻💑">WIFE coin: Turning digital dreams into real-life romance! 💻💑</div>
+      <div class="select-option" data-value="Searching for my crypto queen in the WIFE coin kingdom! 👑💎">Searching for my crypto queen in the WIFE coin kingdom! 👑💎</div>
+      <div class="select-option" data-value="WIFE coin holders make the best partners! Who wants to prove me right? 😉💞">WIFE coin holders make the best partners! Who wants to prove me right? 😉💞</div>
+      <div class="select-option" data-value="Forget dating apps, WIFE coin Discord is where true love blooms! 🌺📱">Forget dating apps, WIFE coin Discord is where true love blooms! 🌺📱</div>
+      <div class="select-option" data-value="Invested in WIFE coin, now investing in finding my future WIFE! 💼❤️">Invested in WIFE coin, now investing in finding my future WIFE! 💼❤️</div>
+      <div class="select-option" data-value="WIFE coin: Where every transaction is a step closer to true love! 💖🚶‍♂️">WIFE coin: Where every transaction is a step closer to true love! 💖🚶‍♂️</div>
+      <div class="select-option" data-value="Seeking a WIFE who understands the value of HODL! 💎🙌">Seeking a WIFE who understands the value of HODL! 💎🙌</div>
+      <div class="select-option" data-value="WIFE coin: Because finding love shouldn't be as volatile as crypto! 📊❤️">WIFE coin: Because finding love shouldn't be as volatile as crypto! 📊❤️</div>
+      <div class="select-option" data-value="Looking for a WIFE to build our crypto empire together! 👑💰">Looking for a WIFE to build our crypto empire together! 👑💰</div>
+      <div class="select-option" data-value="WIFE coin: The only ICO (Initial Commitment Offering) you need! 💘📊">WIFE coin: The only ICO (Initial Commitment Offering) you need! 💘📊</div>
+      <div class="select-option" data-value="Looking for my better half in the WIFE coin halvening! 💏🔗">Looking for my better half in the WIFE coin halvening! 💏🔗</div>
+      <div class="select-option" data-value="WIFE coin: Staking my heart for a lifetime of returns! ❤️💹">WIFE coin: Staking my heart for a lifetime of returns! ❤️💹</div>
+      <div class="select-option" data-value="Searching for a WIFE to create our own love smart contract! 📜💖">Searching for a WIFE to create our own love smart contract! 📜💖</div>
+      <div class="select-option" data-value="WIFE coin holder: My portfolio is green, now I need a queen! 👑💚">WIFE coin holder: My portfolio is green, now I need a queen! 👑💚</div>
+      <div class="select-option" data-value="Seeking a WIFE for a partnership more stable than a stablecoin! 🤝🪙">Seeking a WIFE for a partnership more stable than a stablecoin! 🤝🪙</div>
+      <div class="select-option" data-value="WIFE coin: Where every block mined is a step towards eternal love! ⛏️❤️">WIFE coin: Where every block mined is a step towards eternal love! ⛏️❤️</div>
+      <div class="select-option" data-value="Looking for a WIFE to share my private keys and my heart! 🔐💘">Looking for a WIFE to share my private keys and my heart! 🔐💘</div>
+      <div class="select-option" data-value="WIFE coin: The only crypto that appreciates with love! 📈💑">WIFE coin: The only crypto that appreciates with love! 📈💑</div>
+      <div class="select-option" data-value="Seeking a WIFE to form the ultimate blockchain of love! 🔗💞">Seeking a WIFE to form the ultimate blockchain of love! 🔗💞</div>
+      <div class="select-option" data-value="WIFE coin holder: My wallet is full, but my heart is empty! 💰💔">WIFE coin holder: My wallet is full, but my heart is empty! 💰💔</div>
+      <div class="select-option" data-value="Looking for a WIFE to mine the depths of true love! ⛏️💎">Looking for a WIFE to mine the depths of true love! ⛏️💎</div>
+      <div class="select-option" data-value="WIFE coin: Where HODLing isn't just for tokens, but for hearts too! 💖🔒">WIFE coin: Where HODLing isn't just for tokens, but for hearts too! 💖🔒</div>
+      <div class="select-option" data-value="Seeking a WIFE to navigate the volatile seas of love together! 🌊❤️">Seeking a WIFE to navigate the volatile seas of love together! 🌊❤️</div>
+      <div class="select-option" data-value="WIFE coin: The only platform where love is the true utility! 🔧💘">WIFE coin: The only platform where love is the true utility! 🔧💘</div>
+      <div class="select-option" data-value="Looking for a WIFE to create our own love whitepaper! 📄💑">Looking for a WIFE to create our own love whitepaper! 📄💑</div>
+      <div class="select-option" data-value="WIFE coin holder: Ready to merge our hearts like ETH 2.0! 🔀❤️">WIFE coin holder: Ready to merge our hearts like ETH 2.0! 🔀❤️</div>
+      <div class="select-option" data-value="Seeking a WIFE for a partnership with infinite scalability! 🚀💞">Seeking a WIFE for a partnership with infinite scalability! 🚀💞</div>
+      <div class="select-option" data-value="WIFE coin: Where every transaction is sealed with a kiss! 💋🔗">WIFE coin: Where every transaction is sealed with a kiss! 💋🔗</div>
+      <div class="select-option" data-value="I traded my wife for WIFE COIN 💞🤑">I traded my wife for WIFE COIN 💞🤑</div>
+      <div class="select-option" data-value="WIFE COIN - Wife-changing wealth 👰💰">WIFE COIN - Wife-changing wealth 👰💰</div>
+    </div>
+  </div>
+  <button id="sendButton" onclick="sendMessage()">Send Message</button>
+  <div class="link">
+    <a href="https://discord.gg/jp7ktNJXTG">Click here to meet your WIFE!</a>
+  </div>
+  <div class="info">
+    Messages will be sent to the 'meet-wife' channel on the WIFE Coin Discord server.
+  </div>
+</div>
+
+<button class="home-button" onclick="window.location.href='https://wifecoin.life'">HOME</button>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const webhook = 'https://discord.com/api/webhooks/1268332058871206020/cGM-fFwzQb_osWxq0dY_eyMQbM_nCk9ZypcVZSjvm3X9a2JIagK7CX2-6EmoS21JWY1E';
+let messagesSent = 0;
+let selectedMessage = '';
+
+function sendMessage() {
+  const sendButton = document.getElementById('sendButton');
+  
+  if (!selectedMessage) {
+    showToast('Please select a message first!');
+    return;
+  }
+
+  if (messagesSent >= 2) {
+    showToast("You've sent enough messages. Time to make your move in the channel!");
+    return;
+  }
+
+  fetch(webhook, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ content: selectedMessage }),
+  })
+  .then(response => {
+    if (response.ok) {
+      messagesSent++;
+      showToast('Message sent successfully! 🎉');
+      document.getElementById('customSelect').textContent = 'Choose a message';
+      selectedMessage = '';
+      
+      if (messagesSent >= 2) {
+        sendButton.textContent = 'Make a move in the channel Romeo!';
+        sendButton.disabled = true;
+      }
+    } else {
+      throw new Error('Failed to send message');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    showToast('Failed to send message. Please try again later.');
+  });
+}
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.style.display = 'block';
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, 10000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const customSelect = document.getElementById('customSelect');
+  const selectOptions = document.getElementById('selectOptions');
+
+  customSelect.addEventListener('click', function() {
+    selectOptions.style.display = selectOptions.style.display === 'block' ? 'none' : 'block';
+  });
+
+  document.addEventListener('click', function(event) {
+    if (!customSelect.contains(event.target)) {
+      selectOptions.style.display = 'none';
+    }
+  });
+
+  const options = document.querySelectorAll('.select-option');
+  options.forEach(option => {
+    option.addEventListener('click', function() {
+      customSelect.textContent = this.textContent;
+      selectedMessage = this.getAttribute('data-value');
+      selectOptions.style.display = 'none';
+    });
+  });
+});
+</script>
+</body></html>
