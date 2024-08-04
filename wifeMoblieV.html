@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WIFE Coin - Wife-Changing Wealth (Mobile)</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Fredoka One', 'Comic Sans MS', cursive;
+            overflow-x: hidden;
+            overflow-y: auto;
+            animation: backgroundShift 20s infinite;
+        }
+        @keyframes backgroundShift {
+            0%, 100% { background: linear-gradient(45deg, #FF69B4, #FFD700); }
+            25% { background: linear-gradient(45deg, #00CED1, #FF6347); }
+            50% { background: linear-gradient(45deg, #9932CC, #32CD32); }
+            75% { background: linear-gradient(45deg, #FF4500, #1E90FF); }
+        }
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 4rem;
+            color: #FFF;
+            text-shadow: 3px 3px 0 #000;
+            animation: pulse 2s infinite;
+        }
+        .tagline {
+            font-size: 2rem;
+            color: #FFF;
+            margin-bottom: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            max-width: 300px;
+        }
+        .btn {
+            padding: 1rem;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: #FF1493;
+            color: #FFF;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        .btn:hover {
+            transform: scale(1.1);
+            background: #FF69B4;
+        }
+        .tweet-container {
+            width: 100%;
+            max-width: 300px;
+            height: 500px;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+            scrollbar-color: #FF69B4 #FFD700;
+            position: relative;
+        }
+        .tweet-container::-webkit-scrollbar {
+            width: 12px;
+        }
+        .tweet-container::-webkit-scrollbar-track {
+            background: #FFD700;
+        }
+        .tweet-container::-webkit-scrollbar-thumb {
+            background-color: #FF69B4;
+            border-radius: 6px;
+            border: 3px solid #FFD700;
+        }
+        .tweet-button {
+            background-color: #FF1493;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            display: block;
+            text-align: center;
+        }
+        .tweet-button:hover {
+            background-color: #FF69B4;
+        }
+        .footer {
+            width: 100%;
+            padding: 10px;
+            background-color: #FF69B4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #FFF;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+        .footer a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer a:hover {
+            color: #FFD700;
+        }
+        .footer .music-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            width: 100%;
+        }
+        .music-controls button,
+        .music-controls select,
+        .music-controls input[type="range"] {
+            background-color: #FF69B4;
+            color: #FFF;
+            border: 1px solid #FFD700;
+            border-radius: 10px;
+            padding: 5px;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        .music-controls button:hover,
+        .music-controls select:hover,
+        .music-controls input[type="range"]:hover {
+            background-color: #FF1493;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WIFE COIN</h1>
+        <p class="tagline">Wife-Changing Wealth Awaits!</p>
+        <div class="btn-container">
+            <a href="https://wifechangingcoin.github.io/wife/wifeonBase.html" class="btn">WIFE on Base Chain</a>
+            <a href="https://wifechangingcoin.github.io/wife/wifeonSol.html" class="btn">WIFE on Solana Chain</a>
+        </div>
+        <div class="animated-text" style="top: 20%; left: 20%;">Invest in WIFE - because crypto never asks 'Does this blockchain make me look fat?'</div>
+        <div class="animated-text" style="top: 70%; right: 20%;">WIFE: The only token that appreciates faster than your real one depreciates!</div>
+        <div class="animated-text" style="top: 40%; left: 50%;">Remember, it's not just wealth, it's wife-changing wealth!</div>
+
+        <div class="tweet-container">
+            <iframe src='https://www.juicer.io/api/feeds/wifercoin/iframe' frameborder='0' width='100%' height='500'></iframe>
+        </div>
+    </div>
+
+    <audio id="background-music" loop>
+        <source src="https://wifechangingcoin.github.io/wife/Wife-changing-wealth-awaits.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="footer">
+        <div>Developer <a href="https://t.me/NINETENTWO" target="_blank">NINETENTWO</a></div>
+        <div class="music-controls">
+            <button id="playPauseButton">Play</button>
+            <input type="range" id="musicProgress" min="0" max="100" value="0">
+            <select id="playlistSelector">
+                <option value="https://wifechangingcoin.github.io/wife/Wife-changing-wealth-awaits.mp3">Track 1</option>
+                <option value="https://example.com/track2.mp3">Track 2</option>
+                <option value="https://example.com/track3.mp3">Track 3</option>
+            </select>
+            <button id="loopButton">Loop Off</button>
+        </div>
+        <a href="https://twitter.com/intent/tweet?screen_name=wifercoin&ref_src=twsrc%5Etfw" class="twitter-mention-button tweet-button" data-size="large" data-show-count="false">Tweet to @wifercoin</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+
+    <script>
+        // Background music controls
+        const backgroundMusic = document.getElementById('background-music');
+        const playPauseButton = document.getElementById('playPauseButton');
+        const musicProgress = document.getElementById('musicProgress');
+        const playlistSelector = document.getElementById('playlistSelector');
+        const loopButton = document.getElementById('loopButton');
+
+        playPauseButton.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                playPauseButton.textContent = 'Pause';
+            } else {
+                backgroundMusic.pause();
+                playPauseButton.textContent = 'Play';
+            }
+        });
+
+        backgroundMusic.addEventListener('timeupdate', () => {
+            musicProgress.value = (backgroundMusic.currentTime / backgroundMusic.duration) * 100;
+        });
+
+        musicProgress.addEventListener('input', () => {
+            backgroundMusic.currentTime = (musicProgress.value / 100) * backgroundMusic.duration;
+        });
+
+        playlistSelector.addEventListener('change', (e) => {
+            backgroundMusic.src = e.target.value;
+            backgroundMusic.play();
+            playPauseButton.textContent = 'Pause';
+        });
+
+        loopButton.addEventListener('click', () => {
+            backgroundMusic.loop = !backgroundMusic.loop;
+            loopButton.textContent = backgroundMusic.loop ? 'Loop On' : 'Loop Off';
+        });
+    </script>
+</body>
+</html>
