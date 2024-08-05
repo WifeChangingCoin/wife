@@ -1,506 +1,198 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WIFE Coin - Wife-Changing Wealth</title>
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap">
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Fredoka One', 'Comic Sans MS', cursive;
-            overflow: hidden;
-            animation: backgroundShift 20s infinite;
-        }
-        @keyframes backgroundShift {
-            0%, 100% { background: linear-gradient(45deg, #FF69B4, #FFD700); }
-            25% { background: linear-gradient(45deg, #00CED1, #FF6347); }
-            50% { background: linear-gradient(45deg, #9932CC, #32CD32); }
-            75% { background: linear-gradient(45deg, #FF4500, #1E90FF); }
-        }
-        .container {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-        h1 {
-            font-size: 5rem;
-            color: #FFF;
-            text-shadow: 3px 3px 0 #000;
-            animation: pulse 2s infinite;
-            z-index: 2;
-        }
-        .tagline {
-            font-size: 2rem;
-            color: #FFF;
-            margin-bottom: 2rem;
-            animation: float 3s ease-in-out infinite;
-            z-index: 2;
-        }
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            z-index: 2;
-        }
-        .btn {
-            padding: 1rem 2rem;
-            font-size: 1.5rem;
-            border: none;
-            border-radius: 50px;
-            background: #FF1493;
-            color: #FFF;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .btn:hover {
-            transform: scale(1.1);
-            background: #FF69B4;
-        }
-        .floating {
-            position: absolute;
-            animation: float 6s ease-in-out infinite;
-            z-index: 2;
-        }
-        .coin {
-            width: 80px;
-            height: 80px;
-            background: #FFD700;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 1.5rem;
-            transform-style: preserve-3d;
-            animation: coinAppear 1s ease-out;
-        }
-        @keyframes coinAppear {
-            0% { transform: scale(0) rotateY(0deg); }
-            50% { transform: scale(1.2) rotateY(180deg); }
-            100% { transform: scale(1) rotateY(360deg); }
-        }
-        .coin-front, .coin-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .coin-front {
-            background: #FFD700;
-        }
-        .coin-back {
-            background: #FFA500;
-            transform: rotateY(180deg);
-        }
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .animated-text {
-            position: absolute;
-            font-size: 1.5rem;
-            color: #FFF;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            opacity: 0;
-            animation: textAnimation 10s infinite;
-            z-index: 2;
-        }
-        @keyframes textAnimation {
-            0%, 100% { opacity: 0; transform: scale(0.5) rotate(-10deg); }
-            10%, 90% { opacity: 1; transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.2) rotate(10deg); }
-        }
-        .bottom-left-image {
-            position: absolute;
-            bottom: -20px;
-            left: -20px;
-            width: 300px;
-            height: 300px;
-            transform: rotate(-15deg);
-            animation: wiggle 3s ease-in-out infinite;
-            z-index: 3;
-        }
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(-15deg); }
-            50% { transform: rotate(-5deg); }
-        }
-        .bride-emoji {
-            position: fixed;
-            pointer-events: none;
-            font-size: 24px;
-            animation: flyAway 2s linear forwards;
-            z-index: 2;
-        }
-        @keyframes flyAway {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-            100% { transform: translate(100px, -100px) rotate(360deg); opacity: 0; }
-        }
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            padding: 10px;
-            background-color: #FF69B4;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8rem;
-            color: #FFF;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            z-index: 2;
-        }
-        .footer a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .footer a:hover {
-            color: #FFD700;
-        }
-        .footer .music-controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .tweet-container {
-            margin-top: 20px;
-            width: calc(100% - 40px);
-            max-width: 800px;
-            height: 1000px;
-            overflow-y: scroll;
-            scrollbar-width: thin;
-            scrollbar-color: #FF69B4 #FFD700;
-            position: relative;
-            z-index: 0;
-        }
-        .tweet-container::-webkit-scrollbar {
-            width: 12px;
-        }
-        .tweet-container::-webkit-scrollbar-track {
-            background: #FFD700;
-        }
-        .tweet-container::-webkit-scrollbar-thumb {
-            background-color: #FF69B4;
-            border-radius: 6px;
-            border: 3px solid #FFD700;
-        }
-        .tweet-button {
-            background-color: #FF1493;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-            display: block;
-            text-align: center;
-        }
-        .tweet-button:hover {
-            background-color: #FF69B4;
-        }
-        .loading-box {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #FF69B4, #FFD700);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            color: #FFF;
-            z-index: 1;
-        }
-        .side-panel {
-            width: 300px;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: -300px;
-            background: linear-gradient(45deg, #FF69B4, #FFD700);
-            z-index: 2;
-            transition: left 0.3s ease;
-        }
-        .side-panel.open {
-            left: 0;
-        }
-        .arrow {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: left 0.3s ease;
-            z-index: 3;
-        }
-        .arrow.open {
-            left: 320px;
-        }
-        .arrow-theme {
-            color: #FFD700;
-        }
-        .music-controls button,
-        .music-controls select,
-        .music-controls input[type="range"] {
-            background-color: #FF69B4;
-            color: #FFF;
-            border: 1px solid #FFD700;
-            border-radius: 10px;
-            padding: 5px;
-            font-family: 'Comic Sans MS', cursive;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-        }
-        .music-controls button:hover,
-        .music-controls select:hover,
-        .music-controls input[type="range"]:hover {
-            background-color: #FF1493;
-        }
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Choose WIFE</title>
+   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #331201;
+    }
+    #container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #zoomSVG {
+      width: 100%;
+      height: 100%;
+      transition: transform 5s ease-in-out;
+      transform: scale(1); /* Initial zoom set to 1 (regular zoom) */
+      max-width: none;
+      max-height: none;
+    }
+    #buttonContainer {
+      position: fixed;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 10;
+      width: 90%;
+      max-width: 400px;
+    }
+    .button {
+      padding: 1rem;
+      font-size: 1.2rem;
+      background-color: #FF1493;
+      color: #FFF;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: 'Comic Neue', cursive;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+    .button:hover {
+      background-color: #FF69B4;
+      transform: scale(1.05);
+    }
 
-        @media (max-width: 768px) {
-            .side-panel {
-                width: 100%;
-                height: 50%;
-                bottom: 0;
-                top: auto;
-                left: 0;
-                transform: translateY(100%);
-                transition: transform 0.3s ease;
-            }
-            .side-panel.open {
-                transform: translateY(0);
-            }
-            .arrow {
-                top: auto;
-                bottom: 10px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            .arrow.open {
-                bottom: calc(50% + 20px);
-            }
-            .tweet-container {
-                height: calc(50% - 40px);
-            }
-        }
-    </style>
+    /* Media query for desktop */
+    @media (min-width: 768px) {
+      #buttonContainer {
+        flex-direction: row;
+        bottom: 25%;
+        width: auto;
+        max-width: none;
+      }
+      .button {
+        font-size: 1.5rem;
+        padding: 1rem 2rem;
+      }
+    }
+
+    /* Media query for mobile */
+    @media (max-width: 767px) {
+      body, html {
+        font-family: Arial, sans-serif !important;
+      }
+      #container {
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      #zoomSVG {
+        display: none;
+      }
+      #buttonContainer {
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        max-width: 300px;
+      }
+      .button {
+        font-size: 1rem;
+        padding: 0.8rem;
+      }
+      #mobileContent {
+        display: block;
+        text-align: center;
+        margin-top: 10%;
+      }
+      .mobileImage {
+        width: 200px;
+        height: auto;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>WIFE COIN</h1>
-        <p class="tagline">Wife-Changing Wealth Awaits!</p>
-        <div class="btn-container">
-            <a href="https://wifechangingcoin.github.io/wife/wifeonBase.html" class="btn">WIFE on Base Chain</a>
-            <a href="https://wifechangingcoin.github.io/wife/wifeonSol.html" class="btn">WIFE on Solana Chain</a>
-        </div>
-        <div id="coin-container"></div>
-        <div class="animated-text" style="top: 20%; left: 20%;">Invest in WIFE - because crypto never asks 'Does this blockchain make me look fat?'</div>
-        <div class="animated-text" style="top: 70%; right: 20%;">WIFE: The only token that appreciates faster than your real one depreciates!</div>
-        <div class="animated-text" style="top: 40%; left: 50%;">Remember, it's not just wealth, it's wife-changing wealth!</div>
-
-        <div class="tweet-container">
-            <div class="loading-box" id="loadingBox">FEED LOADING...</div>
-            <iframe src='https://www.juicer.io/api/feeds/wifercoin/iframe' frameborder='0' width='100%' height='1000' style='display:block;margin:0 auto;'></iframe>
-        </div>
+  <div id="container">
+    <img id="zoomSVG" src="https://wifecoin.life/wife.svg" alt="WIFE Coin SVG" style="display: none;">
+    <div id="buttonContainer">
+      <a href="https://wifecoin.life/wifeMobileV.html" class="button">WIFE on the Go (Mobile)</a>
+      <a href="https://wifecoin.life/wifeDesktopV.html" class="button">WIFE at Home (Desktop)</a>
     </div>
-
-    <img class="bottom-left-image" src="https://wifechangingcoin.github.io/wife/wife.png" alt="WIFE Coin" width="300" height="300">
-
-    <audio id="background-music" loop>
-        <source src="https://wifechangingcoin.github.io/wife/Wife-changing-wealth-awaits.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-    <div class="footer">
-        <div>Developer <a href="https://t.me/NINETENTWO" target="_blank">NINETENTWO</a></div>
-        <div class="music-controls">
-            <button id="playPauseButton">Play</button>
-            <input type="range" id="musicProgress" min="0" max="100" value="0">
-            <select id="playlistSelector">
-                <option value="https://wifechangingcoin.github.io/wife/Wife-changing-wealth-awaits.mp3">Track 1</option>
-                <option value="https://example.com/track2.mp3">Track 2</option>
-                <option value="https://example.com/track3.mp3">Track 3</option>
-            </select>
-            <button id="loopButton">Loop Off</button>
-        </div>
-        <a href="https://twitter.com/intent/tweet?screen_name=wifercoin&ref_src=twsrc%5Etfw" class="twitter-mention-button tweet-button" data-size="large" data-show-count="false">Tweet to @wifercoin</a>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  </div>
+  <div id="mobileContent" style="display: none;">
+    <img src="https://wifecoin.life/wife.svg" alt="WIFE Coin Image" class="mobileImage">
+    <div id="buttonContainer">
+      <a href="https://wifecoin.life/wifeMobileV.html" class="button">WIFE on the Go (Mobile)</a>
+      <a href="https://wifecoin.life/wifeDesktopV.html" class="button">WIFE at Home (Desktop)</a>
     </div>
-
-    <div class="side-panel" id="sidePanel">
-        <iframe src="https://wifechangingcoin.github.io/wife/wifeChat.html" frameborder="0" width="100%" height="100%"></iframe>
-    </div>
-    <div class="arrow arrow-theme" id="arrow">&#x25BA;</div>
-
-    <script>
-        document.addEventListener('mousemove', (e) => {
-            const bride = document.createElement('div');
-            bride.classList.add('bride-emoji');
-            bride.textContent = '👰';
-            bride.style.left = e.pageX + 'px';
-            bride.style.top = e.pageY + 'px';
-            document.body.appendChild(bride);
-            
-            setTimeout(() => {
-                bride.remove();
-            }, 2000);
-        });
-
-        function createCoin() {
-            const coin = document.createElement('div');
-            coin.className = 'floating coin';
-            coin.style.top = Math.random() * 90 + 5 + '%';
-            coin.style.left = Math.random() * 90 + 5 + '%';
-            
-            const backTexts = ['$$$', 'Wealth', 'WIFE'];
-            const randomBackText = backTexts[Math.floor(Math.random() * backTexts.length)];
-            
-            coin.innerHTML = `
-                <div class="coin-front">WIFE</div>
-                <div class="coin-back">${randomBackText}</div>
-            `;
-            return coin;
-        }
-
-        function animateCoin(coin) {
-            const duration = Math.random() * 3000 + 2000; // Random duration between 2-5 seconds
-            const scale = Math.random() * 0.5 + 0.75; // Random scale between 0.75-1.25
-            const rotation = Math.random() * 720 - 360; // Random rotation between -360 and 360 degrees
-
-            coin.animate([
-                { transform: 'scale(1) rotateY(0deg)' },
-                { transform: `scale(${scale}) rotateY(${rotation}deg)` },
-                { transform: 'scale(1) rotateY(0deg)' }
-            ], {
-                duration: duration,
-                easing: 'ease-in-out',
-                iterations: Infinity
-            });
-        }
-
-        function randomizeCoin(coin) {
-            coin.style.top = Math.random() * 90 + 5 + '%';
-            coin.style.left = Math.random() * 90 + 5 + '%';
-            coin.style.animation = 'none';
-            void coin.offsetWidth; // Trigger reflow
-            coin.style.animation = 'coinAppear 1s ease-out';
-            
-            const backTexts = ['$$$', 'Wealth', 'WIFE'];
-            const randomBackText = backTexts[Math.floor(Math.random() * backTexts.length)];
-            coin.querySelector('.coin-back').textContent = randomBackText;
-            
-            animateCoin(coin);
-        }
-
-        function createAndAnimateCoins() {
-            const coinContainer = document.getElementById('coin-container');
-            const numberOfCoins = 15;
-
-            for (let i = 0; i < numberOfCoins; i++) {
-                const coin = createCoin();
-                coinContainer.appendChild(coin);
-                animateCoin(coin);
-
-                // Set up random interval for each coin
-                setInterval(() => randomizeCoin(coin), Math.random() * 5000 + 5000); // Random interval between 5-10 seconds
-            }
-        }
-
-        // Initial coin creation and animation
-        createAndAnimateCoins();
-
-        // Remove loading box after 4 seconds
-        setTimeout(() => {
-            const loadingBox = document.getElementById('loadingBox');
-            if (loadingBox) {
-                loadingBox.remove();
-            }
-        }, 4000);
-
-        // Image hover effect
-        const image = document.querySelector('.bottom-left-image');
-        image.addEventListener('mouseenter', () => {
-            image.style.transition = 'transform 0.5s ease';
-            image.style.transform = 'translateY(-10vh)'; // Move the image up
-        });
-        image.addEventListener('mouseleave', () => {
-            image.style.transition = 'transform 0.5s ease';
-            image.style.transform = 'translateY(0)'; // Move the image back to its original position
-        });
-
-        // Side panel toggle
-        const sidePanel = document.getElementById('sidePanel');
-        const arrow = document.getElementById('arrow');
-        arrow.addEventListener('click', () => {
-            sidePanel.classList.toggle('open');
-            arrow.classList.toggle('open');
-            arrow.innerHTML = sidePanel.classList.contains('open') ? '&#x25C0;' : '&#x25BA;';
-        });
-
-        // Preload image
-        const img = new Image();
-        img.src = "https://wifechangingcoin.github.io/wife/wife.png";
-
-        // Preload iframes
-        const tweetIframe = new Image();
-        tweetIframe.src = 'https://www.juicer.io/api/feeds/wifercoin/iframe';
-        
-        const chatIframe = new Image();
-        chatIframe.src = 'https://wifechangingcoin.github.io/wife/wifeChat.html';
-
-        // Background music controls
-        const backgroundMusic = document.getElementById('background-music');
-        const playPauseButton = document.getElementById('playPauseButton');
-        const musicProgress = document.getElementById('musicProgress');
-        const playlistSelector = document.getElementById('playlistSelector');
-        const loopButton = document.getElementById('loopButton');
-
-        playPauseButton.addEventListener('click', () => {
-            if (backgroundMusic.paused) {
-                backgroundMusic.play();
-                playPauseButton.textContent = 'Pause';
-            } else {
-                backgroundMusic.pause();
-                playPauseButton.textContent = 'Play';
-            }
-        });
-
-        backgroundMusic.addEventListener('timeupdate', () => {
-            musicProgress.value = (backgroundMusic.currentTime / backgroundMusic.duration) * 100;
-        });
-
-        musicProgress.addEventListener('input', () => {
-            backgroundMusic.currentTime = (musicProgress.value / 100) * backgroundMusic.duration;
-        });
-
-        playlistSelector.addEventListener('change', (e) => {
-            backgroundMusic.src = e.target.value;
-            backgroundMusic.play();
-            playPauseButton.textContent = 'Pause';
-        });
-
-        loopButton.addEventListener('click', () => {
-            backgroundMusic.loop = !backgroundMusic.loop;
-            loopButton.textContent = backgroundMusic.loop ? 'Loop On' : 'Loop Off';
-        });
-    </script>
+  </div>
+  
+  <script>
+  const svg = document.getElementById('zoomSVG');
+  const container = document.getElementById('container');
+  const zoomLevels = [1, 0.5, 1, 3, 1, 5, 1]; // Updated zoom sequence: 1x (initial) -> 0.5x -> 1x -> 3x -> 1x -> 5x -> 1x
+  let currentZoomIndex = 0;
+  
+  function zoomCycle() {
+    currentZoomIndex = (currentZoomIndex + 1) % zoomLevels.length;
+    const scale = zoomLevels[currentZoomIndex];
+    svg.style.transform = `scale(${scale})`;
+  }
+  
+  function startZoomLoop() {
+    setInterval(zoomCycle, 5000); // 5 seconds for each zoom level
+  }
+  
+  function adjustSVGSize() {
+    const containerRect = container.getBoundingClientRect();
+    const maxScale = Math.max(...zoomLevels);
+    
+    svg.style.width = `${containerRect.width * maxScale}px`;
+    svg.style.height = `${containerRect.height * maxScale}px`;
+    svg.style.position = 'absolute';
+    svg.style.left = `${-(containerRect.width * (maxScale - 1)) / 2}px`;
+    svg.style.top = `${-(containerRect.height * (maxScale - 1)) / 2}px`;
+  }
+  
+  // Preload the SVG
+  const img = new Image();
+  img.onload = function() {
+    svg.style.display = 'block';
+    adjustSVGSize();
+    
+    // Start with zoom out to 0.5x after loading
+    svg.style.transform = 'scale(0.5)';
+    currentZoomIndex = 1; // Set the index to the 0.5x zoom level
+    
+    // Start the zoom loop after a short delay
+    setTimeout(startZoomLoop, 5000);
+  };
+  img.onerror = function() {
+    console.error('Failed to load the SVG file. Please check the file path and permissions.');
+    alert('Failed to load the SVG file. Please check the file path and permissions.');
+  };
+  img.src = 'https://wifecoin.life/wife.svg';
+  
+  // Adjust SVG size on window resize
+  window.addEventListener('resize', adjustSVGSize);
+  
+  // Disable pinch zoom on touch devices
+  document.addEventListener('touchmove', function (event) {
+    if (event.scale !== 1) {
+      event.preventDefault();
+    }
+  }, { passive: false });
+  
+  // Disable double-tap to zoom
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', function (event) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+      event.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, false);
+  </script>
 </body>
 </html>
