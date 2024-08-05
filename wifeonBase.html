@@ -309,9 +309,28 @@
       animation: backgroundShift 20s infinite;
       padding: 2rem;
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    }
+
+    /* Themed Scrollbars */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #FF69B4;
+      border-radius: 6px;
+      border: 3px solid transparent;
+      background-clip: padding-box;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #FF1493;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 20px;
+      overflow: hidden;
     }
 
     /* Mobile Styles */
@@ -441,7 +460,7 @@
 
   <div id="dapp-background">
     <section id="dapp-section">
-      <iframe src="wifeBaseDAPP.html" style="border: none; width: 100%; height: 100vh;"></iframe>
+      <iframe src="wifeBaseDAPP.html" style="border: none; border-radius: 20px;"></iframe>
     </section>
   </div>
 
