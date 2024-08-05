@@ -283,6 +283,35 @@
       opacity: 1;
     }
 
+    /* Iframe section */
+    #iframe-section {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      animation: backgroundShift 20s infinite;
+    }
+
+    #iframe-container {
+      width: 100%;
+      max-width: 800px;
+      height: 600px;
+      border: 5px solid #FF69B4;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
     .floating-text {
       position: fixed;
       font-size: 1.5rem;
@@ -364,110 +393,19 @@
         bottom: -50px;
         right: -50px;
       }
+      #iframe-section {
+        padding: 1rem;
+      }
+      #iframe-container {
+        max-width: 100%;
+        height: 400px;
+      }
       .floating-text {
         font-size: 1.2rem;
       }
-      .footer {
-        flex-direction: column;
-        padding: 1rem;
-        align-items: center;
-      }
-      .footer .btn {
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-        margin-bottom: 0.5rem;
-      }
     }
   </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-      const audio = document.getElementById('backgroundMusic');
-      const muteButton = document.getElementById('muteButton');
-      let isMuted = false;
-
-      // Start playing as soon as possible
-      window.addEventListener('load', () => {
-        audio.play().catch(error => {
-          console.log("Autoplay prevented. User interaction required.");
-        });
-      });
-
-      // Mute/unmute functionality
-      muteButton.addEventListener('click', () => {
-        if (isMuted) {
-          audio.muted = false;
-          muteButton.textContent = '🔊';
-          isMuted = false;
-        } else {
-          audio.muted = true;
-          muteButton.textContent = '🔇';
-          isMuted = true;
-        }
-      });
-
-      // Play audio on first user interaction if autoplay was prevented
-      document.body.addEventListener('click', () => {
-        if (audio.paused) {
-          audio.play().catch(error => {
-            console.log("Playback failed:", error);
-          });
-        }
-      }, { once: true });
-
-      // Modal functionality
-      const modal = document.getElementById('updateModal');
-      const updateButton = document.getElementById('updateButton');
-      const closeButton = document.querySelector('.close-button');
-
-      updateButton.onclick = function() {
-        modal.style.display = "block";
-      }
-
-      closeButton.onclick = function() {
-        modal.style.display = "none";
-      }
-
-      window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
-      }
-
-      // Bride emoji cursor trail
-      let currentEmoji = '👰';
-      const tokenomicsBox = document.querySelector('.tokenomics');
-
-      document.addEventListener('mousemove', function(e) {
-        createBrideEmoji(e.clientX, e.clientY);
-      });
-
-      function createBrideEmoji(x, y) {
-        const emoji = document.createElement('div');
-        emoji.classList.add('bride-emoji');
-        emoji.textContent = currentEmoji;
-        emoji.style.left = x + 'px';
-        emoji.style.top = y + 'px';
-        document.body.appendChild(emoji);
-
-        setTimeout(() => {
-          emoji.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
-          emoji.style.opacity = '0';
-        }, 50);
-
-        setTimeout(() => {
-          document.body.removeChild(emoji);
-        }, 2000);
-      }
-
-      tokenomicsBox.addEventListener('mouseenter', function() {
-        currentEmoji = '❤️';
-      });
-
-      tokenomicsBox.addEventListener('mouseleave', function() {
-        currentEmoji = '👰';
-      });
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
   <button id="muteButton">🔊</button>
@@ -526,8 +464,11 @@
     <div class="launch-date">0x17C2682363d2a373ba06EB1502b848DB47224E7c Launched 2024-07-21 🌕</div>
   </section>
 
-  <section id="dapp-section">
-    <iframe src="wifeBaseDAPP.html" style="width: 100%; height: 500px; border: none;"></iframe>
+  <section id="iframe-section">
+    <h2>WIFE COIN Dapp</h2>
+    <div id="iframe-container">
+      <iframe src="https://wifecoin.life/wifeBaseDAPP.html" title="WIFE COIN Dapp"></iframe>
+    </div>
   </section>
 
   <svg class="wedding-ring" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -550,5 +491,93 @@
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
+
+  <script>
+    const audio = document.getElementById('backgroundMusic');
+    const muteButton = document.getElementById('muteButton');
+    let isMuted = false;
+
+    // Start playing as soon as possible
+    window.addEventListener('load', () => {
+      audio.play().catch(error => {
+        console.log("Autoplay prevented. User interaction required.");
+      });
+    });
+
+    // Mute/unmute functionality
+    muteButton.addEventListener('click', () => {
+      if (isMuted) {
+        audio.muted = false;
+        muteButton.textContent = '🔊';
+        isMuted = false;
+      } else {
+        audio.muted = true;
+        muteButton.textContent = '🔇';
+        isMuted = true;
+      }
+    });
+
+    // Play audio on first user interaction if autoplay was prevented
+    document.body.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(error => {
+          console.log("Playback failed:", error);
+        });
+      }
+    }, { once: true });
+
+    // Modal functionality
+    const modal = document.getElementById('updateModal');
+    const updateButton = document.getElementById('updateButton');
+    const closeButton = document.querySelector('.close-button');
+
+    updateButton.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    closeButton.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // Bride emoji cursor trail
+    let currentEmoji = '👰';
+    const tokenomicsBox = document.querySelector('.tokenomics');
+
+    document.addEventListener('mousemove', function(e) {
+      createBrideEmoji(e.clientX, e.clientY);
+    });
+
+    function createBrideEmoji(x, y) {
+      const emoji = document.createElement('div');
+      emoji.classList.add('bride-emoji');
+      emoji.textContent = currentEmoji;
+      emoji.style.left = x + 'px';
+      emoji.style.top = y + 'px';
+      document.body.appendChild(emoji);
+
+      setTimeout(() => {
+        emoji.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+        emoji.style.opacity = '0';
+      }, 50);
+
+      setTimeout(() => {
+        document.body.removeChild(emoji);
+      }, 2000);
+    }
+
+    tokenomicsBox.addEventListener('mouseenter', function() {
+      currentEmoji = '❤️';
+    });
+
+    tokenomicsBox.addEventListener('mouseleave', function() {
+      currentEmoji = '👰';
+    });
+  </script>
 </body>
 </html>
