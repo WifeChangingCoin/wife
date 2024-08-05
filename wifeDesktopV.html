@@ -433,4 +433,46 @@
 
         // Preload iframes
         const tweetIframe = new Image();
-        tweetIframe.src = 'https://www
+        tweetIframe.src = 'https://www.juicer.io/api/feeds/wifercoin/iframe';
+        
+        const chatIframe = new Image();
+        chatIframe.src = 'https://wifecoin.life/wifeChat.html';
+
+        // Background music controls
+        const backgroundMusic = document.getElementById('background-music');
+        const playPauseButton = document.getElementById('playPauseButton');
+        const musicProgress = document.getElementById('musicProgress');
+        const playlistSelector = document.getElementById('playlistSelector');
+        const loopButton = document.getElementById('loopButton');
+
+        playPauseButton.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                playPauseButton.textContent = 'Pause';
+            } else {
+                backgroundMusic.pause();
+                playPauseButton.textContent = 'Play';
+            }
+        });
+
+        backgroundMusic.addEventListener('timeupdate', () => {
+            musicProgress.value = (backgroundMusic.currentTime / backgroundMusic.duration) * 100;
+        });
+
+        musicProgress.addEventListener('input', () => {
+            backgroundMusic.currentTime = (musicProgress.value / 100) * backgroundMusic.duration;
+        });
+
+        playlistSelector.addEventListener('change', (e) => {
+            backgroundMusic.src = e.target.value;
+            backgroundMusic.play();
+            playPauseButton.textContent = 'Pause';
+        });
+
+        loopButton.addEventListener('click', () => {
+            backgroundMusic.loop = !backgroundMusic.loop;
+            loopButton.textContent = backgroundMusic.loop ? 'Loop On' : 'Loop Off';
+        });
+    </script>
+</body>
+</html>
