@@ -305,25 +305,10 @@
       right: 20px;
     }
 
-    .iframe-container {
-      background: linear-gradient(45deg, #FF69B4, #FFD700);
+    #dapp-background {
+      animation: backgroundShift 20s infinite;
       padding: 2rem;
-      border-radius: 15px;
-      margin: 2rem auto;
-      font-family: 'Comic Sans MS', cursive !important;
-      color: #FFF;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-      max-width: 800px;
-      width: 90%;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    iframe {
-      width: 100%;
-      height: 500px;
-      border: none;
-      border-radius: 10px;
+      min-height: 100vh;
     }
 
     /* Mobile Styles */
@@ -385,11 +370,11 @@
         bottom: -50px;
         right: -50px;
       }
-      .iframe-container {
+      #dapp-background {
         padding: 1rem;
       }
-      iframe {
-        height: 300px;
+      .floating-text {
+        font-size: 1.2rem;
       }
     }
   </style>
@@ -451,10 +436,11 @@
     <div class="launch-date">0x17C2682363d2a373ba06EB1502b848DB47224E7c Launched 2024-07-21 🌕</div>
   </section>
 
-  <section id="iframe-section" class="iframe-container">
-    <h2>WIFE COIN Dapp</h2>
-    <iframe src="wifeBaseDAPP.html"></iframe>
-  </section>
+  <div id="dapp-background">
+    <section id="dapp-section">
+      <iframe src="wifeBaseDAPP.html" style="border: none; width: 100%; height: 100%;"></iframe>
+    </section>
+  </div>
 
   <svg class="wedding-ring" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     <circle cx="50" cy="50" r="45" fill="none" stroke="gold" stroke-width="10"/>
