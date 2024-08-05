@@ -34,7 +34,6 @@
             text-shadow: 3px 3px 0 #000;
             animation: pulse 2s infinite;
             z-index: 2;
-            margin-left: 20px;
         }
         .tagline {
             font-size: 2rem;
@@ -42,14 +41,12 @@
             margin-bottom: 2rem;
             animation: float 3s ease-in-out infinite;
             z-index: 2;
-            margin-left: 20px;
         }
         .btn-container {
             display: flex;
             justify-content: center;
             gap: 1rem;
             z-index: 2;
-            margin-left: 20px;
         }
         .btn {
             padding: 1rem 2rem;
@@ -283,8 +280,8 @@
         <h1>WIFE COIN</h1>
         <p class="tagline">Wife-Changing Wealth Awaits!</p>
         <div class="btn-container">
-            <a href="https://wifechangingcoin.github.io/wife/wifeonBase.html" class="btn">WIFE on Base Chain</a>
-            <a href="https://wifechangingcoin.github.io/wife/wifeonSol.html" class="btn">WIFE on Solana Chain</a>
+            <a href="https://wifecoin.life/wifeonBase.html" class="btn">WIFE on Base Chain</a>
+            <a href="https://wifecoin.life/wifeonSol.html" class="btn">WIFE on Solana Chain</a>
         </div>
         <div id="coin-container"></div>
         <div class="animated-text" style="top: 20%; left: 20%;">Invest in WIFE - because crypto never asks 'Does this blockchain make me look fat?'</div>
@@ -297,10 +294,10 @@
         </div>
     </div>
 
-    <img class="bottom-left-image" src="https://wifechangingcoin.github.io/wife/wife.png" alt="WIFE Coin" width="300" height="300">
+    <img class="bottom-left-image" src="https://wifecoin.life/wife.png" alt="WIFE Coin" width="300" height="300">
 
     <audio id="background-music" loop>
-        <source src="https://wifechangingcoin.github.io/wife/Wife-changing-wealth-awaits.mp3" type="audio/mpeg">
+        <source src="https://wifecoin.life/Wife-changing-wealth-awaits.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
@@ -310,7 +307,7 @@
             <button id="playPauseButton">Play</button>
             <input type="range" id="musicProgress" min="0" max="100" value="0">
             <select id="playlistSelector">
-                <option value="https://wifechangingcoin.github.io/wife/Wife-changing-wealth-awaits.mp3">Track 1</option>
+                <option value="https://wifecoin.life/Wife-changing-wealth-awaits.mp3">Track 1</option>
                 <option value="https://example.com/track2.mp3">Track 2</option>
                 <option value="https://example.com/track3.mp3">Track 3</option>
             </select>
@@ -321,7 +318,7 @@
     </div>
 
     <div class="side-panel" id="sidePanel">
-        <iframe src="https://wifechangingcoin.github.io/wife/wifeChat.html" frameborder="0" width="100%" height="100%"></iframe>
+        <iframe src="https://wifecoin.life/wifeChat.html" frameborder="0" width="100%" height="100%"></iframe>
     </div>
     <div class="arrow arrow-theme" id="arrow">&#x25BA;</div>
 
@@ -432,52 +429,8 @@
 
         // Preload image
         const img = new Image();
-        img.src = "https://wifechangingcoin.github.io/wife/wife.png";
+        img.src = "https://wifecoin.life/wife.png";
 
         // Preload iframes
         const tweetIframe = new Image();
-        tweetIframe.src = 'https://www.juicer.io/api/feeds/wifercoin/iframe';
-        
-        const chatIframe = new Image();
-        chatIframe.src = 'https://wifechangingcoin.github.io/wife/wifeChat.html';
-
-        // Background music controls
-        const backgroundMusic = document.getElementById('background-music');
-        const playPauseButton = document.getElementById('playPauseButton');
-        const musicProgress = document.getElementById('musicProgress');
-        const playlistSelector = document.getElementById('playlistSelector');
-        const loopButton = document.getElementById('loopButton');
-
-        playPauseButton.addEventListener('click', () => {
-            if (backgroundMusic.paused) {
-                backgroundMusic.play();
-                playPauseButton.textContent = 'Pause';
-            } else {
-                backgroundMusic.pause();
-                playPauseButton.textContent = 'Play';
-            }
-        });
-
-        backgroundMusic.addEventListener('timeupdate', () => {
-            musicProgress.value = (backgroundMusic.currentTime / backgroundMusic.duration) * 100;
-        });
-
-        musicProgress.addEventListener('input', () => {
-            backgroundMusic.currentTime = (musicProgress.value / 100) * backgroundMusic.duration;
-        });
-
-        playlistSelector.addEventListener('change', (e) => {
-            backgroundMusic.src = e.target.value;
-            backgroundMusic.play();
-            playPauseButton.textContent = 'Pause';
-        });
-
-        loopButton.addEventListener('click', () => {
-            backgroundMusic.loop = !backgroundMusic.loop;
-            loopButton.textContent = backgroundMusic.loop ? 'Loop On' : 'Loop Off';
-        });
-    </script>
-</body>
-</html>
-
-
+        tweetIframe.src = 'https://www
