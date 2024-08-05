@@ -309,25 +309,16 @@
       animation: backgroundShift 20s infinite;
       padding: 2rem;
       min-height: 100vh;
+      display: flex;
+      align-items: center;
     }
 
-    /* Scrollbar styles */
-    body::-webkit-scrollbar {
-      width: 12px;
-    }
-
-    body::-webkit-scrollbar-track {
-      background: #FFD700;
-      border-radius: 10px;
-    }
-
-    body::-webkit-scrollbar-thumb {
-      background: #FF69B4;
-      border-radius: 10px;
-    }
-
-    body::-webkit-scrollbar-thumb:hover {
-      background: #FF1493;
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 20px;
+      overflow: hidden;
     }
 
     iframe::-webkit-scrollbar {
@@ -335,13 +326,14 @@
     }
 
     iframe::-webkit-scrollbar-track {
-      background: #FFD700;
+      background: rgba(255, 255, 255, 0.2);
       border-radius: 10px;
     }
 
     iframe::-webkit-scrollbar-thumb {
       background: #FF69B4;
       border-radius: 10px;
+      border: 2px solid #FFD700;
     }
 
     iframe::-webkit-scrollbar-thumb:hover {
@@ -475,7 +467,7 @@
 
   <div id="dapp-background">
     <section id="dapp-section">
-      <iframe src="wifeBaseDAPP.html" style="border: none; width: 100%; height: 100%; border-radius: 25px;"></iframe>
+      <iframe src="wifeBaseDAPP.html"></iframe>
     </section>
   </div>
 
