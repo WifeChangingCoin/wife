@@ -283,126 +283,6 @@
       opacity: 1;
     }
 
-    /* DAPP Styles */
-    #dapp-section {
-      background: linear-gradient(45deg, #FF69B4, #FFD700);
-      padding: 2rem;
-      border-radius: 15px;
-      margin: 2rem auto;
-      font-family: 'Comic Sans MS', cursive !important;
-      color: #FFF;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-      max-width: 800px;
-      width: 90%;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    #dapp-section h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      animation: pulse 2s infinite;
-    }
-
-    #dapp-section .container, 
-    #dapp-section .extra-container, 
-    #dapp-section #wallet-details-container, 
-    #dapp-section .chart-container {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 600px;
-      margin: 0 auto 20px;
-      overflow-x: auto;
-    }
-
-    #dapp-section .stat {
-      margin: 10px 0;
-      font-size: 1.1rem;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-    }
-
-    #dapp-section #connect-wallet {
-      background-color: #FF1493;
-      color: #FFF;
-      border: none;
-      border-radius: 50px;
-      padding: 10px 20px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      width: 100%;
-      max-width: 250px;
-      margin: 20px auto;
-      display: block;
-    }
-
-    #dapp-section #connect-wallet:hover {
-      background-color: #FF69B4;
-      transform: scale(1.05);
-    }
-
-    #dapp-section canvas {
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 10px;
-      max-width: 100%;
-      height: auto;
-    }
-
-    .transaction {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .transaction:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    #transaction-details-modal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.8);
-      padding: 20px;
-      border-radius: 10px;
-      z-index: 1002;
-    }
-
-    #connect-wallet-header {
-      position: fixed;
-      top: 20px;
-      left: 80px;
-      z-index: 1000;
-      background: #FF1493;
-      color: #FFF;
-      border: none;
-      border-radius: 50px;
-      width: auto;
-      height: 50px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      padding: 0 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #connect-wallet-header:hover {
-      background: #FF69B4;
-      transform: scale(1.1);
-    }
-
     .floating-text {
       position: fixed;
       font-size: 1.5rem;
@@ -423,11 +303,6 @@
 
     .floating-text-right {
       right: 20px;
-    }
-
-    #dapp-background {
-      animation: backgroundShift 20s infinite;
-      padding: 2rem;
     }
 
     /* Mobile Styles */
@@ -489,41 +364,113 @@
         bottom: -50px;
         right: -50px;
       }
-      #dapp-section {
-        padding: 1rem;
-      }
-      #dapp-section h2 {
-        font-size: 2rem;
-      }
-      #dapp-section .stat {
-        font-size: 1rem;
-      }
-      #dapp-section #connect-wallet {
-        font-size: 1.1rem;
-        padding: 8px 16px;
-      }
-      .transaction {
-        font-size: 0.8rem;
-      }
-      #connect-wallet-header {
-        left: 70px;
-        height: 40px;
-        font-size: 0.9rem;
-        padding: 0 15px;
-      }
       .floating-text {
         font-size: 1.2rem;
       }
+      .footer {
+        flex-direction: column;
+        padding: 1rem;
+        align-items: center;
+      }
+      .footer .btn {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        margin-bottom: 0.5rem;
+      }
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      const audio = document.getElementById('backgroundMusic');
+      const muteButton = document.getElementById('muteButton');
+      let isMuted = false;
+
+      // Start playing as soon as possible
+      window.addEventListener('load', () => {
+        audio.play().catch(error => {
+          console.log("Autoplay prevented. User interaction required.");
+        });
+      });
+
+      // Mute/unmute functionality
+      muteButton.addEventListener('click', () => {
+        if (isMuted) {
+          audio.muted = false;
+          muteButton.textContent = '🔊';
+          isMuted = false;
+        } else {
+          audio.muted = true;
+          muteButton.textContent = '🔇';
+          isMuted = true;
+        }
+      });
+
+      // Play audio on first user interaction if autoplay was prevented
+      document.body.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play().catch(error => {
+            console.log("Playback failed:", error);
+          });
+        }
+      }, { once: true });
+
+      // Modal functionality
+      const modal = document.getElementById('updateModal');
+      const updateButton = document.getElementById('updateButton');
+      const closeButton = document.querySelector('.close-button');
+
+      updateButton.onclick = function() {
+        modal.style.display = "block";
+      }
+
+      closeButton.onclick = function() {
+        modal.style.display = "none";
+      }
+
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+
+      // Bride emoji cursor trail
+      let currentEmoji = '👰';
+      const tokenomicsBox = document.querySelector('.tokenomics');
+
+      document.addEventListener('mousemove', function(e) {
+        createBrideEmoji(e.clientX, e.clientY);
+      });
+
+      function createBrideEmoji(x, y) {
+        const emoji = document.createElement('div');
+        emoji.classList.add('bride-emoji');
+        emoji.textContent = currentEmoji;
+        emoji.style.left = x + 'px';
+        emoji.style.top = y + 'px';
+        document.body.appendChild(emoji);
+
+        setTimeout(() => {
+          emoji.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+          emoji.style.opacity = '0';
+        }, 50);
+
+        setTimeout(() => {
+          document.body.removeChild(emoji);
+        }, 2000);
+      }
+
+      tokenomicsBox.addEventListener('mouseenter', function() {
+        currentEmoji = '❤️';
+      });
+
+      tokenomicsBox.addEventListener('mouseleave', function() {
+        currentEmoji = '👰';
+      });
+    });
+  </script>
 </head>
 <body>
   <button id="muteButton">🔊</button>
-  <button id="connect-wallet-header">Connect Wallet</button>
   <button id="updateButton" class="btn">Updates</button>
 
   <div id="updateModal" class="modal">
@@ -560,7 +507,7 @@
     <div class="animated-text" style="top: 70%; right: 20%;">Let Wife be the bad decision that makes all the right moves.</div>
     <div class="animated-text" style="top: 40%; left: 50%;">Remember, it's not just wealth, it's wife-changing wealth!</div>
 
-    <img src="https://wifecoin.life/wife.png" alt="Coin Logo" class="wife-image">
+    <img src="https://wifechangingcoin.github.io/wife/wife.png" alt="Coin Logo" class="wife-image">
   </section>
 
   <section id="tokenomics">
@@ -579,41 +526,9 @@
     <div class="launch-date">0x17C2682363d2a373ba06EB1502b848DB47224E7c Launched 2024-07-21 🌕</div>
   </section>
 
-  <div id="dapp-background">
-    <section id="dapp-section">
-      <h2>WIFE COIN Dapp</h2>
-      <div class="chart-container">
-        <canvas id="transaction-count-chart"></canvas>
-      </div>
-      <div class="container">
-        <div class="stat" id="total-supply">Total Supply: Loading...</div>
-        <div class="stat" id="last-transfer">Last Transfer: Loading...</div>
-        <div class="stat" id="last-burn">Last Burn: Loading...</div>
-      </div>
-      <div class="extra-container">
-        <h3>Additional Stats</h3>
-        <div class="stat" id="transfer-stats">Transfer Stats: Loading...</div>
-        <div class="stat" id="total-transfers">Total Transfers: Loading...</div>
-        <div class="stat" id="total-contract-executions">Total Contract Executions: Loading...</div>
-        <div class="stat" id="total-burned">Total Burned: Loading...</div>
-        <div class="stat" id="recent-transfers">Recent Transfers: Loading...</div>
-        <div class="stat" id="last-50-transactions">Last 50 Transactions: Loading...</div>
-      </div>
-      <div id="wallet-details-container" style="display: none;">
-        <h3 id="wallet-transactions-title"></h3>
-        <p id="wallet-address">Address: </p>
-        <p id="wallet-balance">Balance: </p>
-        <div id="wallet-transactions">Transactions: Loading...</div>
-      </div>
-      <div id="transaction-details-modal">
-        <div id="transaction-details-content">
-          <!-- Transaction details will be dynamically inserted here -->
-        </div>
-        <button onclick="closeTransactionDetails()">Close</button>
-      </div>
-      <button id="connect-wallet">Connect Wallet</button>
-    </section>
-  </div>
+  <section id="dapp-section">
+    <iframe src="wifeBaseDAPP.html" style="width: 100%; height: 500px; border: none;"></iframe>
+  </section>
 
   <svg class="wedding-ring" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     <circle cx="50" cy="50" r="45" fill="none" stroke="gold" stroke-width="10"/>
@@ -635,461 +550,5 @@
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
-
-  <script>
-    const audio = document.getElementById('backgroundMusic');
-    const muteButton = document.getElementById('muteButton');
-    let isMuted = false;
-
-    // Start playing as soon as possible
-    window.addEventListener('load', () => {
-      audio.play().catch(error => {
-        console.log("Autoplay prevented. User interaction required.");
-      });
-    });
-
-    // Mute/unmute functionality
-    muteButton.addEventListener('click', () => {
-      if (isMuted) {
-        audio.muted = false;
-        muteButton.textContent = '🔊';
-        isMuted = false;
-      } else {
-        audio.muted = true;
-        muteButton.textContent = '🔇';
-        isMuted = true;
-      }
-    });
-
-    // Play audio on first user interaction if autoplay was prevented
-    document.body.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play().catch(error => {
-          console.log("Playback failed:", error);
-        });
-      }
-    }, { once: true });
-
-    // Modal functionality
-    const modal = document.getElementById('updateModal');
-    const updateButton = document.getElementById('updateButton');
-    const closeButton = document.querySelector('.close-button');
-
-    updateButton.onclick = function() {
-      modal.style.display = "block";
-    }
-
-    closeButton.onclick = function() {
-      modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
-
-    // Bride emoji cursor trail
-    let currentEmoji = '👰';
-    const tokenomicsBox = document.querySelector('.tokenomics');
-
-    document.addEventListener('mousemove', function(e) {
-      createBrideEmoji(e.clientX, e.clientY);
-    });
-
-    function createBrideEmoji(x, y) {
-      const emoji = document.createElement('div');
-      emoji.classList.add('bride-emoji');
-      emoji.textContent = currentEmoji;
-      emoji.style.left = x + 'px';
-      emoji.style.top = y + 'px';
-      document.body.appendChild(emoji);
-
-      setTimeout(() => {
-        emoji.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
-        emoji.style.opacity = '0';
-      }, 50);
-
-      setTimeout(() => {
-        document.body.removeChild(emoji);
-      }, 2000);
-    }
-
-    tokenomicsBox.addEventListener('mouseenter', function() {
-      currentEmoji = '❤️';
-    });
-
-    tokenomicsBox.addEventListener('mouseleave', function() {
-      currentEmoji = '👰';
-    });
-
-    // DAPP functionality
-    const basenotea = 'Y8YGXC8B97FX';
-    const basenotec = 'W45J1R7V1EU8I';
-    const basenotef = '4SYEFJAME';
-    const obviousriff = basenotea + basenotec + basenotef;
-
-    const contractAddress = '0x17c2682363d2a373ba06eb1502b848db47224e7c';
-    const specificAddress = '0x0bf8edd756fF6CAF3F583D67A9fD8b237E40f58a';
-    const largeAmountThreshold = 1000;
-    const baseUrl = 'https://api.basescan.org/api';
-    let recentTransfersHashes = new Set();
-    let startDate = new Date();
-    startDate.setHours(0, 0, 0, 0); // Start of the current day
-    const endDate = new Date(); // Current date and time
-
-    function formatNumber(number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-    function flashNewTransactions(transactionHash) {
-        const transactionElement = document.getElementById(`tx-${transactionHash}`);
-        if (transactionElement) {
-            transactionElement.classList.add('flash');
-            setTimeout(() => transactionElement.classList.remove('flash'), 5000);
-        }
-    }
-
-    function getColorClass(tx) {
-        const value = parseFloat(tx.value) / 1e18;
-        if (tx.from.toLowerCase() === specificAddress.toLowerCase() && value > largeAmountThreshold) {
-            return 'green';
-        }
-        if (tx.to.toLowerCase() === specificAddress.toLowerCase() && value > largeAmountThreshold) {
-            return 'red';
-        }
-        if (tx.from.toLowerCase() === specificAddress.toLowerCase()) {
-            return 'cyan';
-        }
-        if (tx.to.toLowerCase() === specificAddress.toLowerCase()) {
-            return 'orange';
-        }
-        return '';
-    }
-
-    async function fetchContractDetails() {
-        try {
-            const totalSupplyResponse = await axios.get(`${baseUrl}?module=stats&action=tokensupply&contractaddress=${contractAddress}&apikey=${obviousriff}`);
-            const totalSupply = (parseFloat(totalSupplyResponse.data.result) / 1e18).toFixed(18); // 18 decimal places
-            document.getElementById('total-supply').innerText = `Total Supply: ${formatNumber(totalSupply)}`;
-
-            const transactionsResponse = await axios.get(`${baseUrl}?module=account&action=tokentx&contractaddress=${contractAddress}&page=1&offset=100&sort=desc&apikey=${obviousriff}`);
-            const transactions = transactionsResponse.data.result;
-
-            const lastTransfer = transactions.find(tx => tx.to.toLowerCase() !== '0x000000000000000000000000000000000000dead' && tx.to.toLowerCase() !== '0x000000000000000000000000000000000000dEaD');
-            if (lastTransfer) {
-                document.getElementById('last-transfer').innerHTML = `
-                    Last Transfer: ${new Date(lastTransfer.timeStamp * 1000).toLocaleString()}<br>
-                    From: ${lastTransfer.from}<br>
-                    To: ${lastTransfer.to}<br>
-                    Amount: ${(lastTransfer.value / 1e18).toFixed(18)} WIFE
-                `;
-            } else {
-                document.getElementById('last-transfer').innerText = 'Last Transfer: No recent transfers found';
-            }
-
-            const lastBurn = transactions.find(tx => tx.to.toLowerCase() === '0x000000000000000000000000000000000000dead' || tx.to.toLowerCase() === '0x000000000000000000000000000000000000dEaD');
-            if (lastBurn) {
-                document.getElementById('last-burn').innerHTML = `
-                    Last Burn: ${new Date(lastBurn.timeStamp * 1000).toLocaleString()}<br>
-                    From: ${lastBurn.from}<br>
-                    To: ${lastBurn.to}<br>
-                    Amount: ${(lastBurn.value / 1e18).toFixed(18)} WIFE
-                `;
-            } else {
-                document.getElementById('last-burn').innerText = 'Last Burn: No recent burns found';
-            }
-
-            document.getElementById('total-transfers').innerText = `Total Transfers: ${transactions.length}`;
-
-            const contractExecutions = transactions.filter(tx => tx.input && tx.input !== '0x');
-            document.getElementById('total-contract-executions').innerText = `Total Contract Executions: ${contractExecutions.length}`;
-
-            const totalBurned = transactions.reduce((acc, tx) => acc + ((tx.to.toLowerCase() === '0x000000000000000000000000000000000000dead' || tx.to.toLowerCase() === '0x000000000000000000000000000000000000dEaD') ? parseFloat(tx.value) / 1e18 : 0), 0);
-            document.getElementById('total-burned').innerText = `Total Burned: ${formatNumber(totalBurned.toFixed(18))}`;
-
-            const recentTransfers = transactions.slice(0, 50).map((tx, index) => {
-                const colorClass = getColorClass(tx);
-                return `<div class="transaction ${colorClass}" id="tx-${tx.hash}" onclick="showTransactionDetails(${JSON.stringify(tx)})">TxHash: ${tx.hash} | From: ${tx.from} | To: ${tx.to} | Amount: ${(tx.value / 1e18).toFixed(18)} WIFE</div>`;
-            }).join('');
-            document.getElementById('recent-transfers').innerHTML = `Recent Transfers:<br>${recentTransfers}`;
-
-            const last50Transactions = transactions.slice(0, 50).map((tx, index) => {
-                const colorClass = getColorClass(tx);
-                return `<div class="transaction ${colorClass}">TxHash: ${tx.hash} | From: ${tx.from} | To: ${tx.to} | Amount: ${(tx.value / 1e18).toFixed(18)} WIFE</div>`;
-            }).join('');
-            document.getElementById('last-50-transactions').innerHTML = `Last 50 Transactions:<br>${last50Transactions}`;
-
-            transactions.forEach(tx => {
-                if (!recentTransfersHashes.has(tx.hash)) {
-                    flashNewTransactions(tx.hash);
-                    recentTransfersHashes.add(tx.hash);
-                }
-            });
-
-            displayStatistics(transactions);
-            saveTransactionData(transactions);
-            displayTransactionCountChart();
-            checkForAlerts(transactions);
-        } catch (error) {
-            console.error('Error fetching contract details:', error);
-        }
-    }
-
-    async function fetchTransactionDetails(txHash) {
-        const response = await axios.get(`${baseUrl}?module=proxy&action=eth_getTransactionByHash&txhash=${txHash}&apikey=${obviousriff}`);
-        const transaction = response.data.result;
-
-        return { transaction };
-    }
-
-    function showTransactionDetails(details) {
-        fetchTransactionDetails(details.hash).then(transactionDetails => {
-            const modal = document.getElementById('transaction-details-modal');
-            const content = document.getElementById('transaction-details-content');
-            content.innerHTML = `
-                <p>Transaction Hash: ${transactionDetails.transaction.hash}</p>
-                <p>From: ${transactionDetails.transaction.from}</p>
-                <p>To: ${transactionDetails.transaction.to}</p>
-                <p>Amount: ${(transactionDetails.transaction.value / 1e18).toFixed(18)} WIFE</p>
-            `;
-            modal.style.display = 'block';
-        });
-    }
-
-    function closeTransactionDetails() {
-        document.getElementById('transaction-details-modal').style.display = 'none';
-    }
-
-    async function fetchTransferStatistics(transactions) {
-        const totalTransfers = transactions.length;
-        const totalValue = transactions.reduce((acc, tx) => acc + parseFloat(tx.value) / 1e18, 0);
-        const averageTransferSize = (totalValue / totalTransfers).toFixed(18);
-
-        return { totalTransfers, totalValue, averageTransferSize };
-    }
-
-    async function displayStatistics(transactions) {
-        const { totalTransfers, totalValue, averageTransferSize } = await fetchTransferStatistics(transactions);
-        document.getElementById('transfer-stats').innerText = `Total Transfers: ${totalTransfers}, Total Value: ${totalValue.toFixed(18)} WIFE, Average Transfer Size: ${averageTransferSize} WIFE`;
-    }
-
-    function saveTransactionData(transactions) {
-        const hourlyCounts = getHourlyCounts(transactions);
-        let savedData = JSON.parse(localStorage.getItem('transactionData')) || {};
-        Object.keys(hourlyCounts).forEach(hour => {
-            if (!savedData[hour]) {
-                savedData[hour] = hourlyCounts[hour];
-            } else {
-                savedData[hour] += hourlyCounts[hour];
-            }
-        });
-        localStorage.setItem('transactionData', JSON.stringify(savedData));
-    }
-
-    function getHourlyCounts(transactions) {
-        const hourlyCounts = {};
-
-        for (let i = 0; i < 24; i++) {
-            const date = new Date(startDate);
-            date.setHours(date.getHours() + i);
-            const hour = date.toISOString().split(':')[0] + ":00";
-            hourlyCounts[hour] = 0;
-        }
-
-        transactions.forEach(tx => {
-            const hour = new Date(tx.timeStamp * 1000).toISOString().split(':')[0] + ":00";
-            if (hourlyCounts[hour] !== undefined) {
-                hourlyCounts[hour] += 1;
-            }
-        });
-
-        return hourlyCounts;
-    }
-
-    function displayTransactionCountChart() {
-        let savedData = JSON.parse(localStorage.getItem('transactionData')) || {};
-
-        const labels = Object.keys(savedData).sort();
-        const data = labels.map(label => savedData[label]);
-
-        const chartData = {
-            labels,
-            datasets: [{
-                label: 'Transactions Count',
-                data,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)'
-            }]
-        };
-
-        const ctx = document.getElementById('transaction-count-chart').getContext('2d');
-        if (window.transactionCountChart) {
-            window.transactionCountChart.destroy();
-        }
-        window.transactionCountChart = new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
-            options: {
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'hour',
-                            tooltipFormat: 'Pp',
-                            displayFormats: {
-                                hour: 'MMM dd HH:mm'
-                            },
-                            min: new Date().setHours(0, 0, 0, 0), // Start of the current day
-                            max: new Date(), // End of the current time
-                            adapters: {
-                                date: {
-                                    locale: navigator.language
-                                }
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Date and Time'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Transaction Count'
-                        }
-                    }
-                },
-                plugins: {
-                    zoom: {
-                        pan: {
-                            enabled: true,
-                            mode: 'x',
-                            speed: 10,
-                            threshold: 10
-                        },
-                        zoom: {
-                            wheel: {
-                                enabled: true,
-                            },
-                            drag: {
-                                enabled: true,
-                            },
-                            pinch: {
-                                enabled: true,
-                            },
-                            mode: 'x',
-                            speed: 0.1,
-                            threshold: 2,
-                            sensitivity: 3
-                        }
-                    }
-                },
-                animation: {
-                    duration: 1000,
-                    easing: 'easeInOutQuart'
-                },
-                transitions: {
-                    active: {
-                        animation: {
-                            duration: 500
-                        }
-                    }
-                },
-                tooltips: {
-                    callbacks: {
-                        label: function(tooltipItem, data) {
-                            const label = data.datasets[tooltipItem.datasetIndex].label || '';
-                            const value = tooltipItem.yLabel;
-                            return `${label}: ${value}`;
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    async function checkForAlerts(transactions) {
-        transactions.forEach(tx => {
-            const value = parseFloat(tx.value) / 1e18;
-            const element = document.getElementById(`tx-${tx.hash}`);
-            if (element) {
-                if (tx.from.toLowerCase() === specificAddress.toLowerCase() && value > largeAmountThreshold) {
-                    element.style.backgroundColor = 'green';
-                } else if (tx.to.toLowerCase() === specificAddress.toLowerCase() && value > largeAmountThreshold) {
-                    element.style.backgroundColor = 'red';
-                }
-            }
-        });
-    }
-
-    function connectWallet() {
-        if (window.ethereum) {
-            ethereum.request({ method: 'eth_requestAccounts' })
-                .then(accounts => {
-                    const walletAddress = accounts[0];
-                    document.getElementById('wallet-address').innerText = `Address: ${walletAddress}`;
-                    document.getElementById('wallet-details-container').style.display = 'block';
-                    document.getElementById('wallet-transactions-title').innerText = `Your ${walletAddress} wallet's recent WIFE transactions`;
-
-                    fetchWalletDetails(walletAddress);
-                    
-                    document.getElementById('connect-wallet').innerText = 'Disconnect Wallet';
-                    document.getElementById('connect-wallet-header').innerText = 'Disconnect Wallet';
-                })
-                .catch(error => {
-                    console.error('User denied account access', error);
-                });
-        } else {
-            alert('Please install MetaMask to use this feature.');
-        }
-    }
-
-    function disconnectWallet() {
-        document.getElementById('wallet-details-container').style.display = 'none';
-        document.getElementById('wallet-address').innerText = 'Address: ';
-        document.getElementById('wallet-balance').innerText = 'Balance: ';
-        document.getElementById('wallet-transactions').innerText = 'Transactions: ';
-        document.getElementById('connect-wallet').innerText = 'Connect Wallet';
-        document.getElementById('connect-wallet-header').innerText = 'Connect Wallet';
-    }
-
-    async function fetchWalletDetails(walletAddress) {
-        try {
-            const balanceResponse = await axios.get(`${baseUrl}?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${obviousriff}`);
-            const balance = balanceResponse.data.result / 1e18;
-            document.getElementById('wallet-balance').innerText = `Balance: ${balance.toFixed(18)} WIFE`;
-
-            const transactionsResponse = await axios.get(`${baseUrl}?module=account&action=tokentx&contractaddress=${contractAddress}&address=${walletAddress}&page=1&offset=50&sort=desc&apikey=${obviousriff}`);
-            const transactions = transactionsResponse.data.result;
-
-            const transactionsList = transactions.map((tx, index) => {
-                const colorClass = getColorClass(tx);
-                return `<div class="transaction ${colorClass}">TxHash: ${tx.hash} | From: ${tx.from} | To: ${tx.to} | Amount: ${(tx.value / 1e18).toFixed(18)} WIFE</div>`;
-            }).join('');
-            document.getElementById('wallet-transactions').innerHTML = `Transactions:<br>${transactionsList}`;
-        } catch (error) {
-            console.error('Error fetching wallet details:', error);
-        }
-    }
-
-    document.getElementById('connect-wallet').addEventListener('click', () => {
-        if (document.getElementById('connect-wallet').innerText === 'Connect Wallet') {
-            connectWallet();
-        } else {
-            disconnectWallet();
-        }
-    });
-
-    document.getElementById('connect-wallet-header').addEventListener('click', () => {
-        if (document.getElementById('connect-wallet-header').innerText === 'Connect Wallet') {
-            connectWallet();
-        } else {
-            disconnectWallet();
-        }
-    });
-
-    fetchContractDetails();
-    setInterval(fetchContractDetails, 30000); // Update every 30 seconds
-  </script>
 </body>
 </html>
