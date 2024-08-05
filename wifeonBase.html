@@ -283,35 +283,6 @@
       opacity: 1;
     }
 
-    /* Iframe section */
-    #iframe-section {
-      min-height: 100vh;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      animation: backgroundShift 20s infinite;
-    }
-
-    #iframe-container {
-      width: 100%;
-      max-width: 800px;
-      height: 600px;
-      border: 5px solid #FF69B4;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
     .floating-text {
       position: fixed;
       font-size: 1.5rem;
@@ -332,6 +303,27 @@
 
     .floating-text-right {
       right: 20px;
+    }
+
+    .iframe-container {
+      background: linear-gradient(45deg, #FF69B4, #FFD700);
+      padding: 2rem;
+      border-radius: 15px;
+      margin: 2rem auto;
+      font-family: 'Comic Sans MS', cursive !important;
+      color: #FFF;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      max-width: 800px;
+      width: 90%;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 10px;
     }
 
     /* Mobile Styles */
@@ -393,19 +385,14 @@
         bottom: -50px;
         right: -50px;
       }
-      #iframe-section {
+      .iframe-container {
         padding: 1rem;
       }
-      #iframe-container {
-        max-width: 100%;
-        height: 400px;
-      }
-      .floating-text {
-        font-size: 1.2rem;
+      iframe {
+        height: 300px;
       }
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
   <button id="muteButton">🔊</button>
@@ -445,7 +432,7 @@
     <div class="animated-text" style="top: 70%; right: 20%;">Let Wife be the bad decision that makes all the right moves.</div>
     <div class="animated-text" style="top: 40%; left: 50%;">Remember, it's not just wealth, it's wife-changing wealth!</div>
 
-    <img src="https://wifechangingcoin.github.io/wife/wife.png" alt="Coin Logo" class="wife-image">
+    <img src="https://wifecoin.life/wife.png" alt="Coin Logo" class="wife-image">
   </section>
 
   <section id="tokenomics">
@@ -464,11 +451,9 @@
     <div class="launch-date">0x17C2682363d2a373ba06EB1502b848DB47224E7c Launched 2024-07-21 🌕</div>
   </section>
 
-  <section id="iframe-section">
+  <section id="iframe-section" class="iframe-container">
     <h2>WIFE COIN Dapp</h2>
-    <div id="iframe-container">
-      <iframe src="https://wifecoin.life/wifeBaseDAPP.html" title="WIFE COIN Dapp"></iframe>
-    </div>
+    <iframe src="wifeBaseDAPP.html"></iframe>
   </section>
 
   <svg class="wedding-ring" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
