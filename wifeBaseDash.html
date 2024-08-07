@@ -230,13 +230,7 @@
             margin: 10px 0;
         }
 
-          .launch-date {
-          left: 50%;
-          transform: translateX(0%);
-          font-size: 1rem;
-          color: #FF1493;
-          text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
+         
         
         .btn {
           padding: 1rem 2rem;
@@ -353,7 +347,11 @@
     </div>
     <div id="dashboard">
         <h1>WIFE Coin on Base Dashboard</h1> 
-        <div class="launch-date">0x17C2682363d2a373ba06EB1502b848DB47224E7c     Launched 2024-07-21 🌕</div>
+        <div class="setting-option">
+                <span style="color: #8e8aff; font-size: 18px;">Launched 2024-07-21 🌕   Address: 0x17C2682363d2a373ba06EB1502b848DB47224E7c</span>
+                <button class="copy-button" onclick="copyToClipboard('0x17C2682363d2a373ba06EB1502b848DB47224E7c')">Copy</button>
+            </div>
+        
         <a href="https://wifechangingcoin.github.io/wife/wifeonBase.html" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Back to WIFE on Base</a>
         <div id="modules-container">
             <div class="module full-width" id="search-module">
