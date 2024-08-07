@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WIFE Coin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #ff8ec7, #8e8aff, #8efff7, #fff78e, #8ebfff);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: #333;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .dark-mode {
+            background: #333;
+            color: #fff;
+        }
+
+        .light-mode {
+            background: #fff;
+            color: #000;
+        }
+
+        #dashboard {
+            width: 90%;
+            margin: auto;
+            text-align: center;
+        }
+
+        #modules-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .module {
+            position: relative;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            width: 30%;
+            max-height: 450px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: move;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, max-height 0.2s ease;
+        }
+
+        .module .indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: orange;
+        }
+
+        .module.full-width {
+            width: 90%;
+        }
+
+        .module:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #search-module {
+            width: 100%;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        input[type="button"],
+        button {
+            padding: 10px;
+            background: #8e8aff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        input[type="button"]:hover,
+        button:hover {
+            background: #6c6cff;
+        }
+
+        .pair-info {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .pair-info dt {
+            font-weight: bold;
+        }
+
+        .pair-info dd {
+            margin: 0 0 10px 0;
+        }
+
+        .trade-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .trade-item:last-child {
+            border-bottom: none;
+        }
+
+        .trade-type {
+            font-weight: bold;
+        }
+
+        .trade-amount,
+        .trade-price,
+        .trade-time {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .price-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 32px;
+            color: #8e8aff;
+        }
+
+        .volume-title {
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 32px;
+            color: #8e8aff;
+        }
+
+        #current-price,
+        #trading-volume {
+            font-size: 28px;
+            color: #8e8aff;
+        }
+
+        h1,
+        h2 {
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        a {
+            color: #8e8aff;
+            font-size: 1.2em;
+            text-decoration: none;
+        }
+
+        .settings-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #8e8aff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: rgba(128, 0, 128, 0.7);
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            border-radius: 10px;
+        }
+
+        .modal-content.dark-mode {
+            background-color: rgba(51, 0, 51, 0.7);
+            color: #fff;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .setting-option {
+            margin: 10px 0;
+        }
+
+        .copy-button {
+            background: #8e8aff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+
+        .expand-button {
+            background: #8e8aff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .module.collapsed {
+            max-height: 80px;
+        }
+
+        .module.expanded {
+            max-height: 900px;
+            overflow-y: auto;
+        }
+
+        .module.semi-transparent-dark-mode {
+            background: rgba(51, 51, 51, 0.5);
+        }
+
+        .module.semi-transparent-dark-mode .stat,
+        .module.semi-transparent-dark-mode .transaction,
+        .module.semi-transparent-dark-mode h2,
+        .module.semi-transparent-dark-mode h3 {
+            color: #8e8aff;
+        }
+
+        .module-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #footer-buffer {
+            height: 200px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, yellow, pink);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, pink, yellow);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+</head>
+
+<body>
+    <button class="settings-button" id="settings-button">Settings</button>
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <h2>Settings</h2>
+            <div class="setting-option">
+                <button onclick="stopBackgroundAnimation()">Stop Background Animation</button>
+            </div>
+            <div class="setting-option">
+                <button onclick="setDarkMode()">Dark Mode</button>
+            </div>
+            <div class="setting-option">
+                <button onclick="setLightMode()">Light Mode</button>
+            </div>
+            <div class="setting-option">
+                <button onclick="setAnimatedBackground()">Animated Background Theme</button>
+            </div>
+            <div class="setting-option">
+                <span style="color: #8e8aff; font-size: 18px;">Address: 0x17C2682363d2a373ba06EB1502b848DB47224E7c</span>
+                <button class="copy-button" onclick="copyToClipboard('0x17C2682363d2a373ba06EB1502b848DB47224E7c')">Copy</button>
+            </div>
+        </div>
+    </div>
+    <div id="dashboard">
+        <h1>WIFE Coin Dashboard</h1>
+        <div id="modules-container">
+            <div class="module full-width" id="search-module">
+                <h2>Search Pairs</h2>
+                <input type="text" id="search-query" placeholder="Enter token name, address, or symbol">
+                <input type="button" value="Search" onclick="searchPairs()">
+                <input type="button" value="X" onclick="clearSearchField()">
+                <ul id="search-results"></ul>
+                <div id="pair-info" class="pair-info"></div>
+            </div>
+            <div class="module" id="price-volume-module">
+                <div class="indicator" id="indicator-price-volume"></div>
+                <div class="price-title">Price</div>
+                <p id="current-price">$0.00</p>
+                <div class="volume-title">Volume</div>
+                <p id="trading-volume">Loading...</p>
+            </div>
+            <div class="module" id="chart-module">
+                <div class="indicator" id="indicator-chart"></div>
+                <h2>Price Chart</h2>
+                <canvas id="price-chart"></canvas>
+            </div>
+            <div class="module" id="trades-module">
+                <div class="indicator" id="indicator-trades"></div>
+                <h2>Trades 24 Hour</h2>
+                <ul id="trades-list"></ul>
+            </div>
+            <div class="module" id="uniswap-module">
+                <button class="expand-button" id="expand-button-uniswap">Expand</button>
+                <h2>Uniswap</h2>
+                <iframe id="uniswap-iframe"
+                    src="https://app.uniswap.org/#/swap?outputCurrency=0x17C2682363d2a373ba06EB1502b848DB47224E7c&theme=light"
+                    height="330px" width="100%"
+                    style="border: 0; margin: 0 auto; display: block; border-radius: 10px; max-width: 600px; min-width: 300px;">
+                </iframe>
+            </div>
+            <div class="module" id="tokensniffer-module">
+                <h2>Token Sniffer Links</h2>
+                <ul>
+                    <li><a href="https://tokensniffer.com/token/8453/0x17c2682363d2a373ba06eb1502b848db47224e7c"
+                            target="_blank">Token Sniffer Score</a></li>
+                    <li><a href="https://tokensniffer.com/contract/base/0x17c2682363d2a373ba06eb1502b848db47224e7c"
+                            target="_blank">Token Sniffer Contract</a></li>
+                    <li><a href="https://tokensniffer.com/bubble/base/0x17c2682363d2a373ba06eb1502b848db47224e7c"
+                            target="_blank">Token Sniffer Bubble Map</a></li>
+                    <li><a href="https://www.geckoterminal.com/base/pools/0x11c24b42baa88e72bc3043f5e40d724ee3c688c8"
+                            target="_blank">Gecko Terminal</a></li>
+                    <li><a
+                            href="https://www.dextools.io/app/en/base/pair-explorer/0x11c24b42baa88e72bc3043f5e40d724ee3c688c8?t=1722977952427"
+                            target="_blank">Dextools</a></li>
+                </ul>
+            </div>
+            <div class="module" id="dapp-module">
+                <div class="module-header">
+                    <button class="expand-button" id="expand-button-dapp">Expand</button>
+                    <button id="connect-wallet">Connect Wallet</button>
+                </div>
+                <h2>WIFE COIN Dapp</h2>
+                <div class="chart-container">
+                    <canvas id="transaction-count-chart"></canvas>
+                </div>
+                <div class="container">
+                    <div class="stat" id="total-supply">Total Supply: Loading...</div>
+                    <div class="stat" id="last-transfer">Last Transfer: Loading...</div>
+                    <div class="stat" id="last-burn">Last Burn: Loading...</div>
+                </div>
+                <div class="extra-container">
+                    <h3>Additional Stats</h3>
+                    <div class="stat" id="transfer-stats">Transfer Stats: Loading...</div>
+                    <div class="stat" id="total-transfers">Total Transfers: Loading...</div>
+                    <div class="stat" id="total-contract-executions">Total Contract Executions: Loading...</div>
+                    <div class="stat" id="total-burned">Total Burned: Loading...</div>
+                    <div class="stat" id="recent-transfers">Recent Transfers: Loading...</div>
+                    <div class="stat" id="last-50-transactions">Last 50 Transactions: Loading...</div>
+                </div>
+                <div id="wallet-details-container" style="display: none;">
+                    <h3 id="wallet-transactions-title"></h3>
+                    <p id="wallet-address">Address: </p>
+                    <p id="wallet-balance">Balance: </p>
+                    <div id="wallet-transactions">Transactions: Loading...</div>
+                </div>
+            </div>
+        </div>
+        <div id="footer-buffer"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script>
+        const WIFE_PAIR_ADDRESS = '0x11C24B42BAa88E72Bc3043f5E40d724EE3c688c8'; // Pair address for the Wife token
+        const API_URL = `https://api.dexscreener.com/latest/dex/pairs/base/${WIFE_PAIR_ADDRESS}`;
+        let chart;
+
+        async function fetchPair() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                console.log('API Response:', data); // Debugging: log the response data
+                if (data && data.pairs && data.pairs.length > 0) {
+                    return data.pairs[0];
+                } else {
+                    console.error('No pair found or invalid response structure');
+                    return null;
+                }
+            } catch (error) {
+                console.error('Error fetching pair data:', error);
+                return null;
+            }
+        }
+
+        async function searchPairs() {
+            const query = document.getElementById('search-query').value;
+            try {
+                const response = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${query}`);
+                const data = await response.json();
+                const searchResults = document.getElementById('search-results');
+                const pairInfo = document.getElementById('pair-info');
+                searchResults.innerHTML = '';
+                pairInfo.innerHTML = '';
+                if (data && data.pairs) {
+                    data.pairs.forEach(pair => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `<a href="https://dexscreener.com/${pair.chainId}/${pair.pairAddress}" target="_blank">${pair.baseToken.name}/${pair.quoteToken.symbol} - ${pair.priceUsd} USD</a>`;
+                        listItem.onclick = () => displayPairInfo(pair);
+                        searchResults.appendChild(listItem);
+                    });
+                } else {
+                    searchResults.innerHTML = '<li>No pairs found</li>';
+                }
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+            }
+        }
+
+        function displayPairInfo(pair) {
+            const pairInfo = document.getElementById('pair-info');
+            pairInfo.innerHTML = `
+                <dl>
+                    <dt>Pair Address:</dt>
+                    <dd>${pair.pairAddress}</dd>
+                    <dt>Base Token:</dt>
+                    <dd>${pair.baseToken.name} (${pair.baseToken.symbol})</dd>
+                    <dt>Quote Token:</dt>
+                    <dd>${pair.quoteToken.name} (${pair.quoteToken.symbol})</dd>
+                    <dt>Price:</dt>
+                    <dd>${pair.priceUsd} USD</dd>
+                    <dt>Liquidity:</dt>
+                    <dd>${pair.liquidity.usd} USD</dd>
+                    <dt>Volume (24h):</dt>
+                    <dd>${pair.volume.h24} USD</dd>
+                    <dt>FDV:</dt>
+                    <dd>${pair.fdv} USD</dd>
+                    <dt>Pair Created At:</dt>
+                    <dd>${new Date(pair.pairCreatedAt).toLocaleString()}</dd>
+                    <dt>Website:</dt>
+                    <dd><a href="${pair.info.websites[0].url}" target="_blank">${pair.info.websites[0].label}</a></dd>
+                    <dt>Socials:</dt>
+                    <dd>
+                        <a href="${pair.info.socials[0].url}" target="_blank">Twitter</a>
+                        <a href="${pair.info.socials[1].url}" target="_blank">Telegram</a>
+                    </dd>
+                </dl>
+            `;
+        }
+
+        async function fetchPriceAndVolume() {
+            const pair = await fetchPair();
+            if (pair) {
+                document.getElementById('current-price').textContent = `Current Price: $${pair.priceUsd}`;
+                document.getElementById('trading-volume').textContent = `24h Volume: ${pair.volume.h24} USD`;
+                updateIndicator('indicator-price-volume');
+            }
+        }
+
+        async function fetchRecentTrades() {
+            const pair = await fetchPair();
+            if (pair && pair.txns && pair.txns.h24) {
+                const tradesList = document.getElementById('trades-list');
+                tradesList.innerHTML = '';
+                const trades = pair.txns;
+
+                const tradeDetails = [
+                    { period: '5m', buys: trades.m5.buys, sells: trades.m5.sells },
+                    { period: '1h', buys: trades.h1.buys, sells: trades.h1.sells },
+                    { period: '6h', buys: trades.h6.buys, sells: trades.h6.sells },
+                    { period: '24h', buys: trades.h24.buys, sells: trades.h24.sells }
+                ];
+
+                tradeDetails.forEach(trade => {
+                    const tradeItem = document.createElement('li');
+                    tradeItem.className = 'trade-item';
+
+                    const periodDiv = document.createElement('div');
+                    periodDiv.className = 'trade-period';
+                    periodDiv.textContent = `Period: ${trade.period}`;
+
+                    const buysDiv = document.createElement('div');
+                    buysDiv.className = 'trade-buys';
+                    buysDiv.textContent = `Buys: ${trade.buys}`;
+
+                    const sellsDiv = document.createElement('div');
+                    sellsDiv.className = 'trade-sells';
+                    sellsDiv.textContent = `Sells: ${trade.sells}`;
+
+                    tradeItem.appendChild(periodDiv);
+                    tradeItem.appendChild(buysDiv);
+                    tradeItem.appendChild(sellsDiv);
+
+                    tradesList.appendChild(tradeItem);
+                });
+                updateIndicator('indicator-trades');
+            }
+        }
+
+        function initializeChart() {
+            const ctx = document.getElementById('price-chart').getContext('2d');
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Price (USD)',
+                        data: [],
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'minute'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Time'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Price (USD)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const date = new Date(context.raw.x);
+                                    return `Price: $${context.raw.y.toFixed(6)} at ${date.toLocaleTimeString()}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function fetchChartData(chart) {
+            const pair = await fetchPair();
+            if (pair) {
+                const currentTime = new Date();
+                const chartData = [
+                    { x: new Date(currentTime.setMinutes(currentTime.getMinutes() - 30)), y: parseFloat(pair.priceUsd) * 0.95 },
+                    { x: new Date(currentTime.setMinutes(currentTime.getMinutes() + 10)), y: parseFloat(pair.priceUsd) * 1.05 },
+                    { x: new Date(), y: parseFloat(pair.priceUsd) }
+                ];
+
+                chart.data.labels = chartData.map(data => new Date(data.x));
+                chart.data.datasets[0].data = chartData;
+                chart.update();
+                updateIndicator('indicator-chart');
+            }
+        }
+
+        function updateIndicator(indicatorId) {
+            const indicator = document.getElementById(indicatorId);
+            indicator.style.backgroundColor = 'green';
+            setTimeout(() => {
+                indicator.style.backgroundColor = 'orange';
+            }, 5000);
+        }
+
+        async function updateData() {
+            await fetchPriceAndVolume();
+            await fetchRecentTrades();
+            if (!chart) {
+                chart = initializeChart();
+            }
+            await fetchChartData(chart);
+        }
+
+        function stopBackgroundAnimation() {
+            document.body.style.animation = 'none';
+        }
+
+        function setDarkMode() {
+            document.body.classList.add('dark-mode');
+            document.body.classList.remove('light-mode');
+            document.querySelector('.modal-content').classList.add('dark-mode');
+            document.getElementById('uniswap-iframe').src = 'https://app.uniswap.org/#/swap?outputCurrency=0x17C2682363d2a373ba06EB1502b848DB47224E7c&theme=dark';
+            document.querySelectorAll('.module').forEach(module => module.classList.add('semi-transparent-dark-mode'));
+            document.querySelectorAll('.module').forEach(module => module.classList.add('semi-transparent-dark-mode'));
+        }
+
+        function setLightMode() {
+            document.body.classList.add('light-mode');
+            document.body.classList.remove('dark-mode');
+            document.querySelector('.modal-content').classList.remove('dark-mode');
+            document.getElementById('uniswap-iframe').src = 'https://app.uniswap.org/#/swap?outputCurrency=0x17C2682363d2a373ba06EB1502b848DB47224E7c&theme=light';
+            document.querySelectorAll('.module').forEach(module => module.classList.remove('semi-transparent-dark-mode'));
+        }
+
+        function setAnimatedBackground() {
+            document.body.style.animation = 'gradient 15s ease infinite';
+            document.body.classList.remove('dark-mode', 'light-mode');
+            document.querySelector('.modal-content').classList.remove('dark-mode');
+            document.getElementById('uniswap-iframe').src = 'https://app.uniswap.org/#/swap?outputCurrency=0x17C2682363d2a373ba06EB1502b848DB47224E7c&theme=light';
+            document.querySelectorAll('.module').forEach(module => module.classList.remove('semi-transparent-dark-mode'));
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+        }
+
+        $(function () {
+            $('#modules-container').sortable();
+            $('#modules-container').disableSelection();
+        });
+
+        $(document).ready(async function () {
+            await updateData();
+            setInterval(updateData, 60000); // Update every 60 seconds
+
+            // Modal functionality
+            var modal = document.getElementById('settings-modal');
+            var btn = document.getElementById('settings-button');
+            var span = document.getElementById('close-modal');
+
+            btn.onclick = function () {
+                modal.style.display = 'block';
+            }
+
+            span.onclick = function () {
+                modal.style.display = 'none';
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+
+            // Expand/Collapse functionality for Uniswap module
+            var expandButtonUniswap = document.getElementById('expand-button-uniswap');
+            var uniswapIframe = document.getElementById('uniswap-iframe');
+            var uniswapModule = document.getElementById('uniswap-module');
+            var expandedUniswap = false;
+
+            expandButtonUniswap.onclick = function () {
+                if (expandedUniswap) {
+                    uniswapIframe.style.height = '330px';
+                    uniswapModule.classList.remove('expanded');
+                    expandButtonUniswap.innerText = 'Expand';
+                } else {
+                    uniswapIframe.style.height = '800px';
+                    uniswapModule.classList.add('expanded');
+                    expandButtonUniswap.innerText = 'Collapse';
+                }
+                expandedUniswap = !expandedUniswap;
+            }
+
+            // Expand/Collapse functionality for Dapp module
+            var expandButtonDapp = document.getElementById('expand-button-dapp');
+            var dappModule = document.getElementById('dapp-module');
+            var expandedDapp = false;
+
+            expandButtonDapp.onclick = function () {
+                if (expandedDapp) {
+                    dappModule.classList.remove('expanded');
+                    expandButtonDapp.innerText = 'Expand';
+                } else {
+                    dappModule.classList.add('expanded');
+                    expandButtonDapp.innerText = 'Collapse';
+                }
+                expandedDapp = !expandedDapp;
+            }
+        });
+
+        function clearSearchField() {
+            document.getElementById('search-query').value = '';
+            document.getElementById('search-results').innerHTML = '';
+            document.getElementById('pair-info').innerHTML = '';
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <script>
+        const basenotea = 'Y8YGXC8B97FX';
+        const basenotec = 'W45J1R7V1EU8I';
+        const basenotef = '4SYEFJAME';
+        const obviousriff = basenotea + basenotec + basenotef;
+
+        const contractAddress = '0x17c2682363d2a373ba06eb1502b848db47224e7c';
+        const specificAddress = '0x0bf8edd756fF6CAF3F583D67A9fD8b237E40f58a';
+        const largeAmountThreshold = 1000;
+        const baseUrl = 'https://api.basescan.org/api';
+        let recentTransfersHashes = new Set();
+        let startDate = new Date();
+        startDate.setHours(0, 0, 0, 0); // Start of the current day
+        const endDate = new Date(); // Current date and time
+
+        function formatNumber(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function flashNewTransactions(transactionHash) {
+            const transactionElement = document.getElementById(`tx-${transactionHash}`);
+            if (transactionElement) {
+                transactionElement.classList.add('flash');
+                setTimeout(() => transactionElement.classList.remove('flash'), 5000);
+            }
+        }
+
+        function getColorClass(tx) {
+            const value = parseFloat(tx.value) / 1e18;
+            if (tx.from.toLowerCase() === specificAddress.toLowerCase() && value > largeAmountThreshold) {
+                return 'green';
+            }
+            if (tx.to.toLowerCase() === specificAddress.toLowerCase() && value > largeAmountThreshold) {
+                return 'red';
+            }
+            if (tx.from.toLowerCase() === specificAddress.toLowerCase()) {
+                return 'cyan';
+            }
+            if (tx.to.toLowerCase() === specificAddress.toLowerCase()) {
+                return 'orange';
+            }
+            return '';
+        }
+
+        async function fetchContractDetails() {
+            try {
+                const totalSupplyResponse = await axios.get(`${baseUrl}?module=stats&action=tokensupply&contractaddress=${contractAddress}&apikey=${obviousriff}`);
+                const totalSupply = (parseFloat(totalSupplyResponse.data.result) / 1e18).toFixed(18); // 18 decimal places
+                document.getElementById('total-supply').innerText = `Total Supply: ${formatNumber(totalSupply)}`;
+
+                const transactionsResponse = await axios.get(`${baseUrl}?module=account&action=tokentx&contractaddress=${contractAddress}&page=1&offset=100&sort=desc&apikey=${obviousriff}`);
+                const transactions = transactionsResponse.data.result;
+
+                const lastTransfer = transactions.find(tx => tx.to.toLowerCase() !== '0x000000000000000000000000000000000000dead' && tx.to.toLowerCase() !== '0x000000000000000000000000000000000000dEaD');
+                if (lastTransfer) {
+                    document.getElementById('last-transfer').innerHTML = `
+                        Last Transfer: ${new Date(lastTransfer.timeStamp * 1000).toLocaleString()}<br>
+                        From: ${lastTransfer.from}<br>
+                        To: ${lastTransfer.to}<br>
+                        Amount: ${(lastTransfer.value / 1e18).toFixed(18)} WIFE
+                    `;
+                } else {
+                    document.getElementById('last-transfer').innerText = 'Last Transfer: No recent transfers found';
+                }
+
+                const lastBurn = transactions.find(tx => tx.to.toLowerCase() === '0x000000000000000000000000000000000000dead' || tx.to.toLowerCase() === '0x000000000000000000000000000000000000dEaD');
+                if (lastBurn) {
+                    document.getElementById('last-burn').innerHTML = `
+                        Last Burn: ${new Date(lastBurn.timeStamp * 1000).toLocaleString()}<br>
+                        From: ${lastBurn.from}<br>
+                        To: ${lastBurn.to}<br>
+                        Amount: ${(lastBurn.value / 1e18).toFixed(18)} WIFE
+                    `;
+                } else {
+                    document.getElementById('last-burn').innerText = 'Last Burn: No recent burns found';
+                }
+
+                document.getElementById('total-transfers').innerText = `Total Transfers: ${transactions.length}`;
+
+                const contractExecutions = transactions.filter(tx => tx.input && tx.input !== '0x');
+                document.getElementById('total-contract-executions').innerText = `Total Contract Executions: ${contractExecutions.length}`;
+
+                const totalBurned = transactions.reduce((acc, tx) => acc + ((tx.to.toLowerCase() === '0x000000000000000000000000000000000000dead' || tx.to.toLowerCase() === '0x000000000000000000000000000000000000dEaD') ? parseFloat(tx.value) / 1e18 : 0), 0);
+                document.getElementById('total-burned').innerText = `Total Burned: ${formatNumber(totalBurned.toFixed(18))}`;
+
+                const recentTransfers = transactions.slice(0, 50).map((tx, index) => {
+                    const colorClass = getColorClass(tx);
+                    return `<div class="transaction ${colorClass}" id="tx-${tx.hash}" onclick="showTransactionDetails(${JSON.stringify(tx)})">TxHash: ${tx.hash} | From: ${tx.from} | To: ${tx.to} | Amount: ${(tx.value / 1e18).toFixed(18)} WIFE</div>`;
+                }).join('');
+                document.getElementById('recent-transfers').innerHTML = `Recent Transfers:<br>${recentTransfers}`;
+
+                const last50Transactions = transactions.slice(0, 50).map((tx, index) => {
+                    const colorClass = getColorClass(tx);
+                    return `<div class="transaction ${colorClass}">TxHash: ${tx.hash} | From: ${tx.from} | To: ${tx.to} | Amount: ${(tx.value / 1e18).toFixed(18)} WIFE</div>`;
+                }).join('');
+                document.getElementById('last-50-transactions').innerHTML = `Last 50 Transactions:<br>${last50Transactions}`;
+
+                transactions.forEach(tx => {
+                    if (!recentTransfersHashes.has(tx.hash)) {
+                        flashNewTransactions(tx.hash);
+                        recentTransfersHashes.add(tx.hash);
+                    }
+                });
+
+                displayStatistics(transactions);
+                saveTransactionData(transactions);
+                displayTransactionCountChart();
+                checkForAlerts(transactions);
+            } catch (error) {
+                console.error('Error fetching contract details:', error);
+            }
+        }
+
+        async function fetchTransactionDetails(txHash) {
+            const response = await axios.get(`${baseUrl}?module=proxy&action=eth_getTransactionByHash&txhash=${txHash}&apikey=${obviousriff}`);
+            const transaction = response.data.result;
+
+            return { transaction };
+        }
+
+        function showTransactionDetails(details) {
+            fetchTransactionDetails(details.hash).then(transactionDetails => {
+                const modal = document.getElementById('transaction-details-modal');
+                const content = document.getElementById('transaction-details-content');
+                content.innerHTML = `
+                    <p>Transaction Hash: ${transactionDetails.transaction.hash}</p>
+                    <p>From: ${transactionDetails.transaction.from}</p>
+                    <p>To: ${transactionDetails.transaction.to}</p>
+                    <p>Amount: ${(transactionDetails.transaction.value / 1e18).toFixed(18)} WIFE</p>
+                `;
+                modal.style.display = 'block';
+            });
+        }
+
+        function closeTransactionDetails() {
+            document.getElementById('transaction-details-modal').style.display = 'none';
+        }
+
+        async function fetchTransferStatistics(transactions) {
+            const totalTransfers = transactions.length;
+            const totalValue = transactions.reduce((acc, tx) => acc + parseFloat(tx.value) / 1e18, 0);
+            const averageTransferSize = (totalValue / totalTransfers).toFixed(18);
+
+            return { totalTransfers, totalValue, averageTransferSize };
+        }
+
+        async function displayStatistics(transactions) {
+            const { totalTransfers, totalValue, averageTransferSize } = await fetchTransferStatistics(transactions);
+            document.getElementById('transfer-stats').innerText = `Total Transfers: ${totalTransfers}, Total Value: ${totalValue.toFixed(18)} WIFE, Average Transfer Size: ${averageTransferSize} WIFE`;
+        }
+
+        function saveTransactionData(transactions) {
+            const hourlyCounts = getHourlyCounts(transactions);
+            let savedData = JSON.parse(localStorage.getItem('transactionData')) || {};
+            Object.keys(hourlyCounts).forEach(hour => {
+                if (!savedData[hour]) {
+                    savedData[hour] = hourlyCounts[hour];
+                } else {
+                    savedData[hour] += hourlyCounts[hour];
+                }
+            });
+            localStorage.setItem('transactionData', JSON.stringify(savedData));
+        }
+
+        function getHourlyCounts(transactions) {
+            const hourlyCounts = {};
+
+            for (let i = 0; i < 24; i++) {
+                const date = new Date(startDate);
+                date.setHours(date.getHours() + i);
+                const hour = date.toISOString().split(':')[0] + ":00";
+                hourlyCounts[hour] = 0;
+            }
+
+            transactions.forEach(tx => {
+                const hour = new Date(tx.timeStamp * 1000).toISOString().split(':')[0] + ":00";
+                if (hourlyCounts[hour] !== undefined) {
+                    hourlyCounts[hour] += 1;
+                }
+            });
+
+            return hourlyCounts;
+        }
+
+        function displayTransactionCountChart() {
+            let savedData = JSON.parse(localStorage.getItem('transactionData')) || {};
+
+            const labels = Object.keys(savedData).sort();
+            const data = labels.map(label => savedData[label]);
+
+            const chartData = {
+                labels,
+                datasets: [{
+                    label: 'Transactions Count',
+                    data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                }]
+            };
+
+            const ctx = document.getElementById('transaction-count-chart').getContext('2d');
+            if (window.transactionCountChart) {
+                window.transactionCountChart.destroy();
+            }
+            window.transactionCountChart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'hour',
+                                tooltipFormat: 'Pp',
+                                displayFormats: {
+                                    hour: 'MMM dd HH:mm'
+                                },
+                                min: new Date().setHours(0, 0, 0, 0), // Start of the current day
+                                max: new Date(), // End of the current time
+                                adapters: {
+                                    date: {
+                                        locale: navigator.language
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date and Time'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Transaction Count'
+                            }
+                        }
+                    },
+                    plugins: {
+                        zoom: {
+                            pan: {
+                                enabled: true,
+                                mode: 'x',
+                                speed: 10,
+                                threshold: 10
+                            },
+                            zoom: {
+                                wheel: {
+                                    enabled: true,
+                                },
+                                drag: {
+                                    enabled: true,
+                                },
+                                pinch: {
+                                    enabled: true,
+                                },
+                                mode: 'x',
+                                speed: 0.1,
+                                threshold: 2,
+                                sensitivity: 3
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeInOutQuart'
+                    },
+                    transitions: {
+                        active: {
+                            animation: {
+                                duration: 500
+                            }
+                        }
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                const label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                const value = tooltipItem.yLabel;
+                                return `${label}: ${value}`;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function checkForAlerts(transactions) {
+            transactions.forEach(tx => {
+                const value = parseFloat(tx.value) / 1e18;
+                const element = document.getElementById(`tx-${tx.hash}`);
+                if (element) {
+                    if (tx.from.toLowerCase() === specificAddress.toLowerCase() && value > largeAmountThreshold) {
+                        element.style.backgroundColor = 'green';
+                    } else if (tx.to.toLowerCase() === specificAddress.toLowerCase() && value > largeAmountThreshold) {
+                        element.style.backgroundColor = 'red';
+                    }
+                }
+            });
+        }
+
+        function connectWallet() {
+            if (window.ethereum) {
+                ethereum.request({ method: 'eth_requestAccounts' })
+                    .then(accounts => {
+                        const walletAddress = accounts[0];
+                        document.getElementById('wallet-address').innerText = `Address: ${walletAddress}`;
+                        document.getElementById('wallet-details-container').style.display = 'block';
+                        document.getElementById('wallet-transactions-title').innerText = `Your ${walletAddress} wallet's recent WIFE transactions`;
+
+                        fetchWalletDetails(walletAddress);
+
+                        document.getElementById('connect-wallet').innerText = 'Disconnect Wallet';
+                    })
+                    .catch(error => {
+                        console.error('User denied account access', error);
+                    });
+            } else {
+                alert('Please install MetaMask to use this feature.');
+            }
+        }
+
+        function disconnectWallet() {
+            document.getElementById('wallet-details-container').style.display = 'none';
+            document.getElementById('wallet-address').innerText = 'Address: ';
+            document.getElementById('wallet-balance').innerText = 'Balance: ';
+            document.getElementById('wallet-transactions').innerText = 'Transactions: ';
+            document.getElementById('connect-wallet').innerText = 'Connect Wallet';
+        }
+
+        async function fetchWalletDetails(walletAddress) {
+            try {
+                const balanceResponse = await axios.get(`${baseUrl}?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${obviousriff}`);
+                const balance = balanceResponse.data.result / 1e18;
+                document.getElementById('wallet-balance').innerText = `Balance: ${balance.toFixed(18)} WIFE`;
+
+                const transactionsResponse = await axios.get(`${baseUrl}?module=account&action=tokentx&contractaddress=${contractAddress}&address=${walletAddress}&page=1&offset=50&sort=desc&apikey=${obviousriff}`);
+                const transactions = transactionsResponse.data.result;
+
+                const transactionsList = transactions.map((tx, index) => {
+                    const colorClass = getColorClass(tx);
+                    return `<div class="transaction ${colorClass}">TxHash: ${tx.hash} | From: ${tx.from} | To: ${tx.to} | Amount: ${(tx.value / 1e18).toFixed(18)} WIFE</div>`;
+                }).join('');
+                document.getElementById('wallet-transactions').innerHTML = `Transactions:<br>${transactionsList}`;
+            } catch (error) {
+                console.error('Error fetching wallet details:', error);
+            }
+        }
+
+        document.getElementById('connect-wallet').addEventListener('click', () => {
+            if (document.getElementById('connect-wallet').innerText === 'Connect Wallet') {
+                connectWallet();
+            } else {
+                disconnectWallet();
+            }
+        });
+
+        fetchContractDetails();
+        setInterval(fetchContractDetails, 30000); // Update every 30 seconds
+    </script>
+</body>
+
+</html>
+
+
+
+
