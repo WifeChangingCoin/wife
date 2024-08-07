@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reward Distributor</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+    <script src="https://unpkg.com/web3modal"></script>
+    <script src="https://unpkg.com/@walletconnect/web3-provider"></script>
+    <script src="https://unpkg.com/@coinbase/wallet-sdk"></script>
+</head>
+<body>
+    <h1>Connect Your Wallet</h1>
+    <button id="connectWallet">Connect Wallet</button>
+    <div id="walletInfo"></div>
+    <button id="claimReward" style="display:none;">Claim Reward</button>
+    <button id="disconnectWallet" style="display:none;">Disconnect Wallet</button>
+
+    <script>
+        const BASE_CHAIN_ID = '0x2105'; // Base chain ID in hexadecimal
+        const BASE_RPC_URL = 'https://mainnet.infura.io/v3/YOUR_INFURA_ID'; // Replace with your Infura ID
+        let web3Modal;
+        let provider;
+        let web3;
+        let accounts;
+
+        window.addEventListener('load', async () => {
+            const providerOptions = {
+                walletconnect: {
+                    package: WalletConnectProvider.default,
+                    options: {
+                        infuraId: "YOUR_INFURA_ID" // Replace with your Infura ID
+                    }
+                },
+                coinbasewallet: {
+                    package: CoinbaseWalletSDK,
+                    options: {
+                        appName: "Reward Distributor",
+                        infuraId: "YOUR_INFURA_ID", // Replace with your Infura ID
+                        rpc: "",
+                        chainId: 1,
+                        darkMode: false
+                    }
+                }
+            };
+
+            web3Modal = new Web3Modal.default({
+                cacheProvider: false,
+                providerOptions
+            });
+
+            document.getElementById('connectWallet').addEventListener('click', onConnect);
+            document.getElementById('disconnectWallet').addEventListener('click', onDisconnect);
+        });
+
+        async function onConnect() {
+            try {
+                provider = await web3Modal.connect();
+                provider.on("accountsChanged", (accounts) => {
+                    connectWallet();
+                });
+
+                provider.on("chainChanged", (chainId) => {
+                    switchToBaseChain();
+                });
+
+                provider.on("disconnect", (code, reason) => {
+                    onDisconnect();
+                });
+
+                web3 = new Web3(provider);
+                await switchToBaseChain();
+                connectWallet();
+            } catch (error) {
+                console.error("Could not connect to wallet", error);
+            }
+        }
+
+        async function switchToBaseChain() {
+            try {
+                await provider.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: BASE_CHAIN_ID }],
+                });
+            } catch (switchError) {
+                if (switchError.code === 4902) {
+                    try {
+                        await provider.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [
+                                {
+                                    chainId: BASE_CHAIN_ID,
+                                    rpcUrl: BASE_RPC_URL,
+                                },
+                            ],
+                        });
+                    } catch (addError) {
+                        console.error(addError);
+                    }
+                }
+                console.error(switchError);
+            }
+        }
+
+        async function connectWallet() {
+            accounts = await web3.eth.getAccounts();
+            document.getElementById('walletInfo').innerText = `Connected: ${accounts[0]}`;
+
+            const wifeTokenAddress = '0x17C2682363d2a373ba06EB1502b848DB47224E7c'; // WIFE Token address
+            const wifeToken = new web3.eth.Contract(ERC20_ABI, wifeTokenAddress);
+            const balance = await wifeToken.methods.balanceOf(accounts[0]).call();
+
+            document.getElementById('walletInfo').innerText += `\nWIFE Balance: ${balance}`;
+
+            if (balance > 0) {
+                document.getElementById('claimReward').style.display = 'block';
+            }
+
+            document.getElementById('disconnectWallet').style.display = 'block';
+        }
+
+        async function onDisconnect() {
+            if (provider && provider.close) {
+                await provider.close();
+            }
+            provider = null;
+            web3 = null;
+            document.getElementById('walletInfo').innerText = '';
+            document.getElementById('claimReward').style.display = 'none';
+            document.getElementById('disconnectWallet').style.display = 'none';
+        }
+
+        document.getElementById('claimReward').addEventListener('click', async () => {
+            const rewardDistributorAddress = 'YOUR_CONTRACT_ADDRESS'; // Replace with your contract address
+            const rewardDistributor = new web3.eth.Contract(REWARD_DISTRIBUTOR_ABI, rewardDistributorAddress);
+
+            await rewardDistributor.methods.claimReward().send({ from: accounts[0] });
+            alert('Reward claimed!');
+        });
+
+        const ERC20_ABI = [
+            // Only the needed ERC20 ABI functions
+            {
+                "constant": true,
+                "inputs": [{ "name": "_owner", "type": "address" }],
+                "name": "balanceOf",
+                "outputs": [{ "name": "balance", "type": "uint256" }],
+                "type": "function"
+            }
+        ];
+
+        const REWARD_DISTRIBUTOR_ABI = [
+            // Only the needed Reward Distributor ABI functions
+            {
+                "constant": false,
+                "inputs": [],
+                "name": "claimReward",
+                "outputs": [],
+                "type": "function"
+            }
+        ];
+    </script>
+</body>
+</html>
