@@ -1,488 +1,393 @@
-<html><head><base href="https://example.com/">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Link Page Generator V6 - Psychedelic Overload Edition</title>
-<link rel="icon" href="https://example.com/favicon.ico" type="image/x-icon">
-<style>
-    :root {
-        --primary-color: #007bff;
-        --secondary-color: #6c757d;
-        --text-color: #343a40;
-        --animation-speed: 10s;
-    }
-
-    @keyframes colorCycle {
-        0%, 100% { color: #ff00ff; }
-        20% { color: #00ffff; }
-        40% { color: #ff0000; }
-        60% { color: #0000ff; }
-        80% { color: #00ff00; }
-    }
-
-    @keyframes backgroundShift {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-    }
-
-    body {
-        font-family: 'Arial', sans-serif;
-        line-height: 1.6;
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-        position: relative;
-        overflow: hidden;
-        perspective: 1000px;
-        animation: bodyTransform var(--animation-speed) ease-in-out infinite;
-    }
-
-    @keyframes bodyTransform {
-        0%, 100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); background: radial-gradient(circle, #ff00ff, #00ffff, #ff0000, #0000ff, #00ff00, #ffff00); }
-        25% { transform: perspective(1000px) rotateX(10deg) rotateY(5deg); background: radial-gradient(circle, #00ffff, #ff0000, #0000ff, #00ff00, #ffff00, #ff00ff); }
-        50% { transform: perspective(1000px) rotateX(-5deg) rotateY(-10deg); background: radial-gradient(circle, #ff0000, #0000ff, #00ff00, #ffff00, #ff00ff, #00ffff); }
-        75% { transform: perspective(1000px) rotateX(5deg) rotateY(10deg); background: radial-gradient(circle, #0000ff, #00ff00, #ffff00, #ff00ff, #00ffff, #ff0000); }
-    }
-
-    body::before {
-        content: '';
-        position: fixed;
-        top: -50%;
-        left: -50%;
-        right: -50%;
-        bottom: -50%;
-        background: radial-gradient(circle, #ff00ff, #00ffff, #ff0000, #0000ff, #00ff00, #ffff00);
-        background-size: 400% 400%;
-        z-index: -1;
-        animation: psychedelicBG calc(var(--animation-speed) * 1.5) ease infinite, backgroundShift calc(var(--animation-speed) * 2) linear infinite;
-        transform-origin: center center;
-    }
-
-    @keyframes psychedelicBG {
-        0%, 100% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg); }
-        25% { transform: scale(1.5) rotate(45deg); filter: hue-rotate(90deg); }
-        50% { transform: scale(0.8) rotate(-45deg) skew(15deg); filter: hue-rotate(180deg); }
-        75% { transform: scale(1.2) rotate(90deg) skew(-15deg); filter: hue-rotate(270deg); }
-    }
-
-    .container {
-        max-width: 800px;
-        width: 100%;
-        background-color: rgba(255, 255, 255, 0.3);
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-        margin-bottom: 20px;
-        position: relative;
-        overflow: hidden;
-        backdrop-filter: blur(5px);
-        animation: containerWarp calc(var(--animation-speed) * 1.5) ease-in-out infinite, containerColor var(--animation-speed) linear infinite;
-        z-index: 10;
-    }
-
-    @keyframes containerWarp {
-        0%, 100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1); }
-        25% { transform: perspective(1000px) rotateX(15deg) rotateY(10deg) scale(1.05); }
-        50% { transform: perspective(1000px) rotateX(-10deg) rotateY(-15deg) scale(0.95); }
-        75% { transform: perspective(1000px) rotateX(10deg) rotateY(15deg) scale(1.02); }
-    }
-
-    @keyframes containerColor {
-        0%, 100% { background-color: rgba(255, 0, 255, 0.3); }
-        25% { background-color: rgba(0, 255, 255, 0.3); }
-        50% { background-color: rgba(255, 255, 0, 0.3); }
-        75% { background-color: rgba(0, 255, 0, 0.3); }
-    }
-
-    .container::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        right: -50%;
-        bottom: -50%;
-        background: linear-gradient(45deg, 
-            rgba(255, 255, 255, 0.2) 25%, 
-            transparent 25%, 
-            transparent 50%, 
-            rgba(255, 255, 255, 0.2) 50%, 
-            rgba(255, 255, 255, 0.2) 75%, 
-            transparent 75%, 
-            transparent 100%);
-        z-index: 1;
-        background-size: 20px 20px;
-        animation: stripes 2s linear infinite, swirl calc(var(--animation-speed) * 1.5) ease-in-out infinite;
-        pointer-events: none;
-    }
-
-    @keyframes stripes {
-        0% { transform: translateX(0) rotate(0deg); }
-        100% { transform: translateX(20px) rotate(360deg); }
-    }
-
-    @keyframes swirl {
-        0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.5; }
-        50% { transform: rotate(180deg) scale(1.5); opacity: 1; }
-    }
-
-    h1 {
-        text-align: center;
-        margin-bottom: 30px;
-        position: relative;
-        z-index: 2;
-        animation: textWarp calc(var(--animation-speed) / 2) ease-in-out infinite, colorCycle var(--animation-speed) linear infinite;
-    }
-
-    @keyframes textWarp {
-        0%, 100% { transform: skew(0deg, 0deg) scale(1); }
-        25% { transform: skew(5deg, 5deg) scale(1.1); }
-        50% { transform: skew(0deg, 0deg) scale(1); }
-        75% { transform: skew(-5deg, -5deg) scale(0.9); }
-    }
-
-    label {
-        display: block;
-        margin-bottom: 5px;
-        color: var(--secondary-color);
-        position: relative;
-        z-index: 2;
-        animation: colorCycle calc(var(--animation-speed) * 0.75) linear infinite;
-    }
-
-    input[type="text"],
-    input[type="file"],
-    textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-        box-sizing: border-box;
-        position: relative;
-        z-index: 2;
-        transition: all 0.3s ease;
-        animation: inputPulse 3s ease-in-out infinite;
-    }
-
-    @keyframes inputPulse {
-        0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(0,123,255,0); }
-        50% { transform: scale(1.02); box-shadow: 0 0 10px rgba(0,123,255,0.5); }
-    }
-
-    input[type="text"]:focus,
-    input[type="file"]:focus,
-    textarea:focus {
-        transform: scale(1.05);
-        box-shadow: 0 0 15px rgba(0,123,255,0.7);
-    }
-
-    button {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        z-index: 2;
-        overflow: hidden;
-        animation: buttonColor var(--animation-speed) linear infinite;
-    }
-
-    @keyframes buttonColor {
-        0%, 100% { background-color: #007bff; }
-        25% { background-color: #28a745; }
-        50% { background-color: #dc3545; }
-        75% { background-color: #ffc107; }
-    }
-
-    button::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        pointer-events: none;
-    }
-
-    button:hover {
-        transform: scale(1.1) rotate(5deg);
-    }
-
-    button:hover::after {
-        opacity: 1;
-        animation: buttonGlow 1s ease infinite;
-    }
-
-    @keyframes buttonGlow {
-        0%, 100% { transform: translate(-50%, -50%) scale(1); }
-        50% { transform: translate(-50%, -50%) scale(1.5); }
-    }
-
-    .button-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-        position: relative;
-        z-index: 2;
-    }
-
-    #text-input {
-        height: 200px;
-        resize: vertical;
-    }
-
-    .footer {
-        margin-top: 20px;
-        text-align: center;
-        color: white;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-        position: relative;
-        z-index: 2;
-        animation: footerPulse 3s ease-in-out infinite, colorCycle var(--animation-speed) linear infinite;
-    }
-
-    @keyframes footerPulse {
-        0%, 100% { transform: scale(1) rotate(0deg); }
-        50% { transform: scale(1.1) rotate(5deg); }
-    }
-
-    .footer a {
-        color: #ffffff;
-        text-decoration: none;
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-
-    .footer a:hover {
-        text-decoration: underline;
-        text-shadow: 0 0 10px rgba(255,255,255,0.8);
-        animation: linkGlow 1s ease infinite;
-    }
-
-    @keyframes linkGlow {
-        0%, 100% { filter: drop-shadow(0 0 5px rgba(255,255,255,0.8)); }
-        50% { filter: drop-shadow(0 0 20px rgba(255,255,255,1)); }
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-20px) scale(0.9); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .fade-in {
-        animation: fadeIn 0.5s ease-in, colorCycle var(--animation-speed) linear infinite;
-    }
-
-    /* New animations for flying shapes */
-    @keyframes flyingShapes {
-        0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-        25% { transform: translate(100px, -50px) rotate(90deg) scale(1.2); }
-        50% { transform: translate(200px, 100px) rotate(180deg) scale(0.8); }
-        75% { transform: translate(-100px, 50px) rotate(270deg) scale(1.1); }
-        100% { transform: translate(0, 0) rotate(360deg) scale(1); }
-    }
-
-    .flying-shape {
-        position: absolute;
-        width: 30px;
-        height: 30px;
-        background-color: rgba(255, 255, 255, 0.7);
-        z-index: 3;
-        animation: flyingShapes 15s ease-in-out infinite, colorCycle 5s linear infinite;
-    }
-
-    .diamond { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
-    .crescent { clip-path: circle(50% at 50% 50%); }
-    .star { clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
-    .fish { clip-path: path('M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z'); }
-    .lemon { clip-path: ellipse(25% 40% at 50% 50%); }
-    .snake { clip-path: path('M 50,0 Q 100,25 50,50 Q 0,75 50,100 Q 100,75 50,50 Q 0,25 50,0'); }
-    .pear { clip-path: path('M 50,0 A 30,30 0,0,1 80,30 Q 80,60 50,100 Q 20,60 20,30 A 30,30 0,0,1 50,0'); }
-    .paperclip { clip-path: path('M 10,10 L 10,90 Q 50,90 50,50 Q 50,10 90,10 L 90,90'); }
-
-    /* New shapes */
-    .heart { clip-path: path('M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z'); }
-    .triangle { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
-    .hexagon { clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
-    .cloud { clip-path: path('M 10,50 A 20,20 0,0,1 30,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 70,30 A 20,20 0,0,1 90,50 Q 90,70 50,70 Q 10,70 10,50 z'); }
-    .leaf { clip-path: path('M 50,0 Q 100,25 50,50 Q 0,75 50,100 Q 100,75 50,50 Q 0,25 50,0'); }
-
-    /* Japanese geometrical art layers */
-    .japanese-art {
-        position: fixed;
-        top: -200%;
-        left: -200%;
-        width: 600%;
-        height: 600%;
-        background-size: 100px 100px;
-        opacity: 0.3;
-        pointer-events: none;
-        z-index: 5;
-    }
-
-    #japanese-art-1 {
-        animation: japaneseArt1 30s linear infinite, japaneseArtColor1 20s linear infinite;
-    }
-
-    #japanese-art-2 {
-        animation: japaneseArt2 25s linear infinite, japaneseArtColor2 15s linear infinite;
-    }
-
-    @keyframes japaneseArt1 {
-        0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-        25% { transform: translate(5%, -3%) scale(1.2) rotate(45deg); }
-        50% { transform: translate(-2%, 4%) scale(0.8) rotate(90deg); }
-        75% { transform: translate(3%, 1%) scale(1.1) rotate(-45deg); }
-        100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-    }
-
-    @keyframes japaneseArt2 {
-        0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-        33% { transform: translate(-4%, 2%) scale(1.3) rotate(-30deg); }
-        66% { transform: translate(3%, -4%) scale(0.9) rotate(60deg); }
-        100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-    }
-
-    @keyframes japaneseArtColor1 {
-        0%, 100% { filter: hue-rotate(0deg); }
-        50% { filter: hue-rotate(180deg); }
-    }
-
-    @keyframes japaneseArtColor2 {
-        0%, 100% { filter: hue-rotate(90deg); }
-        50% { filter: hue-rotate(270deg); }
-    }
-</style>
-</head>
-<body>
-<div class="container fade-in">
-    <h1>Link Page Generator V6 - Psychedelic Overload Edition</h1>
-    
-    <label for="siteTitle">Link Page Title:</label>
-    <input type="text" id="siteTitle" name="siteTitle" placeholder="Enter link page title here">
-    
-    <label for="linksFile">Upload Links Text File:</label>
-    <input type="file" id="linksFile" name="linksFile" accept=".txt">
-    
-    <button onclick="processFile()">Generate Link Page</button>
-
-    <div class="button-container">
-        <button id="load-btn">Load Text File</button>
-        <button id="save-btn">Save as Text File</button>
-    </div>
-
-    <textarea id="text-input" placeholder="Enter your link data here..."></textarea>
-</div>
-
-<div class="footer">
-    Designed by <a href="https://greatcreations.ca" target="_blank">Great Creations</a>
-</div>
-
-<!-- Japanese geometrical art layers -->
-<div id="japanese-art-1" class="japanese-art"></div>
-<div id="japanese-art-2" class="japanese-art"></div>
-
-<!-- Flying shapes -->
-<div class="flying-shape diamond"></div>
-<div class="flying-shape crescent"></div>
-<div class="flying-shape star"></div>
-<div class="flying-shape fish"></div>
-<div class="flying-shape lemon"></div>
-<div class="flying-shape snake"></div>
-<div class="flying-shape pear"></div>
-<div class="flying-shape paperclip"></div>
-<div class="flying-shape heart"></div>
-<div class="flying-shape triangle"></div>
-<div class="flying-shape hexagon"></div>
-<div class="flying-shape cloud"></div>
-<div class="flying-shape leaf"></div>
-
-<script>
-// The JavaScript remains the same as in the previous version
-document.getElementById('linksFile').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const content = e.target.result;
-        const sections = organizeContent(content);
-        generateHTML(sections, document.getElementById('siteTitle').value);
-    };
-    reader.readAsText(file);
-});
-
-function processFile() {
-    document.getElementById('linksFile').click();
-}
-
-function organizeContent(content) {
-    let sections = [];
-    content.trim().split('\n').forEach(line => {
-        if (line.startsWith('//')) {
-            const parts = line.substring(2).trim().split(',');
-            const categoryName = parts[0].trim();
-            const categoryLink = parts.length > 1 ? parts[1].trim() : null;
-            sections.push({ category: categoryName, link: categoryLink, links: [] });
-        } else {
-            const [url, name] = line.split(',').map(part => part.trim());
-            if (url && name) sections[sections.length - 1].links.push({ url, name });
-        }
-    });
-    return sections;
-}
-
-function generateHTML(sections, title) {
-    let dropdownHTML = sections.map(section => 
-        `<optgroup label="${section.category}">` +
-            section.links.map(link => 
-                `<option>${link.name}</option>`
-            ).join('') +
-        `</optgroup>`
-    ).join('');
-
-    let sectionsHTML = sections.map(section => 
-        `<div class="section">
-            <h2>${section.link ? `<a href="${section.link}" target="_blank">${section.category}</a>` : section.category}</h2>
-            <div class="grid-container">` +
-            section.links.map(link => 
-                `<div class="grid-item"><a href="${link.url}" target="_blank">${link.name}</a></div>`
-            ).join('') +
-        `</div>
-        </div>`
-    ).join('');
-
-    let htmlContent = `
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title}</title>
+    <title>Link Page Generator V6 - Psychedelic Overload Edition</title>
+    <link rel="icon" href="https://example.com/favicon.ico" type="image/x-icon">
     <style>
-        /* ... (previous styles) ... */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --text-color: #343a40;
+            --animation-speed: 10s;
+        }
+
+        @keyframes colorCycle {
+            0%, 100% { color: #ff00ff; }
+            20% { color: #00ffff; }
+            40% { color: #ff0000; }
+            60% { color: #0000ff; }
+            80% { color: #00ff00; }
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            perspective: 1000px;
+            animation: bodyTransform var(--animation-speed) ease-in-out infinite;
+        }
+
+        @keyframes bodyTransform {
+            0%, 100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); background: radial-gradient(circle, #ff00ff, #00ffff, #ff0000, #0000ff, #00ff00, #ffff00); }
+            25% { transform: perspective(1000px) rotateX(10deg) rotateY(5deg); background: radial-gradient(circle, #00ffff, #ff0000, #0000ff, #00ff00, #ffff00, #ff00ff); }
+            50% { transform: perspective(1000px) rotateX(-5deg) rotateY(-10deg); background: radial-gradient(circle, #ff0000, #0000ff, #00ff00, #ffff00, #ff00ff, #00ffff); }
+            75% { transform: perspective(1000px) rotateX(5deg) rotateY(10deg); background: radial-gradient(circle, #0000ff, #00ff00, #ffff00, #ff00ff, #00ffff, #ff0000); }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            background: radial-gradient(circle, #ff00ff, #00ffff, #ff0000, #0000ff, #00ff00, #ffff00);
+            background-size: 400% 400%;
+            z-index: -1;
+            animation: psychedelicBG calc(var(--animation-speed) * 1.5) ease infinite, backgroundShift calc(var(--animation-speed) * 2) linear infinite;
+            transform-origin: center center;
+        }
+
+        @keyframes psychedelicBG {
+            0%, 100% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg); }
+            25% { transform: scale(1.5) rotate(45deg); filter: hue-rotate(90deg); }
+            50% { transform: scale(0.8) rotate(-45deg) skew(15deg); filter: hue-rotate(180deg); }
+            75% { transform: scale(1.2) rotate(90deg) skew(-15deg); filter: hue-rotate(270deg); }
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            animation: containerWarp calc(var(--animation-speed) * 1.5) ease-in-out infinite, containerColor var(--animation-speed) linear infinite;
+            z-index: 10;
+        }
+
+        @keyframes containerWarp {
+            0%, 100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1); }
+            25% { transform: perspective(1000px) rotateX(15deg) rotateY(10deg) scale(1.05); }
+            50% { transform: perspective(1000px) rotateX(-10deg) rotateY(-15deg) scale(0.95); }
+            75% { transform: perspective(1000px) rotateX(10deg) rotateY(15deg) scale(1.02); }
+        }
+
+        @keyframes containerColor {
+            0%, 100% { background-color: rgba(255, 0, 255, 0.3); }
+            25% { background-color: rgba(0, 255, 255, 0.3); }
+            50% { background-color: rgba(255, 255, 0, 0.3); }
+            75% { background-color: rgba(0, 255, 0, 0.3); }
+        }
+
+        .container::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            background: linear-gradient(45deg, 
+                rgba(255, 255, 255, 0.2) 25%, 
+                transparent 25%, 
+                transparent 50%, 
+                rgba(255, 255, 255, 0.2) 50%, 
+                rgba(255, 255, 255, 0.2) 75%, 
+                transparent 75%, 
+                transparent 100%);
+            z-index: 1;
+            background-size: 20px 20px;
+            animation: stripes 2s linear infinite, swirl calc(var(--animation-speed) * 1.5) ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes stripes {
+            0% { transform: translateX(0) rotate(0deg); }
+            100% { transform: translateX(20px) rotate(360deg); }
+        }
+
+        @keyframes swirl {
+            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.5; }
+            50% { transform: rotate(180deg) scale(1.5); opacity: 1; }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+            animation: textWarp calc(var(--animation-speed) / 2) ease-in-out infinite, colorCycle var(--animation-speed) linear infinite;
+        }
+
+        @keyframes textWarp {
+            0%, 100% { transform: skew(0deg, 0deg) scale(1); }
+            25% { transform: skew(5deg, 5deg) scale(1.1); }
+            50% { transform: skew(0deg, 0deg) scale(1); }
+            75% { transform: skew(-5deg, -5deg) scale(0.9); }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+            position: relative;
+            z-index: 2;
+            animation: colorCycle calc(var(--animation-speed) * 0.75) linear infinite;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            animation: inputPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes inputPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(0,123,255,0); }
+            50% { transform: scale(1.02); box-shadow: 0 0 10px rgba(0,123,255,0.5); }
+        }
+
+        input[type="text"]:focus,
+        input[type="file"]:focus,
+        textarea:focus {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0,123,255,0.7);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            animation: buttonColor var(--animation-speed) linear infinite;
+        }
+
+        @keyframes buttonColor {
+            0%, 100% { background-color: #007bff; }
+            25% { background-color: #28a745; }
+            50% { background-color: #dc3545; }
+            75% { background-color: #ffc107; }
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        button:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        button:hover::after {
+            opacity: 1;
+            animation: buttonGlow 1s ease infinite;
+        }
+
+        @keyframes buttonGlow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.5); }
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        #text-input {
+            height: 200px;
+            resize: vertical;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+            position: relative;
+            z-index: 2;
+            animation: footerPulse 3s ease-in-out infinite, colorCycle var(--animation-speed) linear infinite;
+        }
+
+        @keyframes footerPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            animation: linkGlow 1s ease infinite;
+        }
+
+        @keyframes linkGlow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(255,255,255,0.8)); }
+            50% { filter: drop-shadow(0 0 20px rgba(255,255,255,1)); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in, colorCycle var(--animation-speed) linear infinite;
+        }
+
+        /* New animations for flying shapes */
+        @keyframes flyingShapes {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            25% { transform: translate(100px, -50px) rotate(90deg) scale(1.2); }
+            50% { transform: translate(200px, 100px) rotate(180deg) scale(0.8); }
+            75% { transform: translate(-100px, 50px) rotate(270deg) scale(1.1); }
+            100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+        }
+
+        .flying-shape {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 3;
+            animation: flyingShapes 15s ease-in-out infinite, colorCycle 5s linear infinite;
+        }
+
+        .diamond { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+        .crescent { clip-path: circle(50% at 50% 50%); }
+        .star { clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+        .fish { clip-path: path('M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z'); }
+        .lemon { clip-path: ellipse(25% 40% at 50% 50%); }
+        .snake { clip-path: path('M 50,0 Q 100,25 50,50 Q 0,75 50,100 Q 100,75 50,50 Q 0,25 50,0'); }
+        .pear { clip-path: path('M 50,0 A 30,30 0,0,1 80,30 Q 80,60 50,100 Q 20,60 20,30 A 30,30 0,0,1 50,0'); }
+        .paperclip { clip-path: path('M 10,10 L 10,90 Q 50,90 50,50 Q 50,10 90,10 L 90,90'); }
+
+        /* New shapes */
+        .heart { clip-path: path('M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z'); }
+        .triangle { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+        .hexagon { clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+        .cloud { clip-path: path('M 10,50 A 20,20 0,0,1 30,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 70,30 A 20,20 0,0,1 90,50 Q 90,70 50,70 Q 10,70 10,50 z'); }
+        .leaf { clip-path: path('M 50,0 Q 100,25 50,50 Q 0,75 50,100 Q 100,75 50,50 Q 0,25 50,0'); }
+
+        /* Japanese geometrical art layers */
+        .japanese-art {
+            position: fixed;
+            top: -200%;
+            left: -200%;
+            width: 600%;
+            height: 600%;
+            background-size: 100px 100px;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        #japanese-art-1 {
+            animation: japaneseArt1 30s linear infinite, japaneseArtColor1 20s linear infinite;
+        }
+
+        #japanese-art-2 {
+            animation: japaneseArt2 25s linear infinite, japaneseArtColor2 15s linear infinite;
+        }
+
+        @keyframes japaneseArt1 {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            25% { transform: translate(5%, -3%) scale(1.2) rotate(45deg); }
+            50% { transform: translate(-2%, 4%) scale(0.8) rotate(90deg); }
+            75% { transform: translate(3%, 1%) scale(1.1) rotate(-45deg); }
+            100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+        }
+
+        @keyframes japaneseArt2 {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(-4%, 2%) scale(1.3) rotate(-30deg); }
+            66% { transform: translate(3%, -4%) scale(0.9) rotate(60deg); }
+            100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+        }
+
+        @keyframes japaneseArtColor1 {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(180deg); }
+        }
+
+        @keyframes japaneseArtColor2 {
+            0%, 100% { filter: hue-rotate(90deg); }
+            50% { filter: hue-rotate(270deg); }
+        }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>${title}</h1>
-        <div class="dropdown">
-            <select>
-                ${dropdownHTML}
-            </select>
+    <div class="container fade-in">
+        <h1>Link Page Generator V6 - Psychedelic Overload Edition</h1>
+
+        <label for="siteTitle">Link Page Title:</label>
+        <input type="text" id="siteTitle" name="siteTitle" placeholder="Enter link page title here">
+
+        <label for="linksFile">Upload Links Text File:</label>
+        <input type="file" id="linksFile" name="linksFile" accept=".txt">
+
+        <button onclick="processFile()">Generate Link Page</button>
+
+        <div class="button-container">
+            <button id="load-btn">Load Text File</button>
+            <button id="save-btn">Save as Text File</button>
         </div>
-        ${sectionsHTML}
-        <div class="footer">
-            This page was designed by <a href="https://greatcreations.ca" target="_blank">Great Creations</a>.
-        </div>
+
+        <textarea id="text-input" placeholder="Enter your link data here..."></textarea>
+    </div>
+
+    <div class="footer">
+        Designed by <a href="https://greatcreations.ca" target="_blank">Great Creations</a>
     </div>
 
     <!-- Japanese geometrical art layers -->
@@ -503,141 +408,275 @@ function generateHTML(sections, title) {
     <div class="flying-shape hexagon"></div>
     <div class="flying-shape cloud"></div>
     <div class="flying-shape leaf"></div>
-</body>
-</html>
-    `;
 
-    downloadFile(htmlContent, title.replace(/\s+/g, '_') + ".html");
-}
+    <script>
+        // Updated JavaScript to generate the old page style
 
-function downloadFile(htmlContent, fileName) {
-    const element = document.createElement('a');
-    const file = new Blob([htmlContent], {type: 'text/html'});
-    element.href = URL.createObjectURL(file);
-    element.download = fileName || 'download.html';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-}
+        document.getElementById('linksFile').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
 
-document.getElementById('save-btn').addEventListener('click', function() {
-    var text = document.getElementById('text-input').value;
-    var textBlob = new Blob([text], { type: 'text/plain' });
-    var url = URL.createObjectURL(textBlob);
-    var downloadLink = document.createElement('a');
-    downloadLink.href = url;
-    downloadLink.download = "userText.txt";
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-});
-
-document.getElementById('load-btn').addEventListener('click', function() {
-    var fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.txt';
-    fileInput.onchange = function(event) {
-        const file = event.target.files[0];
-        if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('text-input').value = e.target.result;
+            reader.onload = function (e) {
+                const content = e.target.result;
+                const sections = organizeContent(content);
+                generateHTML(sections, document.getElementById('siteTitle').value);
             };
             reader.readAsText(file);
-        }
-    };
-    fileInput.click();
-});
-
-// Create and animate flying shapes
-const shapes = ['diamond', 'crescent', 'star', 'fish', 'lemon', 'snake', 'pear', 'paperclip', 'heart', 'triangle', 'hexagon', 'cloud', 'leaf'];
-
-function createRandomShape() {
-    const shape = shapes[Math.floor(Math.random() * shapes.length)];
-    const shapeElement = document.createElement('div');
-    shapeElement.className = `flying-shape ${shape}`;
-    document.body.appendChild(shapeElement);
-    return shapeElement;
-}
-
-function animateShape(shapeElement) {
-    shapeElement.style.top = `${Math.random() * 50}vh`;
-    shapeElement.style.left = `${Math.random() * 50}vw`;
-    shapeElement.style.animationDuration = `${10 + Math.random() * 15}s`;
-    shapeElement.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-
-    const path = randomPath();
-    const keyframes = path.map((point, index) => 
-        `${index * 20}% { transform: translate(${point.x}vw, ${point.y}vh) scale(${point.scale}) rotate(${point.rotate}deg); }`
-    ).join('\n');
-    
-    const animationName = `flyingShape${Math.random().toString(36).substr(2, 9)}`;
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-        @keyframes ${animationName} {
-            ${keyframes}
-        }
-    `;
-    document.head.appendChild(styleElement);
-    
-    shapeElement.style.animation = `${animationName} ${15 + Math.random() * 15}s ease-in-out infinite`;
-}
-
-function randomPath() {
-    const path = [];
-    for (let i = 0; i < 5; i++) {
-        path.push({
-            x: Math.random() * 100,
-            y: Math.random() * 100,
-            scale: 0.3 + Math.random() * 1.2,
-            rotate: Math.random() * 360
         });
-    }
-    return path;
-}
 
-// Create initial set of shapes
-for (let i = 0; i < 100; i++) {
-    const shapeElement = createRandomShape();
-    animateShape(shapeElement);
-}
+        function processFile() {
+            document.getElementById('linksFile').click();
+        }
 
-// Periodically add new shapes and remove old ones
-setInterval(() => {
-    const shapeElement = createRandomShape();
-    animateShape(shapeElement);
+        function organizeContent(content) {
+            let sections = [];
+            content.trim().split('\n').forEach(line => {
+                if (line.startsWith('//')) {
+                    const parts = line.substring(2).trim().split(',');
+                    const categoryName = parts[0].trim();
+                    const categoryLink = parts.length > 1 ? parts[1].trim() : null;
+                    sections.push({ category: categoryName, link: categoryLink, links: [] });
+                } else {
+                    const [url, name] = line.split(',').map(part => part.trim());
+                    if (url && name) sections[sections.length - 1].links.push({ url, name });
+                }
+            });
+            return sections;
+        }
 
-    // Remove a random existing shape
-    const existingShapes = document.querySelectorAll('.flying-shape');
-    if (existingShapes.length > 100) {
-        const randomIndex = Math.floor(Math.random() * existingShapes.length);
-        existingShapes[randomIndex].remove();
-    }
-}, 2000);
+        function generateHTML(sections, title) {
+            let dropdownHTML = sections.map(section =>
+                `<optgroup label="${section.category}">` +
+                section.links.map(link =>
+                    `<option>${link.name}</option>`
+                ).join('') +
+                `</optgroup>`
+            ).join('');
 
-// Function to change Japanese art patterns
-function changeJapaneseArtPatterns() {
-    const patterns = [
-        '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" fill="%23000"/></svg>',
-        '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" fill="%23000" transform="rotate(45 50 50)"/></svg>',
-        '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23000"/></svg>',
-        '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M10,50 Q50,10 90,50 T10,50" fill="%23000"/></svg>',
-        '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><polygon points="20,20 80,20 80,80 20,80" fill="%23000"/></svg>',
-        '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M10,30 A20,20 0,0,1 50,30 A20,20 0,0,1 90,30 Q90,60 50,90 Q10,60 10,30 Z" fill="%23000"/></svg>'
-    ];
+            let sectionsHTML = sections.map(section =>
+                `<div class="section">
+                <h2>${section.link ? `<a href="${section.link}" target="_blank">${section.category}</a>` : section.category}</h2>
+                <div class="grid-container">` +
+                section.links.slice(0, 15).map(link =>
+                    `<div class="grid-item"><img src="https://www.google.com/s2/favicons?domain=${link.url}" alt=""><a href="${link.url}" target="_blank">${link.name}</a></div>`
+                ).join('') +
+                (section.links.length > 15 ?
+                    `<button class="show-more" onclick="document.getElementById('modal-${section.category.replace(/\s+/g, '_')}').style.display='block'">See More</button>
+                <div id="modal-${section.category.replace(/\s+/g, '_')}" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="document.getElementById('modal-${section.category.replace(/\s+/g, '_')}').style.display='none'">&times;</span>
+                        <div class="modal-links">` +
+                    section.links.slice(15).map(link =>
+                        `<div class="modal-link-item"><img src="https://www.google.com/s2/favicons?domain=${link.url}" alt=""><a href="${link.url}" target="_blank">${link.name}</a></div>`
+                    ).join('') +
+                    `</div>
+                    </div>
+                </div>` : '') +
+                `</div>
+            </div>`
+            ).join('');
 
-    const art1 = document.getElementById('japanese-art-1');
-    const art2 = document.getElementById('japanese-art-2');
+            let htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${title}</title>
+        <style>
+            body { background-color: #121212; color: #4DD0E1; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+            .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;}
+            .logo a img { width: 100px; border-radius: 5px;}
+            .dropdown { width: 50%; margin: 0 auto; }
+            select { background-color: #333333; color: #4DD0E1; padding: 10px; border-radius: 4px; width: 100%; }
+            .grid-container, .modal-links { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+            .grid-item, .modal-link-item { background-color: #333; padding: 20px; border-radius: 5px; margin-bottom: 20px; display: flex; align-items: center; }
+            .grid-item img, .modal-link-item img { width: 20px; height: 20px; margin-right: 10px; }
+            .grid-item a, .modal-link-item a, .footer a { color: #4DD0E1; text-decoration: none; }
+            .grid-item a:visited, .modal-link-item a:visited, .footer a:visited { color: #4DD0E1; }
+            .section { margin-bottom: 20px; }
+            .section h2 { margin-bottom: 15px; }
+            .footer { color: #4DD0E1; margin-top: 20px; text-align: center; }
+            .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0,0.4);}
+            .modal-content { background-color: #333; color: #4DD0E1; margin: 15% auto; padding: 20px; border: 1px solid #888; border-radius: 5px; width: 60%; }
+            .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; }
+            .close:hover, .close:focus { color: #4DD0E1; text-decoration: none; cursor: pointer; }
+            .show-more { background-color: #333; color: #4DD0E1; padding: 20px; border-radius: 5px; cursor: pointer; border: none; margin-bottom: 20px; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <div class="logo"><a href="." target="_blank"><img src="your-logo-url.png" alt="Logo"></a></div>
+            <div class="dropdown">
+                <select>
+                    ${dropdownHTML}
+                </select>
+            </div>
+        </div>
+        ${sectionsHTML}
+        <div class="footer">
+            This page was designed by <a href="https://greatcreations.ca" target="_blank">Great Creations</a>.
+        </div>
 
-    art1.style.backgroundImage = `url('data:image/svg+xml;utf8,${encodeURIComponent(patterns[Math.floor(Math.random() * patterns.length)])}')`;
-    art2.style.backgroundImage = `url('data:image/svg+xml;utf8,${encodeURIComponent(patterns[Math.floor(Math.random() * patterns.length)])}')`;
-}
+        <!-- JavaScript for Modal functionality -->
+        <script>
+            // JavaScript for modal functionality
+            document.querySelectorAll('.show-more').forEach(button => {
+                button.addEventListener('click', function () {
+                    const modal = document.querySelector(button.getAttribute('data-target'));
+                    modal.style.display = 'block';
+                });
+            });
 
-// Change patterns every few minutes
-setInterval(changeJapaneseArtPatterns, 3 * 60 * 1000);
+            document.querySelectorAll('.modal .close').forEach(span => {
+                span.addEventListener('click', function () {
+                    span.closest('.modal').style.display = 'none';
+                });
+            });
 
-// Initial pattern change
-changeJapaneseArtPatterns();
-</script>
+            window.addEventListener('click', function (event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            });
+        </script>
+    </body>
+    </html>
+    `;
+
+            downloadFile(htmlContent, title.replace(/\s+/g, '_') + ".html");
+        }
+
+        function downloadFile(htmlContent, fileName) {
+            const element = document.createElement('a');
+            const file = new Blob([htmlContent], { type: 'text/html' });
+            element.href = URL.createObjectURL(file);
+            element.download = fileName || 'download.html';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        document.getElementById('save-btn').addEventListener('click', function () {
+            var text = document.getElementById('text-input').value;
+            var textBlob = new Blob([text], { type: 'text/plain' });
+            var url = URL.createObjectURL(textBlob);
+            var downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.download = "userText.txt";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        });
+
+        document.getElementById('load-btn').addEventListener('click', function () {
+            var fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = '.txt';
+            fileInput.onchange = function (event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById('text-input').value = e.target.result;
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            fileInput.click();
+        });
+
+        // Create and animate flying shapes
+        const shapes = ['diamond', 'crescent', 'star', 'fish', 'lemon', 'snake', 'pear', 'paperclip', 'heart', 'triangle', 'hexagon', 'cloud', 'leaf'];
+
+        function createRandomShape() {
+            const shape = shapes[Math.floor(Math.random() * shapes.length)];
+            const shapeElement = document.createElement('div');
+            shapeElement.className = `flying-shape ${shape}`;
+            document.body.appendChild(shapeElement);
+            return shapeElement;
+        }
+
+        function animateShape(shapeElement) {
+            shapeElement.style.top = `${Math.random() * 50}vh`;
+            shapeElement.style.left = `${Math.random() * 50}vw`;
+            shapeElement.style.animationDuration = `${10 + Math.random() * 15}s`;
+            shapeElement.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+            const path = randomPath();
+            const keyframes = path.map((point, index) =>
+                `${index * 20}% { transform: translate(${point.x}vw, ${point.y}vh) scale(${point.scale}) rotate(${point.rotate}deg); }`
+            ).join('\n');
+
+            const animationName = `flyingShape${Math.random().toString(36).substr(2, 9)}`;
+            const styleElement = document.createElement('style');
+            styleElement.textContent = `
+            @keyframes ${animationName} {
+                ${keyframes}
+            }
+            `;
+            document.head.appendChild(styleElement);
+
+            shapeElement.style.animation = `${animationName} ${15 + Math.random() * 15}s ease-in-out infinite`;
+        }
+
+        function randomPath() {
+            const path = [];
+            for (let i = 0; i < 5; i++) {
+                path.push({
+                    x: Math.random() * 100,
+                    y: Math.random() * 100,
+                    scale: 0.3 + Math.random() * 1.2,
+                    rotate: Math.random() * 360
+                });
+            }
+            return path;
+        }
+
+        // Create initial set of shapes
+        for (let i = 0; i < 100; i++) {
+            const shapeElement = createRandomShape();
+            animateShape(shapeElement);
+        }
+
+        // Periodically add new shapes and remove old ones
+        setInterval(() => {
+            const shapeElement = createRandomShape();
+            animateShape(shapeElement);
+
+            // Remove a random existing shape
+            const existingShapes = document.querySelectorAll('.flying-shape');
+            if (existingShapes.length > 100) {
+                const randomIndex = Math.floor(Math.random() * existingShapes.length);
+                existingShapes[randomIndex].remove();
+            }
+        }, 2000);
+
+        // Function to change Japanese art patterns
+        function changeJapaneseArtPatterns() {
+            const patterns = [
+                '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" fill="%23000"/></svg>',
+                '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" fill="%23000" transform="rotate(45 50 50)"/></svg>',
+                '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23000"/></svg>',
+                '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M10,50 Q50,10 90,50 T10,50" fill="%23000"/></svg>',
+                '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><polygon points="20,20 80,20 80,80 20,80" fill="%23000"/></svg>',
+                '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M10,30 A20,20 0,0,1 50,30 A20,20 0,0,1 90,30 Q90,60 50,90 Q10,60 10,30 Z" fill="%23000"/></svg>'
+            ];
+
+            const art1 = document.getElementById('japanese-art-1');
+            const art2 = document.getElementById('japanese-art-2');
+
+            art1.style.backgroundImage = `url('data:image/svg+xml;utf8,${encodeURIComponent(patterns[Math.floor(Math.random() * patterns.length)])}')`;
+            art2.style.backgroundImage = `url('data:image/svg+xml;utf8,${encodeURIComponent(patterns[Math.floor(Math.random() * patterns.length)])}')`;
+        }
+
+        // Change patterns every few minutes
+        setInterval(changeJapaneseArtPatterns, 3 * 60 * 1000);
+
+        // Initial pattern change
+        changeJapaneseArtPatterns();
+    </script>
 </body>
+
 </html>
