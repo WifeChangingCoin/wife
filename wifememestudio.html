@@ -1,0 +1,2397 @@
+<html><head>
+  <title>WIFE meme studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+  <style>
+    /* Adding new styles for modal and toast */
+    :root {
+      --moss: #2e4d34;
+      --violet: #9b4f96;
+      --turquoise: #40E0D0;  
+      --fuchsia: #ff1493;
+      --light-moss: #4a7c55;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scrollbar-width: auto; /* For Firefox */
+      scrollbar-color: var(--fuchsia) var(--moss); /* For Firefox */
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--moss), var(--violet), var(--turquoise));
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-y: hidden; /* Always hidden by default */  
+      overflow-x: hidden; /* Always hidden */
+      width: 100%;
+    }
+
+    body.scroll-enabled {
+      overflow-y: auto !important; /* Only show when explicitly enabled */
+      overflow-x: hidden; /* Keep horizontal scroll hidden */
+    }
+
+    html {
+      overflow-y: hidden; /* Always hidden by default */
+      overflow-x: hidden; /* Always hidden */
+      width: 100%;
+      position: relative;
+    }
+
+    html.scroll-enabled {
+      overflow-y: auto !important; /* Only show when explicitly enabled */
+      overflow-x: hidden; /* Keep horizontal scroll hidden */
+    }
+
+    body::after {
+      content: '';
+      position: absolute;  
+      bottom: 0;
+      left: -25%;
+      width: 150%;
+      height: 90%;
+      background-image: url('wine.png'); /* Updated background image */
+      background-size: cover;
+      background-position: center;
+      opacity: 1;
+      pointer-events: none;
+      z-index: 3;
+      animation: zoomInOut 15s ease-in-out infinite;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('bodyBG.png'); /* Updated background image */
+      background-size: cover;
+      background-position: center;  
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .cloud-left {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -25%;  
+      width: 50%;  
+      height: 100%;
+      background-image: url('cloud.png');
+      background-size: cover;
+      background-position: center;
+      pointer-events: none;
+      z-index: 2;
+      animation: moveLeftCloud 20s linear infinite;  
+    }
+
+    .cloud-right {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -25%;  
+      width: 50%;  
+      height: 100%;
+      background-image: url('');
+      background-size: cover; 
+      background-position: center;
+      pointer-events: none;
+      z-index: 2;
+      animation: moveRightCloud 20s linear infinite;  
+    }
+
+    @keyframes moveLeftCloud {
+      0% {
+        transform: translateX(0%);
+      }
+      50% {
+        transform: translateX(50%);  
+      }
+      100% {
+        transform: translateX(0%);
+      }
+    }
+
+    @keyframes moveRightCloud {
+      0% {
+        transform: translateX(0%);
+      }
+      50% {
+        transform: translateX(-50%);  
+      }
+      100% {
+        transform: translateX(0%);
+      }
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes zoomInOut {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .container {
+      flex: 1;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 4;
+      width: 100%;
+      max-width: 100%;
+      overflow: visible; /* Changed from hidden */
+    }
+
+    .editor-container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin: 1rem 0;
+      max-width: 100%;
+      position: relative;
+      overflow: visible; /* Changed from hidden */
+    }
+
+    .canvas-container {
+      margin: 0 auto;
+      max-width: 100%;
+      border: 2px solid var(--fuchsia);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      justify-content: center;
+    }
+
+    .tool-btn {
+      background: var(--light-moss);
+      border: none;
+      color: white;
+      padding: 0.3rem 0.4rem; /* Reduced padding */
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8rem; /* Smaller font */
+      transition: all 0.3s ease;
+    }
+
+    .tool-btn[type="file"] {
+      display: none;
+    }
+
+    .tool-btn[type="file"]:hover {
+      background: var(--fuchsia);
+    }
+
+    .tool-btn[type="file"]::-webkit-file-upload-button {
+      visibility: hidden;
+      width: 0;
+    }
+
+    .tool-btn[type="file"]::before {
+      content: 'Choose File';
+      display: inline-block;
+      color: white;
+    }
+
+    .tool-btn[type="file"]::after {
+      display: none; /* Hide 'No file chosen' text */
+    }
+
+    .tool-btn:hover {
+      background: var(--fuchsia);
+    }
+
+    .tool-btn.active {
+      background: var(--fuchsia);
+      box-shadow: 0 0 5px var(--fuchsia);
+    }
+
+    .drop-zone {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed var(--fuchsia);
+      border-radius: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 12px;
+      color: white;
+      background: none;
+      transition: all 0.3s ease;
+      height: 32px; 
+    }
+
+    .drop-zone:hover {
+      background: rgba(255, 20, 147, 0.1);
+    }
+
+    .drop-zone.drag-over {
+      background: rgba(255, 20, 147, 0.2);
+      border-style: solid;
+    }
+
+    .bottom-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: rgba(46, 77, 52, 0.9);
+      padding: 1rem;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      backdrop-filter: blur(5px);
+      z-index: 10000; /* Keep bottom bar below side panel */
+    }
+
+    .bottom-bar-section {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .bottom-bar-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+    }
+
+    .social-btn, .info-btn {
+      width: 32px;
+      height: 32px;
+      padding: 4px;
+      border-radius: 50%;
+      background: var(--light-moss);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-btn:hover, .info-btn:hover {
+      background: var(--fuchsia);
+      transform: scale(1.1);
+    }
+
+    .social-btn:active, .info-btn:active {
+      transform: scale(0.9);
+    }
+
+    .social-btn img, .info-btn img {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0) invert(1);
+    }
+
+    .meme-assets {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.5rem;
+      max-width: 100%;
+      margin: 1rem 0;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      overflow-y: hidden !important; /* Prevent vertical scrolling */
+      overflow-x: auto !important; /* Allow horizontal scrolling */
+      scrollbar-width: thin;
+      scrollbar-color: var(--fuchsia) var(--moss);
+    }
+
+    .meme-asset {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      padding: 2px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      overflow: hidden !important;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, var(--moss), var(--violet), var(--turquoise));
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      padding: 2rem;
+      border-radius: 15px;
+      max-width: 90%;
+      max-height: 90vh;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      scrollbar-width: thin;
+      scrollbar-color: var(--fuchsia) var(--moss);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .info-modal {
+      z-index: 9999; 
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(46, 77, 52, 0.9);
+      padding: 1rem;
+      border-radius: 10px;
+      max-width: 400px;
+      backdrop-filter: blur(5px);
+      display: none;
+      overflow: hidden !important;
+    }
+
+    .iframe-modal {
+  z-index: 9999;
+  position: fixed;
+  top: 45.2%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  height: 85.8vh;
+  background: rgba(46, 77, 52, 0.95);
+  padding: 1rem;
+  border-radius: 15px;
+  display: none;
+  overflow: hidden !important;
+  margin-top: 30px; /* Add space for the button above */
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--fuchsia) var(--moss);
+}
+
+    /* Webkit (Chrome, Safari, Edge) scrollbar styles */
+.iframe-modal::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.iframe-modal::-webkit-scrollbar-track {
+  background: var(--moss);
+  border-radius: 6px;
+}
+
+.iframe-modal::-webkit-scrollbar-thumb {
+  background: var(--fuchsia);
+  border-radius: 6px;
+  border: 3px solid var(--moss);
+}
+
+.iframe-modal::-webkit-scrollbar-thumb:hover {
+  background: var(--turquoise);
+}
+
+    .iframe-modal iframe {
+      width: 100%;
+      height: calc(100% - 40px);
+      border: none;
+      border-radius: 8px;
+    }
+
+    .iframe-modal .modal-close {
+  position: fixed; /* Changed from absolute */
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(5vh - 20px); /* Position above the modal */
+  background: var(--light-moss);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10000; /* Increased z-index */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.iframe-modal .modal-close:hover {
+  background: var(--fuchsia);
+  transform: translateX(-50%) scale(1.1);
+}
+
+/* Remove conflicting modal-close styles */
+.modal-close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10000;
+}
+
+    /* Reposition close button above modal */
+#pumpModal .modal-close {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(10vh - 100px);  /* Position well above the modal */
+  background: var(--light-moss);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10000;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+#pumpModal .modal-close:hover {
+  background: var(--fuchsia);
+  transform: translateX(-50%) scale(1.1);
+}
+
+    .post-canvas-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      padding: 0.5rem;
+    }
+
+    /* Update creator modal styles */
+    .creator-modal {
+      display: none;
+      position: fixed;
+      bottom: -100%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100000;
+      transition: all 0.4s ease-in-out;
+      box-shadow: 0 0 30px 10px rgba(0,0,0,0.3);
+      background: linear-gradient(135deg, var(--moss), var(--violet), var(--turquoise));
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .creator-modal.visible {
+      display: block;
+      bottom: 50%;
+      transform: translate(-50%, 50%);
+    }
+
+    @media (max-width: 768px) {
+      .toolbar {
+        font-size: 0.8rem;
+      }
+      
+      .tool-btn {
+        padding: 0.4rem;
+      }
+    }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
+    
+    #updates-content,
+    #links-content,
+    #tokenomics-content {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Color Emoji', sans-serif;
+    }
+    
+    .emoji {
+      font-family: 'Noto Color Emoji', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 1em;
+    }
+    
+    .side-panel {
+      position: fixed;
+      right: -350px; 
+      top: 0;
+      width: 350px;
+      height: calc(100vh - 64px); /* Adjust height to account for bottom bar */
+      background: rgba(46, 77, 52, 0.95);
+      backdrop-filter: blur(10px);
+      transition: right 0.3s ease;
+      z-index: 10001; /* Increase z-index to be above bottom bar */
+      display: flex;
+      flex-direction: column;
+      border-bottom-left-radius: 30px; /* Add border radius to bottom left corner */
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--fuchsia) var(--moss);
+    }
+
+    .side-panel.open {
+      right: 0;
+    }
+
+    .side-panel-content {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .feed-section {
+      flex: 1;
+      overflow-y: auto !important; /* Only allow vertical scrolling */
+      overflow-x: hidden !important; /* Prevent horizontal scrolling */
+      padding: 1rem;
+      direction: ltr; /* Change to ltr since we're using system scrollbar */
+      scrollbar-width: none;  /* Hide Firefox scrollbar */
+      -ms-overflow-style: none;  /* Hide IE scrollbar */
+      margin-bottom: 0;
+    }
+
+    .feed-section > * {
+      direction: ltr;
+    }
+
+    .feed-section::-webkit-scrollbar {
+      display: none; /* Hide Chrome/Safari/Opera scrollbar */
+    }
+
+    .ad-section {
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.2);
+      min-height: fit-content;
+      border-bottom-left-radius: 30px; /* Update ad-section to match rounded corner */
+    }
+
+    .ad-section img {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+
+    .ad-text {
+      font-size: 12px;
+      text-align: center;
+      color: var(--turquoise);
+    }
+
+    .panel-toggle {
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--moss);
+      border: none;
+      color: white;
+      padding: 0.5rem;
+      cursor: pointer;
+      border-radius: 8px 0 0 8px;
+      transition: all 0.3s ease;
+      z-index: 10002; /* Increase to be above modals */
+    }
+
+    .panel-toggle.open {
+      right: 350px;
+    }
+
+    .panel-toggle.closed {
+      right: 0;
+    }
+
+    .panel-toggle:hover {
+      background: var(--fuchsia);
+    }
+
+    .panel-toggle svg {
+      transition: transform 0.3s ease;
+    }
+
+    .panel-toggle.open svg {
+      transform: rotate(180deg);
+    }
+
+    .feed-item {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .feed-item-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      border: 2px solid var(--fuchsia);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .feed-item-icon:hover {
+      transform: scale(1.1);
+    }
+
+    .feed-item-content {
+      margin-left: 20px;
+    }
+
+    .feed-item-image {
+      width: 100%;
+      border-radius: 8px;
+      margin: 0.5rem 0;
+    }
+
+    .feed-item-divider {
+      height: 1px;
+      background: var(--fuchsia);
+      margin: 1rem 0;
+      opacity: 0.3;
+    }
+
+    .tooltip {
+      position: absolute;
+      background: var(--moss);
+      padding: 0.5rem;
+      border-radius: 4px;
+      width: 120px;
+      font-size: 10px;
+      display: none;
+      z-index: 10100; /* Higher than side panel */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      margin-top: -10px;
+      margin-left: -10px;
+      pointer-events: auto;
+    }
+
+    .tooltip.visible {
+      display: block;
+    }
+
+    .tooltip-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-bottom: 0.25rem;
+    }
+
+    .tooltip-stats {
+      background: rgba(0,0,0,0.2);
+      padding: 0.25rem;
+      border-radius: 2px;
+      margin: 0.25rem 0;
+      font-size: 8px;
+    }
+
+    .tooltip-button {
+      background: var(--fuchsia);
+      border: none;
+      color: white;
+      padding: 0.25rem;
+      border-radius: 2px;
+      width: 100%;
+      font-size: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .tooltip-button:hover {
+      background: var(--turquoise);
+    }
+
+    .tooltip-poster {
+      font-size: 8px;
+      color: var(--turquoise);
+      margin: 4px 0;
+    }
+
+    .tooltip-banner {
+      width: 100%;
+      height: 20px;
+      background: var(--light-moss);
+      border-radius: 2px;
+      margin-bottom: 4px;
+    }
+
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--light-moss);
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      z-index: 1000000;
+      animation: slideIn 0.3s ease-out, fadeOut 0.3s ease-in 2.7s forwards;
+      border-left: 4px solid var(--fuchsia);
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    .color-picker, .size-picker {
+      color: white;
+      background: none;
+      border: 2px solid var(--fuchsia);
+      border-radius: 5px;
+      padding: 2px;
+      width: 50px; /* Fixed width for size input */
+    }
+
+    /* Update controls styles */
+    .controls-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: var(--light-moss);
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10002;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .controls-toggle:hover {
+      background: var(--fuchsia);
+      transform: scale(1.1);
+    }
+
+    .controls-dropdown {
+      position: fixed;
+      top: 50px;
+      right: 10px;
+      z-index: 10001;
+      background: rgba(46, 77, 52, 0.9);
+      padding: 15px;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+      transition: transform 0.3s ease;
+      transform: translateY(0);
+    }
+
+    .controls-dropdown.hidden {
+      transform: translateY(-150%);
+    }
+
+    .controls-group {
+      margin-bottom: 10px;
+    }
+
+    .controls-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .media-player {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .media-control {
+      background: var(--light-moss);
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .media-control:hover {
+      background: var(--fuchsia);
+    }
+
+    .song-info {
+      color: white;
+      font-size: 12px;
+      margin-left: 5px;
+    }
+
+    .scroll-toggle {
+      background: var(--light-moss);
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .scroll-toggle:hover {
+      background: var(--fuchsia);
+    }
+
+    .creator-modal {
+      display: none;
+      position: fixed;
+      bottom: -100%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100000;
+      transition: all 0.4s ease-in-out;
+      box-shadow: 0 0 30px 10px rgba(0,0,0,0.3);
+      background: linear-gradient(135deg, var(--moss), var(--violet), var(--turquoise));
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .creator-modal.visible {
+      display: block;
+      bottom: 50%;
+      transform: translate(-50%, 50%);
+    }
+
+    /* Custom scrollbar styles */
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--moss);
+      border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--fuchsia);
+      border-radius: 6px;
+      border: 3px solid var(--moss);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--turquoise);
+    }
+
+    /* Update feed-section scrollbar styles to use themed scrollbar */
+    .feed-section {
+      scrollbar-width: none;  /* Hide Firefox scrollbar */
+      -ms-overflow-style: none;  /* Hide IE scrollbar */
+    }
+
+    .feed-section::-webkit-scrollbar {
+      display: none; /* Hide Chrome/Safari/Opera scrollbar */
+    }
+
+    .canvas-controls {
+      margin-top: 10px;
+      padding: 8px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 5px;
+    }
+
+    .canvas-controls select,
+    .canvas-controls input {
+      width: 100%;
+      margin: 4px 0;
+      padding: 4px;
+      background: var(--light-moss);
+      border: none;
+      border-radius: 3px;
+      color: white;
+      font-size: 12px;
+    }
+
+    .canvas-controls label {
+      display: block;
+      font-size: 11px;
+      margin-top: 4px;
+      color: var(--turquoise);
+    }
+
+    .size-preset {
+      width: 100%;
+      margin-bottom: 4px;
+    }
+
+    .filter-bar {
+      padding: 10px;
+      background: rgba(255,255,255,0.1);
+      margin-bottom: 10px;
+      border-radius: 5px;
+      display: none;
+    }
+
+    /* Update preview image styles in modal */
+    .preview-image {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+
+    .preview-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .preview-watermark {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      color: white;
+      font-size: 14px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+      pointer-events: none;
+    }
+
+    .font-dropdown {
+      position: absolute;
+      background: var(--moss);
+      border: 1px solid var(--fuchsia);
+      border-radius: 8px;
+      padding: 0.5rem;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      display: none;
+      width: 200px;
+      cursor: move;
+    }
+
+    .font-dropdown .drag-handle {
+      background: var(--light-moss);
+      border-radius: 4px 4px 0 0;
+      padding: 4px;
+      margin: -0.5rem -0.5rem 0.5rem -0.5rem;
+      cursor: move;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .font-dropdown .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 2px 6px;
+      border-radius: 50%;
+    }
+
+    .font-dropdown .close-btn:hover {
+      background: var(--fuchsia);
+    }
+
+    .font-dropdown select {
+      background: var(--light-moss);
+      color: white;
+      border: none;
+      padding: 0.3rem;
+      border-radius: 4px;
+      width: 100%;
+      cursor: pointer;
+      outline: none;
+      margin-bottom: 0.3rem;
+    }
+
+    .font-dropdown select option {
+      background: var(--moss);
+      color: white;
+    }
+
+    .font-dropdown .option-group {
+      margin-bottom: 0.5rem;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.3rem;
+      border-radius: 4px;
+    }
+
+    .font-dropdown .option-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .font-dropdown label {
+      display: block;
+      font-size: 0.7rem;
+      margin-bottom: 0.2rem;
+      color: var(--turquoise);
+    }
+
+    .font-dropdown .controls-row {
+      display: flex;
+      gap: 0.3rem;
+      align-items: center;
+    }
+
+    .font-dropdown input[type="number"] {
+      width: 40px;
+      padding: 0.2rem;
+      background: var(--light-moss);
+      border: none;
+      color: white;
+      border-radius: 3px;
+    }
+
+    .font-dropdown .toggle-btn {
+      background: var(--light-moss);
+      border: none;
+      color: white;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      opacity: 0.5;
+    }
+
+    .font-dropdown .toggle-btn.active {
+      opacity: 1;
+      background: var(--fuchsia);
+    }
+  </style>
+
+
+
+</head>
+<body>
+ 
+ 
+  <div class="cloud-left"></div>
+  <div class="cloud-right"></div>
+  <div class="container">
+    
+    <div class="editor-container">
+      <div class="toolbar">
+        <label class="drop-zone" for="imageLoader">
+          Click to Add or Drop a File
+        </label>
+        <input type="file" id="imageLoader" class="tool-btn" accept="image/*" multiple style="display:none;">
+        <button class="tool-btn" id="addText">Add Text</button>
+        <input type="color" id="colorPicker" class="color-picker" value="#ffffff">
+        <input type="number" id="fontSize" class="size-picker" value="40" min="1" max="200">
+        <button class="tool-btn" id="draw">Draw</button>
+        <input type="number" id="brushSize" class="size-picker" value="5" min="1" max="50">
+        <button class="tool-btn" id="undo">Undo</button>
+        <button class="tool-btn" id="sendToBack">Send to Back</button>
+        <button class="tool-btn" id="deleteElement">Delete Element</button>
+      </div>
+      
+      <div class="meme-assets" id="memeAssets">
+        <!-- Meme templates will be loaded here -->
+      </div>
+      
+      <canvas id="canvas"></canvas>
+      <div class="font-dropdown" id="fontDropdown">
+        <div class="drag-handle">
+          <span>Text Options</span>
+          <button class="close-btn" onclick="hideFontDropdown()">×</button>
+        </div>
+        
+        <div class="option-group">
+          <select id="fontSelect">
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Comic Sans MS">Comic Sans MS</option>
+            <option value="Impact">Impact</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Trebuchet MS">Trebuchet MS</option>
+            <option value="Helvetica">Helvetica</option>
+            <option value="Palatino">Palatino</option>
+          </select>
+        </div>
+
+        <div class="option-group">
+          <div class="controls-row">
+            <button class="toggle-btn" id="toggleBold">B</button>
+            <button class="toggle-btn" id="toggleItalic">I</button>
+            <button class="toggle-btn" id="toggleUnderline">U</button>
+            <button class="toggle-btn" id="toggleStrike">S</button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <label>Background</label>
+          <div class="controls-row">
+            <button class="toggle-btn" id="toggleBg">Enable</button>
+            <input type="color" id="textBgColor" value="#000000" style="width: 30px">
+          </div>
+        </div>
+
+        <div class="option-group">
+          <label>Outline</label>
+          <div class="controls-row">
+            <button class="toggle-btn" id="toggleOutline">Enable</button>
+            <input type="color" id="outlineColor" value="#000000" style="width: 30px">
+            <input type="number" id="outlineWidth" value="0" min="0" max="20">
+          </div>
+        </div>
+
+        <div class="option-group">
+          <label>Shadow</label>
+          <div class="controls-row">
+            <button class="toggle-btn" id="toggleShadow">Enable</button>
+            <input type="color" id="shadowColor" value="#000000" style="width: 30px">
+            <input type="number" id="shadowX" value="0" style="width: 30px">
+            <input type="number" id="shadowY" value="0" style="width: 30px">
+          </div>
+        </div>
+      </div>
+      
+      <div class="post-canvas-buttons">
+        <button class="tool-btn" id="clearStorage">Clear Saved Data</button>
+        <button class="tool-btn" id="download">Download</button>
+      </div>
+
+      <!-- Updated size preset select -->
+      <div class="canvas-controls">
+        <select class="size-preset" id="sizePreset">
+          <option value>Common Sizes</option>
+          <option value="200x200">Square (200x200)</option>
+          <option value="400x400">Square (400x400)</option>
+          <option value="800x800">Square (800x800)</option>
+          <option value="1280x720">HD (1280x720)</option>
+          <option value="600x400">Rectangle (600x400)</option>
+          <option value="800x1000">Portrait (800x1000)</option>
+          <option value="1200x630">Facebook (1200x630)</option>
+          <option value="1080x1080">Instagram (1080x1080)</option>
+          <option value="1024x512">Twitter (1024x512)</option>
+          <option value="800x450">YouTube (800x450)</option>
+          <option value="735x1102">Pinterest (735x1102)</option>
+        </select>
+        <label>Canvas Width (px)</label>
+        <input type="number" id="canvasWidth" min="100" max="2000" value="600">
+        <label>Canvas Height (px)</label>
+        <input type="number" id="canvasHeight" min="100" max="2000" value="600">
+        <label>Aspect Ratio Lock</label>
+        <input type="checkbox" id="aspectLock" checked>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="bottom-bar-section">
+      <button class="info-btn" id="updatesBtn" title="Developer Updates">
+        <img src="data:image/svg+xml,%3Csvg xmlns=&apos;http://www.w3.org/2000/svg&apos; viewBox=&apos;0 0 24 24&apos;%3E%3Cpath d=&apos;M13 7h-2v2h2V7zm0 4h-2v6h2v-6zm-1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z&apos;/%3E%3C/svg%3E" alt="Updates">
+      </button>
+      <button class="info-btn" id="linksBtn" title="Links">
+        <img src="data:image/svg+xml,%3Csvg xmlns=&apos;http://www.w3.org/2000/svg&apos; viewBox=&apos;0 0 24 24&apos;%3E%3Cpath d=&apos;M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z&apos;/%3E%3C/svg%3E" alt="Links">
+      </button>
+      <button class="info-btn" id="tokenomicsBtn" title="Tokenomics">
+        <img src="data:image/svg+xml,%3Csvg xmlns=&apos;http://www.w3.org/2000/svg&apos; viewBox=&apos;0 0 24 24&apos;%3E%3Cpath d=&apos;M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z&apos;/%3E%3C/svg%3E" alt="Tokenomics">
+      </button>
+      <button class="info-btn" id="pumpBtn" title="Pump.fun">
+        <img src="data:image/svg+xml,%3Csvg xmlns=&apos;http://www.w3.org/2000/svg&apos; viewBox=&apos;0 0 24 24&apos;%3E%3Cpath d=&apos;M4.22,11.29l7.07-7.07a6,6,0,0,1,8.48,8.48l-7.07,7.07a6,6,0,1,1-8.48-8.48Zm1.42,7.07a4,4,0,0,0,5.66,0l7.07-7.07a4,4,0,0,0-5.66-5.66L5.64,12.7a4,4,0,0,0,0,5.66Z&apos; fill=&apos;currentColor&apos;/%3E%3C/svg%3E" alt="Pump">
+      </button>
+    </div>
+    
+    <div class="bottom-bar-center">
+      Cre8ed wif &#x2764;&#xfe0f; buy WIFE
+    </div>
+    
+    <div class="bottom-bar-section">
+      <a href="https://t.me/wifercoin" class="social-btn" target="_blank" title="Telegram">
+        <img src="data:image/svg+xml,%3Csvg xmlns=&apos;http://www.w3.org/2000/svg&apos; viewBox=&apos;0 0 24 24&apos;%3E%3Cpath d=&apos;M11.99432,2a10,10,0,1,0,10,10A9.99917,9.99917,0,0,0,11.99432,2Zm3.17951,15.15247a.70547.70547,0,0,1-1.002.3515l-2.71467-2.10938L9.71484,17.002a.29969.29969,0,0,1-.285.03894l.334-3.98373L16.002,7.39594a.30296.30296,0,0,0-.36573-.49219L7.16553,12.77765,3.12012,11.539a.605.605,0,0,1,.02637-1.14223l15.946-6.1499a.61919.61919,0,0,1,.89819.63379Z&apos; fill=&apos;currentColor&apos;/%3E%3C/svg%3E" alt="Telegram">
+      </a>
+      <a href="https://x.com/WIFECOINLIFE" class="social-btn" target="_blank" title="X.com">
+        <img src="data:image/svg+xml,%3Csvg xmlns=&apos;http://www.w3.org/2000/svg&apos; viewBox=&apos;0 0 24 24&apos;%3E%3Cpath d=&apos;M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z&apos;/%3E%3C/svg%3E" alt="X">
+      </a>
+      <a href="https://discord.gg/jp7ktNJXTG" class="social-btn" target="_blank" title="Discord">
+        <img src="data:image/svg+xml,%3Csvg xmlns=&apos;http://www.w3.org/2000/svg&apos; viewBox=&apos;0 0 24 24&apos;%3E%3Cpath d=&apos;M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z&apos; fill=&apos;white&apos;/%3E%3C/svg%3E" alt="Discord">
+      </a>
+      <a href="http://wifecoin.solofolio.net/wife-on-solana" class="social-btn" target="_blank" title="Solofolio">
+        <img src="data:image/svg+xml,%3Csvg xmlns=&apos;http://www.w3.org/2000/svg&apos; viewBox=&apos;0 0 24 24&apos;%3E%3Cpath d=&apos;M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z&apos;/%3E%3C/svg%3E" alt="Solofolio">
+      </a>
+    </div>
+  </div>
+
+  <!-- Add new modals -->
+  <div id="updatesModal" class="info-modal">
+    <button class="modal-close">&#xd7;</button>
+    <h3>Developer Updates</h3>
+    <div id="updates-content">
+      <!-- Updates content goes here -->
+    </div>
+  </div>
+
+  <div id="linksModal" class="info-modal">
+    <button class="modal-close">&#xd7;</button>
+    <h3>Links</h3>
+    <div id="links-content">
+      <!-- Links content goes here -->
+    </div>
+  </div>
+
+  <div id="tokenomicsModal" class="info-modal">
+    <button class="modal-close">&#xd7;</button>
+    <h3>WIFE Tokenomics</h3>
+    <div id="tokenomics-content">
+      <!-- Tokenomics content goes here -->
+    </div>
+  </div>
+
+  <div id="pumpModal" class="iframe-modal">
+    <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+    <style>#dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:65%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}</style><div id="dexscreener-embed"><iframe src="https://dexscreener.com/solana/T5mZpKou42YF3ssrQyrxFJZDL4zvBKg8u1HxqBfDyoo?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartDefaultOnMobile=1&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe></div>
+  </div>
+
+  <div id="saveModal" class="modal">
+    <div class="modal-content">
+      <h2>Save Your Meme</h2>
+      <div class="preview-container">
+        <img id="previewImage" class="preview-image">
+        <div class="preview-watermark">Image will be watermarked</div>
+      </div>
+      <div class="format-buttons">
+        <button class="tool-btn" onclick="downloadImage(&apos;png&apos;)">PNG</button>
+        <button class="tool-btn" onclick="downloadImage(&apos;jpg&apos;)">JPG</button>
+        <button class="tool-btn" onclick="downloadImage(&apos;webp&apos;)">WEBP</button>
+        <button class="tool-btn" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="side-panel">
+    <div class="side-panel-content">
+      <div class="feed-section">
+        <!-- Feed content will be dynamically added here -->
+      </div>
+
+
+
+<!-- ADVERTISMENT content goes here -->
+
+<div class="ad-section">
+  <img src="https://placehold.co/400x200/f0f0f0/666666.png" alt="Advertisement">
+  <p style="text-align: center;"><a href="https://t.me/WIFECoinChannel" class="ad-text" target="_blank">Get your AD here and be seen with WIFE Coin!</a></p>
+</div>
+
+
+
+
+    </div>
+  </div>
+  <button class="panel-toggle">
+    <svg viewBox="0 0 24 24" width="24" height="24">
+      <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+  </button>
+
+  <div class="controls-toggle">&#x2699;&#xfe0f;</div>
+  <div class="controls-dropdown">
+    <div class="controls-group">
+      <button class="scroll-toggle">Scroll: Off</button>
+    </div>
+    <div class="controls-group media-player">
+      <button class="media-control" id="prevTrack">&#x23ee;&#xfe0f;</button>
+      <button class="media-control" id="playPause">&#x25b6;&#xfe0f;</button>
+      <button class="media-control" id="nextTrack">&#x23ed;&#xfe0f;</button>
+      <div class="song-info">No track playing</div>
+    </div>
+    <!-- Add after scroll toggle in controls-dropdown -->
+    <div class="controls-group canvas-controls">
+      <select class="size-preset" id="sizePreset">
+        <option value>Common Sizes</option>
+        <option value="200x200">Square (200x200)</option>
+        <option value="400x400">Square (400x400)</option>
+        <option value="800x800">Square (800x800)</option>
+        <option value="1280x720">HD (1280x720)</option>
+        <option value="600x400">Rectangle (600x400)</option>
+        <option value="800x1000">Portrait (800x1000)</option>
+        <option value="1200x630">Facebook (1200x630)</option>
+        <option value="1080x1080">Instagram (1080x1080)</option>
+        <option value="1024x512">Twitter (1024x512)</option>
+        <option value="800x450">YouTube (800x450)</option>
+        <option value="735x1102">Pinterest (735x1102)</option>
+      </select>
+      <label>Canvas Width (px)</label>
+      <input type="number" id="canvasWidth" min="100" max="2000" value="700">
+      <label>Canvas Height (px)</label>
+      <input type="number" id="canvasHeight" min="100" max="2000" value="700">
+      <label>Aspect Ratio Lock</label>
+      <input type="checkbox" id="aspectLock" checked>
+    </div>
+  </div>
+
+  <div class="creator-modal">
+    <img src="Placements/creator-modal.gif"> <!-- Updated creator modal image -->
+  </div>
+
+  <script>const songs = [{
+  title: "Song 1",
+  artist: "Artist 1",
+  url: "https://wifechangingcoin.github.io/wife/Wife-changing-wealth-awaits.mp3"
+}, {
+  title: "Song 2",
+  artist: "Artist 2",
+  url: "https://wifechangingcoin.github.io/wife/New-Love-New-Life-Extended.mp3"
+}, {
+  title: "Song 3",
+  artist: "Artist 3",
+  url: "https://wifechangingcoin.github.io/wife/Wife-changing-wealth-awaits.mp3"
+}];
+let currentTrack = 0;
+let isPlaying = false;
+const audioPlayer = new Audio();
+const canvas = new fabric.Canvas('canvas', {
+  width: 600,
+  height: 600,
+  backgroundColor: '#fff'
+});
+
+audioPlayer.addEventListener('ended', () => {
+  currentTrack = (currentTrack + 1) % songs.length;
+  audioPlayer.src = songs[currentTrack].url;
+  audioPlayer.play();
+  updateSongInfo();
+});
+
+
+document.getElementById('imageLoader').addEventListener('change', function (e) {
+  const files = e.target.files;
+  [...files].forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      const imgObj = new Image();
+      imgObj.crossOrigin = "Anonymous";
+      imgObj.src = event.target.result;
+      imgObj.onload = function () {
+        const fabricImage = new fabric.Image(imgObj, {
+          left: 0,
+          top: 0
+        });
+        const scale = Math.min(canvas.width / fabricImage.width, canvas.height / fabricImage.height);
+        fabricImage.scale(scale);
+        canvas.add(fabricImage);
+        canvas.renderAll();
+      };
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
+});
+document.getElementById('playPause').addEventListener('click', () => {
+  if (isPlaying) {
+    audioPlayer.pause();
+    document.getElementById('playPause').innerHTML = '&#x25b6;&#xfe0f;';
+  } else {
+    audioPlayer.src = songs[currentTrack].url;
+    audioPlayer.play();
+    document.getElementById('playPause').innerHTML = '&#x23f8;&#xfe0f;';
+    updateSongInfo();
+  }
+  isPlaying = !isPlaying;
+});
+document.getElementById('nextTrack').addEventListener('click', () => {
+  currentTrack = (currentTrack + 1) % songs.length;
+  if (isPlaying) {
+    audioPlayer.src = songs[currentTrack].url;
+    audioPlayer.play();
+  }
+  updateSongInfo();
+});
+document.getElementById('prevTrack').addEventListener('click', () => {
+  currentTrack = (currentTrack - 1 + songs.length) % songs.length;
+  if (isPlaying) {
+    audioPlayer.src = songs[currentTrack].url;
+    audioPlayer.play();
+  }
+  updateSongInfo();
+});
+function updateSongInfo() {
+  const songInfo = document.querySelector('.song-info');
+  songInfo.textContent = `${songs[currentTrack].title} - ${songs[currentTrack].artist}`;
+}
+function initializeSidePanel() {
+  renderFeedItems(window.feedItems);
+  const mainControls = document.querySelector('.editor-container .canvas-controls');
+  const settingsControls = document.querySelector('.controls-dropdown .canvas-controls');
+  if (mainControls && settingsControls) {
+    ['canvasWidth', 'canvasHeight'].forEach(id => {
+      const mainInput = mainControls.querySelector(`#${id}`);
+      const settingsInput = settingsControls.querySelector(`#${id}`);
+      if (mainInput && settingsInput) {
+        mainInput.addEventListener('input', () => {
+          settingsInput.value = mainInput.value;
+        });
+        settingsInput.addEventListener('input', () => {
+          mainInput.value = settingsInput.value;
+        });
+      }
+    });
+    const mainLock = mainControls.querySelector('#aspectLock');
+    const settingsLock = settingsControls.querySelector('#aspectLock');
+    if (mainLock && settingsLock) {
+      mainLock.addEventListener('change', () => {
+        settingsLock.checked = mainLock.checked;
+      });
+      settingsLock.addEventListener('change', () => {
+        mainLock.checked = settingsLock.checked;
+      });
+    }
+  }
+}
+window.addEventListener('load', () => {
+  document.querySelectorAll('#canvasWidth, #canvasHeight').forEach(input => {
+    input.value = 600;
+  });
+  loadDefaultImage();
+  initializeSidePanel();
+  loadMemeTemplates();
+});
+window.feedItems = [{
+  id: 'NINETENTWO',
+  icon: 'Placements/NINETENTWO.jpg',
+  title: 'WIFE Studio 1.0.1',
+  image: 'Placements/400x300/butwhy.gif',
+  text: '--- Creating memes with WIFE! --- WIFE MEME STUDIO has launched and we are now going to be bringing some great additions to get you creating amazing memes.',
+  link: 'https://t.me/wifercoin'
+}, {
+  id: 'NINETENTWO',
+  icon: 'Placements/NINETENTWO.jpg',
+  title: 'MEME CONTESTS SOON!',
+  image: 'Placements/400x300/sailor.png',
+  text: '--- Another great WIFE meme! --- Soon we will be hosting meme contests for prices on Twitter and givaway.com',
+  link: 'https://t.me/wifercoin'
+}, {
+  id: 'DEV2the_moon',
+  icon: 'Placements/DEV2the_moon.jpg',
+  title: 'Keep updated in WIFE development',
+  image: 'Placements/400x300/cooking.gif',
+  text: 'Join the Telegram Community and our Discord... and Follow us on X ... and come back often to sniff quickly what WIFE has been cooking!',
+  link: 'https://t.me/wifercoin'
+}];
+const postCounts = {
+  NINETENTWO: 2,
+  DEV2the_moon: 1
+};
+function loadDefaultImage() {
+  const img = new Image();
+  img.crossOrigin = "Anonymous";
+  img.src = `Placements/${canvas.width}x${canvas.height}/realize.jpeg`;
+  img.onload = function () {
+    const imgInstance = new fabric.Image(img, {
+      left: 0,
+      top: 0,
+      scaleX: canvas.width / img.width,
+      scaleY: canvas.height / img.height
+    });
+    canvas.clear();
+    canvas.add(imgInstance);
+    canvas.renderAll();
+  };
+}
+document.querySelectorAll('#canvasWidth, #canvasHeight').forEach(input => {
+  input.value = 600;
+  input.addEventListener('change', function () {
+    const width = parseInt(document.querySelector('#canvasWidth').value);
+    const height = parseInt(document.querySelector('#canvasHeight').value);
+    const aspectLock = document.querySelector('#aspectLock').checked;
+    if (width && height) {
+      if (aspectLock) {
+        const originalWidth = canvas.width;
+        const originalHeight = canvas.height;
+        const ratio = originalWidth / originalHeight;
+        if (this.id === 'canvasWidth') {
+          const newHeight = Math.round(width / ratio);
+          document.querySelector('#canvasHeight').value = newHeight;
+          resizeCanvasWithContent(width, newHeight);
+        } else {
+          const newWidth = Math.round(height * ratio);
+          document.querySelector('#canvasWidth').value = newWidth;
+          resizeCanvasWithContent(newWidth, height);
+        }
+      } else {
+        resizeCanvasWithContent(width, height);
+      }
+    }
+  });
+});
+function resizeCanvasWithContent(width, height) {
+  const oldWidth = canvas.width;
+  const oldHeight = canvas.height;
+  const scaleX = width / oldWidth;
+  const scaleY = height / oldHeight;
+  canvas.setWidth(width);
+  canvas.setHeight(height);
+  canvas.getObjects().forEach(obj => {
+    obj.scaleX *= scaleX;
+    obj.scaleY *= scaleY;
+    obj.left *= scaleX;
+    obj.top *= scaleY;
+  });
+  canvas.renderAll();
+  document.querySelectorAll('#canvasWidth, #canvasHeight').forEach(input => {
+    if (input.id === 'canvasWidth') {
+      input.value = width;
+    } else {
+      input.value = height;
+    }
+  });
+}
+function renderFeedItems(items) {
+  const feedSection = document.querySelector('.feed-section');
+  document.querySelectorAll('.tooltip').forEach(tooltip => tooltip.remove());
+  feedSection.innerHTML = '';
+  items.forEach((item, index) => {
+    const feedItem = document.createElement('div');
+    feedItem.className = 'feed-item';
+    feedItem.innerHTML = `
+              <img src="${item.icon}" class="feed-item-icon" data-index="${index}">
+              <div class="feed-item-content">
+                <h4>${item.title}</h4>
+                <img src="${item.image}" class="feed-item-image">
+                <p>${item.text}</p>
+                <a href="${item.link}" target="_blank" style="color: var(--turquoise)">Learn More</a>
+              </div>
+              ${index < items.length - 1 ? '<div class="feed-item-divider"></div>' : ''}
+            `;
+            const tooltip = document.createElement('div');
+tooltip.className = 'tooltip';
+tooltip.innerHTML = `
+  <img src="Placements/tooltip-banner.gif" class="tooltip-banner">
+  <img src="${item.icon}" class="tooltip-icon">
+  <div class="tooltip-poster">
+    <span style="cursor: pointer" onclick="filterFeed('${item.id}')">
+      ID: ${item.id} • ${postCounts[item.id]} posts
+    </span>
+  </div>
+  <div class="tooltip-stats">
+    ${item.title}
+  </div>
+  <button class="tooltip-button" data-index="${index}">Share to Discord</button>
+`;
+
+// Add this at the top of your script to track the last share time
+let lastShareTime = 0;
+const COOLDOWN_DURATION = 1500000; // 1500 seconds in milliseconds
+
+// Modified share button event listener
+const shareButton = tooltip.querySelector('.tooltip-button');
+shareButton.addEventListener('click', async () => {
+  const currentTime = Date.now();
+  const timeElapsed = currentTime - lastShareTime;
+  
+  if (timeElapsed < COOLDOWN_DURATION) {
+    const remainingTime = Math.ceil((COOLDOWN_DURATION - timeElapsed) / 1000);
+    shareButton.textContent = `Wait ${remainingTime}s`;
+    return;
+  }
+
+  const webhookUrl = 'https://discord.com/api/webhooks/1322558945839153163/s--1xPQFo0RYtXkfUKSLRrj2a1HRtpJ8MTehjJak_RyjoCzQUb4JhAPjcBNCM8xQdHbz';
+
+  // Helper function to ensure full URLs
+  const getFullUrl = (path) => {
+    if (path.startsWith('http')) return path;
+    return `https://wifecoin.life/${path.replace(/^\//, '')}`;
+  };
+
+  try {
+    shareButton.textContent = 'Sharing...';
+    lastShareTime = currentTime; // Update the last share time
+    
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: item.username || "WIFE Coin Developers",
+        avatar_url: getFullUrl(item.icon),
+        content: item.discordContent || item.title,
+        embeds: [{
+          title: item.title,
+          description: item.text,
+          url: item.link,
+          color: 0x40E0D0,
+          image: { url: getFullUrl(item.image) },
+          thumbnail: { url: getFullUrl(item.icon) }
+        }]
+      })
+    });
+
+    if (response.ok) {
+      shareButton.textContent = 'Shared!';
+      setTimeout(() => {
+        if (Date.now() - lastShareTime >= COOLDOWN_DURATION) {
+          shareButton.textContent = 'Share to Discord';
+        }
+      }, 2000);
+    } else {
+      const errorText = await response.text();
+      console.error('Failed to send to Discord:', errorText);
+      shareButton.textContent = 'Failed to share';
+      setTimeout(() => {
+        if (Date.now() - lastShareTime >= COOLDOWN_DURATION) {
+          shareButton.textContent = 'Share to Discord';
+        }
+      }, 2000);
+    }
+  } catch (error) {
+    console.error('Error sending to Discord:', error);
+    shareButton.textContent = 'Failed to share';
+    setTimeout(() => {
+      if (Date.now() - lastShareTime >= COOLDOWN_DURATION) {
+        shareButton.textContent = 'Share to Discord';
+      }
+    }, 2000);
+  }
+});
+
+document.body.appendChild(tooltip);
+
+const icon = feedItem.querySelector('.feed-item-icon');
+let isOverIcon = false;
+let isOverTooltip = false;
+
+icon.addEventListener('mouseenter', () => {
+  isOverIcon = true;
+  const rect = icon.getBoundingClientRect();
+  tooltip.style.top = `${rect.top + 10}px`;
+  tooltip.style.left = `${rect.right + 10}px`;
+  tooltip.classList.add('visible');
+});
+
+icon.addEventListener('mouseleave', () => {
+  isOverIcon = false;
+  setTimeout(() => {
+    if (!isOverIcon && !isOverTooltip) {
+      tooltip.classList.remove('visible');
+    }
+  }, 100);
+});
+
+tooltip.addEventListener('mouseenter', () => {
+  isOverTooltip = true;
+});
+
+tooltip.addEventListener('mouseleave', () => {
+  isOverTooltip = false;
+  if (!isOverIcon) {
+    tooltip.classList.remove('visible');
+  }
+});
+tooltip.addEventListener('mouseenter', () => {
+  isOverTooltip = true;
+});
+
+tooltip.addEventListener('mouseleave', () => {
+  isOverTooltip = false;
+  if (!isOverIcon) {
+    tooltip.classList.remove('visible');
+  }
+});
+
+feedSection.appendChild(feedItem);
+});
+}
+window.filterFeed = function (posterId) {
+  if (!window.feedItems) {
+    console.error('Feed items not initialized');
+    return;
+  }
+  const filteredItems = feedItems.filter(item => item.id === posterId);
+  renderFeedItems(filteredItems);
+  let filterBar = document.querySelector('.filter-bar');
+  if (!filterBar) {
+    filterBar = createFilterBar();
+    const feedSection = document.querySelector('.feed-section');
+    if (feedSection) {
+      feedSection.insertBefore(filterBar, feedSection.firstChild);
+    }
+  }
+  if (filterBar) {
+    filterBar.style.display = 'block';
+    filterBar.innerHTML = `
+              <button class="tool-btn" onclick="window.clearFeedFilter()">
+                Clear Filter (${posterId})
+              </button>
+            `;
+  }
+};
+window.clearFeedFilter = function () {
+  if (!window.feedItems) {
+    console.error('Feed items not initialized');
+    return;
+  }
+  const filterBar = document.querySelector('.filter-bar');
+  if (filterBar) {
+    filterBar.style.display = 'none';
+  }
+  renderFeedItems(window.feedItems);
+};
+function createFilterBar() {
+  const filterBar = document.createElement('div');
+  filterBar.className = 'filter-bar';
+  filterBar.style.display = 'none';
+  filterBar.style.padding = '10px';
+  filterBar.style.background = 'rgba(255,255,255,0.1)';
+  filterBar.style.marginBottom = '10px';
+  filterBar.style.borderRadius = '5px';
+  return filterBar;
+}
+document.getElementById('sizePreset').addEventListener('change', function () {
+  if (this.value) {
+    const [width, height] = this.value.split('x').map(Number);
+    if (width && height) {
+      resizeCanvasWithContent(width, height);
+      loadDefaultImage();
+    }
+  }
+});
+document.getElementById('sendToBack').addEventListener('click', () => {
+  const activeObject = canvas.getActiveObject();
+  if (activeObject) {
+    canvas.sendToBack(activeObject);
+    const objects = canvas.getObjects();
+    const nextObject = objects[1];
+    canvas.discardActiveObject();
+    if (nextObject) {
+      canvas.setActiveObject(nextObject);
+    }
+    canvas.renderAll();
+    showToast('Element sent to back');
+  } else {
+    showToast('Please select an element first');
+  }
+});
+document.getElementById('deleteElement').addEventListener('click', () => {
+  const activeObject = canvas.getActiveObject();
+  if (activeObject) {
+    canvas.remove(activeObject);
+    canvas.renderAll();
+    showToast('Element deleted');
+  } else {
+    showToast('Please select an element first');
+  }
+});
+document.getElementById('draw').addEventListener('click', function () {
+  canvas.isDrawingMode = !canvas.isDrawingMode;
+  canvas.freeDrawingBrush.width = parseInt(document.getElementById('brushSize').value);
+  canvas.freeDrawingBrush.color = document.getElementById('colorPicker').value;
+  this.classList.toggle('active');
+  document.getElementById('colorPicker').disabled = !canvas.isDrawingMode;
+  document.getElementById('brushSize').disabled = !canvas.isDrawingMode;
+});
+canvas.on('selection:created', () => {
+  if (canvas.isDrawingMode) {
+    canvas.isDrawingMode = false;
+    document.getElementById('draw').classList.remove('active');
+    document.getElementById('colorPicker').disabled = true;
+    document.getElementById('brushSize').disabled = true;
+  }
+});
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
+const panelToggle = document.querySelector('.panel-toggle');
+const sidePanel = document.querySelector('.side-panel');
+panelToggle.addEventListener('click', () => {
+  sidePanel.classList.toggle('open');
+  panelToggle.classList.toggle('open');
+});
+function openModal(modalId) {
+  const modal = document.getElementById(modalId);
+  modal.style.display = 'flex';
+}
+function closeModal() {
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.style.display = 'none';
+  });
+}
+function closeAllModals() {
+  const modals = document.querySelectorAll('#updatesModal, #linksModal, #tokenomicsModal, #pumpModal');
+  modals.forEach(modal => {
+    modal.style.display = 'none';
+  });
+}
+function closeCurrentModal() {
+  const currentModal = document.querySelector('.info-modal[style*="display: block"], .iframe-modal[style*="display: block"]');
+  if (currentModal) {
+    currentModal.style.display = 'none';
+  }
+}
+function openInfoModal(modalId) {
+  closeAllModals();
+  const modal = document.getElementById(modalId);
+  modal.style.display = 'block';
+}
+const modalContent = {
+  updates: `
+          <p> <a href="https://wifecoin.life" target="_blank" style="color: #8A9A5B; font-size: 0.65em; text-decoration: none;">1.0.1</a></p>
+          <h4>Latest Updates 🎉</h4>
+          <p>Version 1.0.1 Released!</p>
+          <p>• Added aspect ratio lock feature</p>
+          <p>• Improved canvas resizing controls</p>
+          <p>• Enhanced UI/UX improvements</p>
+          <p>• Fixed various bugs</p>
+          <br>
+          <p>In the Works:</p>
+          <p>• More meme templates</p>
+          <p>• Advanced filters</p>
+          <p>• Community features</p>
+        `,
+  links: `
+          <h4>Important Links 🔗</h4>
+          <p><a href="https://t.me/wifercoin" target="_blank" style="color: var(--turquoise)">Telegram Community</a></p>
+          <p><a href="https://x.com/WIFECOINLIFE" target="_blank" style="color: var(--turquoise)"> Official X (Twitter)</a></p>
+          <p><a href="https://medium.com/WIFEcoin" target="_blank" style="color: var(--turquoise)">Medium Blog (coming soon)</a></p>
+          <p><a href="http://wifecoin.solofolio.net/home" target="_blank" style="color: var(--turquoise)">Documentation</a></p>
+          <p><a href="https://github.com/WifeChangingCoin" target="_blank" style="color: var(--turquoise)">GitHub</a></p>
+          <p><a href="https://discord.gg/jp7ktNJXTG" target="_blank" style="color: var(--turquoise)"> Discord Community (Development)</a></p>
+          <p><a href="https://x.com/wifercoin" target="_blank" style="color: var(--turquoise)"> Defunct X (Twitter)</a></p>
+          <p><a href="https://wifecoin.life/index2.html" target="_blank" style="color: var(--turquoise)"> Old (1st)Site</a></p>
+          `,
+  tokenomics: `
+          <h4>WIFE Tokenomics 📊</h4>
+          <p>Total Supply: 1,000,000,000 WIFE</p>
+          <p>• Liquidity Pool: TBA%</p>
+          <br>
+          <p>• Team & Development: ≤11%</p>
+          <p>  Breakdown:</p>
+          <p>• Team: ≤3%</p>
+          <p>• Marketing: ≤5%</p>
+          <p>• Community Rewards: TBA%</p>
+          <br>
+          <p>Contract: <a href="https://solscan.io/token/BsDaukrscgdskuCn8Ug5kdZM3haz5U9tekemGqqBpump" target="_blank" style="color: #8A9A5B; font-size: 0.65em; text-decoration: none;">BsDaukrscgdskuCn8Ug5kdZM3haz5U9tekemGqqBpump</a></p>
+        `
+};
+document.getElementById('updates-content').innerHTML = modalContent.updates;
+document.getElementById('links-content').innerHTML = modalContent.links;
+document.getElementById('tokenomics-content').innerHTML = modalContent.tokenomics;
+const bottomBarCenter = document.querySelector('.bottom-bar-center');
+const creatorModal = document.querySelector('.creator-modal');
+bottomBarCenter.addEventListener('mouseenter', () => {
+  creatorModal.classList.add('visible');
+});
+bottomBarCenter.addEventListener('mouseleave', e => {
+  if (!creatorModal.contains(e.relatedTarget)) {
+    creatorModal.classList.remove('visible');
+  }
+});
+creatorModal.addEventListener('mouseleave', () => {
+  creatorModal.classList.remove('visible');
+});
+document.querySelectorAll('#updatesBtn, #linksBtn, #tokenomicsBtn, #pumpBtn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const modalId = btn.id.replace('Btn', 'Modal');
+    openInfoModal(modalId);
+  });
+});
+document.querySelectorAll('.modal-close').forEach(btn => {
+  btn.addEventListener('click', () => {
+    closeCurrentModal();
+  });
+});
+const controlsToggle = document.querySelector('.controls-toggle');
+const controlsDropdown = document.querySelector('.controls-dropdown');
+controlsToggle.addEventListener('click', () => {
+  controlsDropdown.classList.toggle('hidden');
+});
+const scrollToggle = document.querySelector('.scroll-toggle');
+let scrollEnabled = false;
+scrollToggle.addEventListener('click', () => {
+  scrollEnabled = !scrollEnabled;
+  document.body.classList.toggle('scroll-enabled', scrollEnabled);
+  document.documentElement.classList.toggle('scroll-enabled', scrollEnabled);
+  scrollToggle.textContent = `Scroll: ${scrollEnabled ? 'On' : 'Off'}`;
+});
+document.getElementById('addText').addEventListener('click', () => {
+  const text = new fabric.IText('👰', {
+    left: -1,
+    top: -1,
+    fontFamily: 'Arial',
+    fontSize: currentTextSettings.fontSize,
+    fill: currentTextSettings.color
+  });
+  canvas.add(text);
+  canvas.setActiveObject(text);
+  
+  // Show font dropdown
+  const rect = addTextBtn.getBoundingClientRect();
+  fontDropdown.style.display = 'block';
+  fontDropdown.style.top = `${rect.bottom + 5}px`;
+  fontDropdown.style.left = `${rect.left}px`;
+});
+document.getElementById('download').addEventListener('click', () => {
+  openModal('saveModal');
+  const dataURL = canvas.toDataURL({
+    format: 'png',
+    quality: 1,
+    multiplier: 1
+  });
+  const tempCanvas = document.createElement('canvas');
+  const tempCtx = tempCanvas.getContext('2d');
+  tempCanvas.width = canvas.width;
+  tempCanvas.height = canvas.height;
+  const img = new Image();
+  img.crossOrigin = "Anonymous";
+  img.onload = function () {
+    tempCtx.drawImage(img, 0, 0);
+    tempCtx.font = '14px Arial';
+    tempCtx.fillStyle = 'white';
+    tempCtx.shadowColor = 'rgba(0,0,0,0.8)';
+    tempCtx.shadowBlur = 2;
+    tempCtx.shadowOffsetX = 1;
+    tempCtx.shadowOffsetY = 1;
+    tempCtx.fillText('Created with WIFE MEME STUDIO', canvas.width - 680, canvas.height - 10);
+    const previewImage = document.getElementById('previewImage');
+    previewImage.src = tempCanvas.toDataURL();
+  };
+  img.src = dataURL;
+});
+window.downloadImage = function (format) {
+  const dataURL = canvas.toDataURL({
+    format: format,
+    quality: 1,
+    multiplier: 1
+  });
+  const tempCanvas = document.createElement('canvas');
+  const tempCtx = tempCanvas.getContext('2d');
+  tempCanvas.width = canvas.width;
+  tempCanvas.height = canvas.height;
+  const img = new Image();
+  img.crossOrigin = "Anonymous";
+  img.onload = function () {
+    tempCtx.drawImage(img, 0, 0);
+    tempCtx.font = '14px Arial';
+    tempCtx.fillStyle = 'white';
+    tempCtx.shadowColor = 'rgba(0,0,0,0.8)';
+    tempCtx.shadowBlur = 2;
+    tempCtx.shadowOffsetX = 1;
+    tempCtx.shadowOffsetY = 1;
+    tempCtx.fillText('Created with WIFE MEME STUDIO, Learn more https://t.me/wifercoin', canvas.width - 600, canvas.height - 10);
+    const link = document.createElement('a');
+    link.download = `meme.${format}`;
+    link.href = tempCanvas.toDataURL(`image/${format}`);
+    link.click();
+    closeModal();
+  };
+  img.src = dataURL;
+};
+const memeTemplates = [{
+  src: 'meme-templates/Margaret.png',
+  title: 'Template 1'
+}, {
+  src: 'meme-templates/WineHand.png',
+  title: 'Template 2'
+}, {
+  src: 'meme-templates/Kitchen.png',
+  title: 'Template 3'
+}];
+function loadMemeTemplates() {
+  const container = document.getElementById('memeAssets');
+  memeTemplates.forEach(template => {
+    const img = document.createElement('img');
+    img.crossOrigin = "Anonymous";
+    img.src = template.src;
+    img.alt = template.title;
+    img.title = template.title;
+    img.className = 'meme-asset';
+    img.addEventListener('click', () => {
+      const fabricImage = new fabric.Image(img, {
+        left: 0,
+        top: 0
+      });
+      const scale = Math.min(canvas.width / fabricImage.width, canvas.height / fabricImage.height);
+      fabricImage.scale(scale);
+      canvas.add(fabricImage);
+      canvas.renderAll();
+    });
+    container.appendChild(img);
+  });
+}
+
+const dropZone = document.querySelector('.drop-zone');
+const fileInput = document.getElementById('imageLoader');
+
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.classList.add('drag-over');
+});
+
+dropZone.addEventListener('dragleave', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+});
+
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  fileInput.files = e.dataTransfer.files;
+  const event = new Event('change');
+  fileInput.dispatchEvent(event);
+});
+
+dropZone.addEventListener('click', (e) => {
+  e.preventDefault(); // Prevent default behavior
+  fileInput.click(); // Trigger the file input click
+});
+
+// Font dropdown functionality
+canvas.on('selection:created', showFontDropdown);
+canvas.on('selection:updated', showFontDropdown);
+canvas.on('selection:cleared', hideFontDropdown);
+
+function showFontDropdown(e) {
+  const activeObject = canvas.getActiveObject();
+  if (activeObject && activeObject.type === 'i-text') {
+    const dropdown = document.getElementById('fontDropdown');
+    const select = document.getElementById('fontSelect');
+    const zoom = canvas.getZoom();
+    const point = canvas.getCenter();
+    
+    select.value = activeObject.fontFamily;
+    dropdown.style.display = 'block';
+    dropdown.style.left = `${point.left}px`;
+    dropdown.style.top = `${point.top + 100}px`;
+  }
+}
+
+function hideFontDropdown() {
+  document.getElementById('fontDropdown').style.display = 'none';
+}
+
+document.getElementById('fontSelect').addEventListener('change', function(e) {
+  const activeObject = canvas.getActiveObject();
+  if (activeObject && activeObject.type === 'i-text') {
+    activeObject.set('fontFamily', e.target.value);
+    canvas.renderAll();
+  }
+});
+
+// Position dropdown next to Add Text button
+const addTextBtn = document.getElementById('addText');
+const fontDropdown = document.getElementById('fontDropdown');
+
+addTextBtn.addEventListener('click', () => {
+  const rect = addTextBtn.getBoundingClientRect();
+  fontDropdown.style.display = 'block';
+  fontDropdown.style.top = `${rect.bottom + 5}px`;
+  fontDropdown.style.left = `${rect.left}px`;
+});
+
+// Apply text styles
+function applyTextStyles() {
+  const activeObject = canvas.getActiveObject();
+  if (!activeObject || activeObject.type !== 'i-text') return;
+
+  const styles = {
+    fontFamily: document.getElementById('fontSelect').value,
+    fontWeight: document.getElementById('toggleBold').classList.contains('active') ? 'bold' : 'normal',
+    fontStyle: document.getElementById('toggleItalic').classList.contains('active') ? 'italic' : 'normal',
+    underline: document.getElementById('toggleUnderline').classList.contains('active'),
+    linethrough: document.getElementById('toggleStrike').classList.contains('active'),
+    backgroundColor: document.getElementById('toggleBg').classList.contains('active') ? 
+      document.getElementById('textBgColor').value : '',
+    stroke: document.getElementById('toggleOutline').classList.contains('active') ? 
+      document.getElementById('outlineColor').value : '',
+    strokeWidth: document.getElementById('toggleOutline').classList.contains('active') ? 
+      parseInt(document.getElementById('outlineWidth').value) : 0,
+    shadow: document.getElementById('toggleShadow').classList.contains('active') ? 
+      new fabric.Shadow({
+        color: document.getElementById('shadowColor').value,
+        offsetX: parseInt(document.getElementById('shadowX').value),
+        offsetY: parseInt(document.getElementById('shadowY').value),
+        blur: 5
+      }) : null
+  };
+
+  activeObject.set(styles);
+  canvas.renderAll();
+}
+
+// Add event listeners for all inputs
+document.querySelectorAll('.font-dropdown input, .font-dropdown select').forEach(input => {
+  input.addEventListener('change', applyTextStyles);
+  input.addEventListener('input', applyTextStyles);
+});
+
+// Update dropdown values when selecting text
+function updateDropdownValues(obj) {
+  if (!obj || obj.type !== 'i-text') return;
+  
+  document.getElementById('fontSelect').value = obj.fontFamily;
+  document.getElementById('textColor').value = obj.fill;
+  document.getElementById('textOpacity').value = obj.opacity * 100;
+  document.getElementById('textBgColor').value = obj.backgroundColor || '#000000';
+  document.getElementById('textBgOpacity').value = obj.backgroundColor ? 100 : 0;
+  document.getElementById('outlineColor').value = obj.stroke || '#000000';
+  document.getElementById('outlineWidth').value = obj.strokeWidth || 0;
+  document.getElementById('textBold').checked = obj.fontWeight === 'bold';
+  document.getElementById('textItalic').checked = obj.fontStyle === 'italic';
+  document.getElementById('textUnderline').checked = obj.underline;
+  document.getElementById('textStrike').checked = obj.linethrough;
+  document.getElementById('textOverline').checked = obj.overline;
+  
+  if (obj.shadow) {
+    document.getElementById('shadowColor').value = obj.shadow.color;
+    document.getElementById('shadowX').value = obj.shadow.offsetX;
+    document.getElementById('shadowY').value = obj.shadow.offsetY;
+    document.getElementById('shadowBlur').value = obj.shadow.blur;
+  }
+}
+
+canvas.on('selection:created', (e) => updateDropdownValues(e.target));
+canvas.on('selection:updated', (e) => updateDropdownValues(e.target));
+
+// Make dropdown draggable
+const dragHandle = document.querySelector('.drag-handle');
+let isDragging = false;
+let currentX;
+let currentY;
+let initialX;
+let initialY;
+let xOffset = 0;
+let yOffset = 0;
+
+dragHandle.addEventListener('mousedown', dragStart);
+document.addEventListener('mousemove', drag);
+document.addEventListener('mouseup', dragEnd);
+
+function dragStart(e) {
+  initialX = e.clientX - xOffset;
+  initialY = e.clientY - yOffset;
+  if (e.target === dragHandle) {
+    isDragging = true;
+  }
+}
+
+function drag(e) {
+  if (isDragging) {
+    e.preventDefault();
+    currentX = e.clientX - initialX;
+    currentY = e.clientY - initialY;
+    xOffset = currentX;
+    yOffset = currentY;
+    fontDropdown.style.transform = `translate(${currentX}px, ${currentY}px)`;
+  }
+}
+
+function dragEnd() {
+  isDragging = false;
+}
+
+// Handle toggle buttons
+const toggleButtons = {
+  toggleBold: 'fontWeight',
+  toggleItalic: 'fontStyle',
+  toggleUnderline: 'underline',
+  toggleStrike: 'linethrough',
+  toggleBg: 'backgroundColor',
+  toggleOutline: 'stroke',
+  toggleShadow: 'shadow'
+};
+
+Object.entries(toggleButtons).forEach(([buttonId, property]) => {
+  const button = document.getElementById(buttonId);
+  button.addEventListener('click', () => {
+    button.classList.toggle('active');
+    applyTextStyles();
+  });
+});
+
+// Store default text settings
+let currentTextSettings = {
+  fontSize: 40,
+  color: '#ffffff'
+};
+
+// Update text settings when inputs change
+document.getElementById('fontSize').addEventListener('input', function(e) {
+  currentTextSettings.fontSize = parseInt(e.target.value);
+  const activeObject = canvas.getActiveObject();
+  if (activeObject && activeObject.type === 'i-text') {
+    activeObject.set('fontSize', currentTextSettings.fontSize);
+    canvas.renderAll();
+  }
+});
+
+document.getElementById('colorPicker').addEventListener('input', function(e) {
+  currentTextSettings.color = e.target.value;
+  const activeObject = canvas.getActiveObject();
+  if (activeObject && activeObject.type === 'i-text') {
+    activeObject.set('fill', currentTextSettings.color);
+    canvas.renderAll();
+  }
+});
+
+// Update the addText event listener to use current settings
+document.getElementById('addText').addEventListener('click', () => {
+  const text = new fabric.IText('Sample Text', {
+    left: 80,
+    top: 1,
+    fontFamily: 'Arial',
+    fontSize: currentTextSettings.fontSize,
+    fill: currentTextSettings.color
+  });
+  canvas.add(text);
+  canvas.setActiveObject(text);
+});
+
+// Update text properties when selecting objects
+canvas.on('selection:created', (e) => {
+  if (e.target && e.target.type === 'i-text') {
+    document.getElementById('fontSize').value = e.target.fontSize;
+    document.getElementById('colorPicker').value = e.target.fill;
+  }
+});
+
+canvas.on('selection:updated', (e) => {
+  if (e.target && e.target.type === 'i-text') {
+    document.getElementById('fontSize').value = e.target.fontSize;
+    document.getElementById('colorPicker').value = e.target.fill;
+  }
+});
+
+// Initialize the undo stack
+const undoStack = [];
+const maxUndoSteps = 50;
+
+// Function to save the current state of the canvas
+function saveState() {
+  if (undoStack.length >= maxUndoSteps) {
+    undoStack.shift(); // Remove the oldest state if we exceed the limit
+  }
+  undoStack.push(JSON.stringify(canvas)); // Save the current state
+}
+
+// Update the undo button event listener
+document.getElementById('undo').addEventListener('click', () => {
+  if (undoStack.length > 0) {
+    const previousState = undoStack.pop(); // Get the last state
+    canvas.loadFromJSON(previousState, () => {
+      canvas.renderAll(); // Render the canvas with the previous state
+      showToast('Action undone');
+    });
+  } else {
+    showToast('Nothing to undo');
+  }
+});
+
+// Add state saving to all canvas modifications
+canvas.on('object:added', saveState);
+canvas.on('object:modified', saveState);
+canvas.on('object:removed', saveState);
+canvas.on('object:moving', saveState);
+canvas.on('object:scaling', saveState);
+canvas.on('object:rotating', saveState);
+
+// Update the clearStorage event listener
+document.getElementById('clearStorage').addEventListener('click', () => {
+  // Clear IndexedDB
+  const request = indexedDB.deleteDatabase('memeStudioDB');
+  
+  request.onsuccess = function() {
+    // Clear localStorage
+    localStorage.clear();
+    
+    // Clear sessionStorage
+    sessionStorage.clear();
+    
+    // Clear any other stored data
+    undoStack.length = 0; // Clear the undo stack
+    currentTextSettings = {
+      fontSize: 40,
+      color: '#ffffff'
+    };
+    
+    // Reset canvas
+    canvas.clear();
+    canvas.backgroundColor = '#ffffff';
+    canvas.renderAll();
+    
+    // Reset UI elements
+    document.getElementById('fontSize').value = '40';
+    document.getElementById('colorPicker').value = '#ffffff';
+    
+    // Show success message
+    showToast('All saved data cleared');
+    
+    // Reload page after a short delay
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  };
+  
+  request.onerror = function() {
+    showToast('Error clearing data');
+  };
+});
+</script>
+</body>
+</html>
