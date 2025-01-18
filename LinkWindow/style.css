@@ -368,4 +368,120 @@ body {
   transform: translateX(50%);
   background: transparent;
   height: 140px;
- 
+  z-index: 10;
+  cursor: pointer;
+  transition: width 0.5s ease-in-out;
+  width: 304px; 
+  overflow: hidden;
+}
+
+.logo-modal.expanded {
+  width: 640px; 
+}
+
+.logo-container {
+  display: flex;
+  gap: 20px;
+  height: 120px; 
+  margin-top: 10px; 
+}
+
+.logo-image {
+  width: 300px;
+  height: 120px;
+  object-fit: contain;
+  flex-shrink: 0;
+  animation: borderGlow 2s linear infinite, shadowPulse 2s ease-in-out infinite;
+}
+
+.square-image {
+  height: 120px;
+  width: 120px;
+  object-fit: cover;
+  flex-shrink: 0;
+  animation: borderGlow 2s linear infinite, shadowPulse 2s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+  0% { border: 2px solid rgba(255, 107, 107, 0.8); }
+  25% { border: 2px solid rgba(78, 205, 196, 0.8); }
+  50% { border: 2px solid rgba(255, 105, 180, 0.8); }
+  75% { border: 2px solid rgba(147, 112, 219, 0.8); }
+  100% { border: 2px solid rgba(255, 107, 107, 0.8); }
+}
+
+@keyframes shadowPulse {
+  0% { filter: drop-shadow(0 0 15px rgba(255, 107, 107, 0.6)); }
+  25% { filter: drop-shadow(0 0 15px rgba(78, 205, 196, 0.6)); }
+  50% { filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.6)); }
+  75% { filter: drop-shadow(0 0 15px rgba(147, 112, 219, 0.6)); }
+  100% { filter: drop-shadow(0 0 15px rgba(255, 107, 107, 0.6)); }
+}
+
+.paragraph-modal {
+  position: fixed;
+  left: 50px;
+  bottom: 40px;
+  width: 520px;
+  padding: 20px;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  line-height: 1.6;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 90;
+}
+
+.paragraph-container {
+  display: flex;
+  gap: 0;
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
+  width: 100%;
+}
+
+.paragraph-column {
+  width: 50%;
+  font-size: 16px;
+  transition: width 0.1s ease;
+  overflow: hidden;
+  padding: 0 15px;
+}
+
+.column-divider {
+  width: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  cursor: col-resize;
+  transition: background-color 0.3s;
+  animation: dividerPulse 2s ease-in-out infinite;
+}
+
+@keyframes dividerPulse {
+  0% {
+    opacity: 0.6;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1.2);
+  }
+  100% {
+    opacity: 0.6;
+    transform: scaleX(1);
+  }
+}
+
+.column-divider:hover,
+.column-divider.dragging {
+  background: rgba(255, 255, 255, 0.4);
+  animation: none;
+}
+
+.paragraph-column p {
+  margin: 0;
+  transition: font-size 0.2s ease;
+}
