@@ -4,22 +4,6 @@ body {
   background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
   font-family: Arial, sans-serif;
   overflow: hidden;
-  position: relative;
-}
-
-.background-image {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px;
-  height: 500px;
-  z-index: -1;
-  pointer-events: none;
-  user-select: none;
-  opacity: 0.8;
-  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.2' fill-rule='evenodd'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 20px 20px;
 }
 
 .carousel-container {
@@ -70,8 +54,8 @@ body {
 
 .modal {
   position: fixed;
-  left: 50px;
-  top: 50px;
+  left: 100px;
+  top: 100px;
   width: 300px;
   height: 300px;
   background: rgba(255, 255, 255, 0.1);
@@ -85,19 +69,10 @@ body {
   user-select: none;
   overflow: hidden;
   z-index: 2000;
-  animation: slideModal 3s ease-in-out infinite;
 }
 
-@keyframes slideModal {
-  0% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-20px, -20px);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
+.modal.moving {
+  animation: discoShadow 0.5s linear infinite;
 }
 
 @keyframes discoShadow {
@@ -108,10 +83,6 @@ body {
   100% { box-shadow: 0 0 30px rgba(255, 107, 107, 0.6); }
 }
 
-.modal.moving {
-  animation: discoShadow 0.5s linear infinite;
-}
-
 .container {
   position: relative;
   width: 100%;
@@ -120,7 +91,7 @@ body {
 
 .top {
   height: 40%;
-  background: url('https://placehold.co/600x400/png') center/cover no-repeat;
+  background: url('https://wifecoin.life/WIFENAME.png') center/cover no-repeat;
   border-radius: 10px;
   transform: scale(1.5);
   z-index: 1;
@@ -138,7 +109,7 @@ body {
 
 .bottom {
   height: 40%;
-  background: url('https://placehold.co/600x400/png') center/cover no-repeat;
+  background: url('https://wifecoin.life/WIFENAME.png') center/cover no-repeat;
   border-radius: 10px;
   transform: scale(1.5);
   position: relative;
@@ -194,8 +165,8 @@ body {
 
 .drag-handle {
   position: fixed;
-  left: 60px;
-  top: 60px;
+  left: 80px;
+  top: 80px;
   cursor: move;
   z-index: 1000;
   animation: pulse 2s infinite;
@@ -251,7 +222,7 @@ body {
 .icon-bar {
   position: fixed;
   right: 20px;
-  top: 76%;
+  top: 60%;
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -291,7 +262,7 @@ body {
 .right-modal {
   position: fixed;
   right: 100px;
-  bottom: 60px;
+  bottom: 100px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 15px;
@@ -353,52 +324,25 @@ body {
   width: 100%;
   height: 100%;
   border: none;
-  overflow: hidden;
-  display: block;
-}
-
-.right-modal:nth-child(3) .modal-content {
-  overflow: hidden;
 }
 
 .logo-modal {
   position: fixed;
   top: 20px;
-  right: 20%;
+  right: 25%;
   transform: translateX(50%);
-  background: transparent;
-  height: 140px;
-  z-index: 10;
-  cursor: pointer;
-  transition: width 0.5s ease-in-out;
-  width: 304px; 
-  overflow: hidden;
-}
-
-.logo-modal.expanded {
-  width: 640px; 
-}
-
-.logo-container {
-  display: flex;
-  gap: 20px;
-  height: 120px; 
-  margin-top: 10px; 
-}
-
-.logo-image {
   width: 300px;
-  height: 120px;
-  object-fit: contain;
-  flex-shrink: 0;
-  animation: borderGlow 2s linear infinite, shadowPulse 2s ease-in-out infinite;
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 }
 
-.square-image {
-  height: 120px;
-  width: 120px;
-  object-fit: cover;
-  flex-shrink: 0;
+.logo-modal img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
   animation: borderGlow 2s linear infinite, shadowPulse 2s ease-in-out infinite;
 }
 
@@ -418,70 +362,10 @@ body {
   100% { filter: drop-shadow(0 0 15px rgba(255, 107, 107, 0.6)); }
 }
 
-.paragraph-modal {
-  position: fixed;
-  left: 50px;
-  bottom: 40px;
-  width: 520px;
-  padding: 20px;
-  background: transparent;
-  color: white;
-  font-size: 16px;
-  line-height: 1.6;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  z-index: 90;
-}
-
-.paragraph-container {
-  display: flex;
-  gap: 0;
-  position: relative;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-radius: 15px;
-  backdrop-filter: blur(5px);
-  width: 100%;
-}
-
-.paragraph-column {
-  width: 50%;
-  font-size: 16px;
-  transition: width 0.1s ease;
-  overflow: hidden;
-  padding: 0 15px;
-}
-
-.column-divider {
-  width: 8px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(5px);
-  cursor: col-resize;
-  transition: background-color 0.3s;
-  animation: dividerPulse 2s ease-in-out infinite;
-}
-
-@keyframes dividerPulse {
-  0% {
-    opacity: 0.6;
-    transform: scaleX(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scaleX(1.2);
-  }
-  100% {
-    opacity: 0.6;
-    transform: scaleX(1);
-  }
-}
-
-.column-divider:hover,
-.column-divider.dragging {
-  background: rgba(255, 255, 255, 0.4);
-  animation: none;
-}
-
-.paragraph-column p {
-  margin: 0;
-  transition: font-size 0.2s ease;
+.footer {
+  color: #000000;
+  font-size: 100px;
+  text-align: right;
+  vertical-align: bottom;
+  margin-bottom: 120px;
 }
