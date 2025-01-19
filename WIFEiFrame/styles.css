@@ -484,6 +484,13 @@ body {
   padding: 0 15px;
 }
 
+.paragraph-column p {
+  margin: 0;
+  transition: font-size 0.2s ease;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
 .column-divider {
   width: 8px;
   background: rgba(255, 255, 255, 0.2);
@@ -514,18 +521,20 @@ body {
   animation: none;
 }
 
-.paragraph-column p {
-  margin: 0;
-  transition: font-size 0.2s ease;
-}
-
 .wifepaper-link {
   display: block;
-  color: white;
-  text-decoration: none;
+  color: white !important;
+  text-decoration: none !important;
   font-size: 1.5em;
   font-weight: bold;
   animation: pulse 2s infinite;
+}
+
+.wifepaper-link:hover,
+.wifepaper-link:visited,
+.wifepaper-link:active {
+  color: white !important;
+  text-decoration: none !important;
 }
 
 @keyframes pulse {
