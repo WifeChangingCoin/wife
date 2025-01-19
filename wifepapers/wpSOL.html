@@ -1,242 +1,243 @@
-@keyframes subtleGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes paperEdge {
-  0% { box-shadow: 2px 2px 15px rgba(0,0,0,0.05); }
-  50% { box-shadow: 3px 3px 20px rgba(0,0,0,0.08); }
-  100% { box-shadow: 2px 2px 15px rgba(0,0,0,0.05); }
-}
-
-@keyframes paperLines {
-  0% { opacity: 0.2; }
-  50% { opacity: 0.4; }
-  100% { opacity: 0.2; }
-}
-
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 80px 20px;
-  background: linear-gradient(135deg, #fff 0%, #f8f8f8 50%, #fff 100%);
-  background-size: 400% 400%;
-  animation: subtleGradient 15s ease infinite;
-  position: relative;
-}
-
-/* Paper lines overlay */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    linear-gradient(to bottom, transparent 19px, #f0f0f0 20px),
-    linear-gradient(to right, #f4f4f4 1px, transparent 1px);
-  background-size: 100% 20px, 20px 100%;
-  pointer-events: none;
-  opacity: 0.3;
-  z-index: -1;
-  animation: paperLines 8s ease-in-out infinite;
-}
-
-/* Paper edge effect */
-body::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(248,248,248,0.95) 100%);
-  box-shadow: 2px 2px 15px rgba(0,0,0,0.05);
-  z-index: -2;
-  animation: paperEdge 5s ease-in-out infinite;
-  border-radius: 2px;
-}
-
-.content-wrapper {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 40px;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-  position: relative;
-  z-index: 1;
-}
-
-h1 {
-  font-size: 28px;
-  margin-bottom: 30px;
-  color: #000;
-}
-
-h2 {
-  font-size: 24px;
-  margin-top: 40px;
-  color: #000;
-}
-
-h3 {
-  font-size: 20px;
-  margin-top: 30px;
-  color: #000;
-}
-
-p {
-  margin-bottom: 15px;
-}
-
-.subtitle {
-  font-size: 20px;
-  font-style: italic;
-  margin-bottom: 30px;
-  color: #555;
-}
-
-.section {
-  margin-bottom: 40px;
-}
-
-.back-button {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: #f5f5f5;
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  color: #666;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  z-index: 100;
-}
-
-.back-button:hover {
-  background: #eee;
-  transform: scale(1.05);
-}
-</style></head><body>
-<div class="content-wrapper">
-  <a href="javascript:history.back()" class="back-button">←</a>
+<html><head><base href="//localhost:3000"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>WIFEPAPER: SOLANA</title><style>
+  @keyframes subtleGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
   
-  <h1>WIFEPAPER: SOLANA</h1>
+  @keyframes paperEdge {
+    0% { box-shadow: 2px 2px 15px rgba(0,0,0,0.05); }
+    50% { box-shadow: 3px 3px 20px rgba(0,0,0,0.08); }
+    100% { box-shadow: 2px 2px 15px rgba(0,0,0,0.05); }
+  }
   
-  <div class="subtitle">WIFE Coin: A Token of Loyalty, Growth, and Empowerment</div>
-
-  <div class="section">
-    <h2>White Paper and Token Narrative</h2>
-    <p>WIFE Coin represents a revolutionary cryptocurrency venture, merging the values of trust, community contribution, and financial empowerment with the energy and creativity of meme culture. As a decentralized token, WIFE Coin is more than a digital asset; it is a symbol of partnership, collaboration, and growth. This document details the ethos, structure, and trajectory of WIFE Coin, offering insight into its foundational principles and its vision for reshaping how digital assets connect communities and empower individuals.</p>
-  </div>
-
-  <div class="section">
-    <h2>1. Introduction to WIFE Coin</h2>
-    <p>WIFE Coin (on Solana) was officially launched on December 15, 2024, with a total supply of 1 billion tokens. Available on Pump.fun, the token embodies the convergence of financial innovation and cultural identity. Its name, "WIFE," reflects core values of loyalty, resilience, and partnership, transcending the boundaries of traditional cryptocurrencies to become a cultural symbol.</p>
-    <p>At its core, WIFE Coin encapsulates the idea of "building together." It aims to provide a secure, transparent, and rewarding ecosystem for its holders while fostering an inclusive, collaborative community that thrives on shared success.</p>
-  </div>
-
-  <div class="section">
-    <h2>2. Mission Statement</h2>
-    <p>WIFE Coin's mission is to empower individuals, nurture financial growth, and strengthen community bonds. The project leverages the power of decentralized finance to provide equal opportunities for wealth creation while emphasizing values like trust, commitment, and mutual support.</p>
-  </div>
-
-  <div class="section">
-    <h2>3. Core Values</h2>
+  @keyframes paperLines {
+    0% { opacity: 0.2; }
+    50% { opacity: 0.4; }
+    100% { opacity: 0.2; }
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #fff 0%, #f8f8f8 50%, #fff 100%);
+    background-size: 400% 400%;
+    animation: subtleGradient 15s ease infinite;
+    position: relative;
+  }
+  
+  /* Paper lines overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(to bottom, transparent 19px, #f0f0f0 20px),
+      linear-gradient(to right, #f4f4f4 1px, transparent 1px);
+    background-size: 100% 20px, 20px 100%;
+    pointer-events: none;
+    opacity: 0.3;
+    z-index: -1;
+    animation: paperLines 8s ease-in-out infinite;
+  }
+  
+  /* Paper edge effect */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(248,248,248,0.95) 100%);
+    box-shadow: 2px 2px 15px rgba(0,0,0,0.05);
+    z-index: -2;
+    animation: paperEdge 5s ease-in-out infinite;
+    border-radius: 2px;
+  }
+  
+  .content-wrapper {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    position: relative;
+    z-index: 1;
+  }
+  
+  h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #000;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-top: 40px;
+    color: #000;
+  }
+  
+  h3 {
+    font-size: 20px;
+    margin-top: 30px;
+    color: #000;
+  }
+  
+  p {
+    margin-bottom: 15px;
+  }
+  
+  .subtitle {
+    font-size: 20px;
+    font-style: italic;
+    margin-bottom: 30px;
+    color: #555;
+  }
+  
+  .section {
+    margin-bottom: 40px;
+  }
+  
+  .back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 100;
+  }
+  
+  .back-button:hover {
+    background: #eee;
+    transform: scale(1.05);
+  }
+  </style></head><body>
+  <div class="content-wrapper">
+    <a href="javascript:history.back()" class="back-button">←</a>
     
-    <h3>3.1 Trust and Security</h3>
-    <p>WIFE Coin prioritizes trust by implementing strict security protocols. Developers will never direct message (DM) members first, reducing exposure to scams and ensuring member safety. Furthermore, all discussions about development are transparent and shared with the community, with no major changes or decisions made without public announcements.</p>
-
-    <h3>3.2 Community Contribution</h3>
-    <p>The community operates on a merit-based system, rewarding members who actively contribute to its growth. Members demonstrating merit gain privileges in the Telegram and Discord groups, fostering a dynamic and supportive environment.</p>
-
-    <h3>3.3 Commitment to Growth</h3>
-    <p>WIFE Coin is built to grow alongside its community. Its value increases through engagement, showcasing how shared effort and dedication can lead to shared success. Active members who engage in community raids on Telegram or retweet promotional posts on X are granted special privileges, including moderator benefits and recognition for their contributions.</p>
+    <h1>WIFEPAPER: SOLANA</h1>
+    
+    <div class="subtitle">WIFE Coin: A Token of Loyalty, Growth, and Empowerment</div>
+  
+    <div class="section">
+      <h2>White Paper and Token Narrative</h2>
+      <p>WIFE Coin represents a revolutionary cryptocurrency venture, merging the values of trust, community contribution, and financial empowerment with the energy and creativity of meme culture. As a decentralized token, WIFE Coin is more than a digital asset; it is a symbol of partnership, collaboration, and growth. This document details the ethos, structure, and trajectory of WIFE Coin, offering insight into its foundational principles and its vision for reshaping how digital assets connect communities and empower individuals.</p>
+    </div>
+  
+    <div class="section">
+      <h2>1. Introduction to WIFE Coin</h2>
+      <p>WIFE Coin (on Solana) was officially launched on December 15, 2024, with a total supply of 1 billion tokens. Available on Pump.fun, the token embodies the convergence of financial innovation and cultural identity. Its name, "WIFE," reflects core values of loyalty, resilience, and partnership, transcending the boundaries of traditional cryptocurrencies to become a cultural symbol.</p>
+      <p>At its core, WIFE Coin encapsulates the idea of "building together." It aims to provide a secure, transparent, and rewarding ecosystem for its holders while fostering an inclusive, collaborative community that thrives on shared success.</p>
+    </div>
+  
+    <div class="section">
+      <h2>2. Mission Statement</h2>
+      <p>WIFE Coin's mission is to empower individuals, nurture financial growth, and strengthen community bonds. The project leverages the power of decentralized finance to provide equal opportunities for wealth creation while emphasizing values like trust, commitment, and mutual support.</p>
+    </div>
+  
+    <div class="section">
+      <h2>3. Core Values</h2>
+      
+      <h3>3.1 Trust and Security</h3>
+      <p>WIFE Coin prioritizes trust by implementing strict security protocols. Developers will never direct message (DM) members first, reducing exposure to scams and ensuring member safety. Furthermore, all discussions about development are transparent and shared with the community, with no major changes or decisions made without public announcements.</p>
+  
+      <h3>3.2 Community Contribution</h3>
+      <p>The community operates on a merit-based system, rewarding members who actively contribute to its growth. Members demonstrating merit gain privileges in the Telegram and Discord groups, fostering a dynamic and supportive environment.</p>
+  
+      <h3>3.3 Commitment to Growth</h3>
+      <p>WIFE Coin is built to grow alongside its community. Its value increases through engagement, showcasing how shared effort and dedication can lead to shared success. Active members who engage in community raids on Telegram or retweet promotional posts on X are granted special privileges, including moderator benefits and recognition for their contributions.</p>
+    </div>
+  
+    <div class="section">
+      <h2>4. Ecosystem Overview</h2>
+  
+      <h3>4.1 The WIFE Coin Token (WIFE)</h3>
+      <p>WIFE Coin exists on two primary chains:</p>
+      <p>Solana: The main trading token, facilitating transactions and fostering liquidity.<br>
+      Base Chain: A governance token, empowering holders with voting rights to guide the project's future.</p>
+  
+      <h3>4.2 Allocations and Rewards</h3>
+      <p>Team and Development Allocation: 11% or less, distributed as follows:</p>
+      <p>Up to 3% for the team<br>
+      Up to 5% for marketing<br>
+      Up to 3% for development<br>
+      Community Rewards Allocation: To be announced upon integration with Raydium DEX.</p>
+  
+      <h3>4.3 Development Focus</h3>
+      <p>Current development efforts are concentrated on the Solana network. Once the Solana token is listed on exchange platforms, development on the Base Chain will commence, ensuring a balanced and phased approach to expansion.</p>
+    </div>
+  
+    <div class="section">
+      <h2>5. Cultural Identity and Philosophy</h2>
+      <p>WIFE Coin is not just a cryptocurrency; it is a narrative that champions partnership, empowerment, and fun. The name "WIFE" reflects:</p>
+      <p>Loyalty: A trusted, dependable token in a volatile market.<br>
+      Growth: A nurturing environment for wealth and community expansion.<br>
+      Empowerment: A symbol of shared effort and mutual success.</p>
+      <p>The tagline, "Started for the memes, staying for the dreams," encapsulates its journey from playful beginnings to a serious contender in the crypto space.</p>
+    </div>
+  
+    <div class="section">
+      <h2>6. Key Features</h2>
+  
+      <h3>6.1 Free Meme Creator Studio</h3>
+      <p>The WIFE Coin website includes a free Meme Creator Studio, encouraging users to create and share content that promotes the token's brand and spirit. This tool enhances engagement and fosters creativity within the community.</p>
+  
+      <h3>6.2 Media Expansion</h3>
+      <p>The community is actively developing a YouTube channel and podcast to share news, tutorials, and discussions, further solidifying its role as a dynamic, informative hub.</p>
+  
+      <h3>6.3 WIFE Whitelist</h3>
+      <p>The "WIFE" list (WIFElist) is an innovative feature that stores Solana addresses for future developments, giveaways, and rewards, ensuring transparency and strategic planning.</p>
+  
+      <h3>6.4 Future Developments</h3>
+      <p>WIFE Coin is committed to building an ecosystem that continuously evolves. Plans include the development of additional tools, global reach campaigns, and diverse creative media to further expand its impact and outreach.</p>
+    </div>
+  
+    <div class="section">
+      <h2>7. Community Dynamics</h2>
+  
+      <h3>7.1 Merit-Based System</h3>
+      <p>Contributors who support and uplift the community are rewarded with privileges, including token incentives and access to exclusive opportunities.</p>
+  
+      <h3>7.2 Loyal Influencers and Promoters</h3>
+      <p>WIFE Coin's promotional network is composed of dedicated influencers who champion the brand with enthusiasm and authenticity, ensuring its message reaches a global audience.</p>
+  
+      <h3>7.3 Engagement Rewards</h3>
+      <p>Regular giveaways and airdrops foster excitement and reward active members.<br>
+      Planned larger giveaways as the community grows.</p>
+    </div>
+  
+    <div class="section">
+      <h2>8. Financial and Social Impact</h2>
+  
+      <h3>8.1 Price Momentum Through Engagement</h3>
+      <p>WIFE Coin's price gains momentum directly through community interaction and growth, making engagement not only rewarding but financially impactful.</p>
+  
+      <h3>8.2 Empowering Underserved Communities</h3>
+      <p>By emphasizing accessibility and inclusivity, WIFE Coin aims to provide financial literacy and wealth-building opportunities to individuals who might otherwise be excluded from traditional financial systems.</p>
+    </div>
+  
+    <div class="section">
+      <h2>9. Movement</h2>
+      <p>WIFE Coin is a movement that embodies trust, collaboration, and empowerment. With its strong cultural identity, dedicated community, and innovative ecosystem, WIFE Coin is poised to redefine the boundaries of what a meme cryptocurrency can achieve.</p>
+    </div>
   </div>
-
-  <div class="section">
-    <h2>4. Ecosystem Overview</h2>
-
-    <h3>4.1 The WIFE Coin Token (WIFE)</h3>
-    <p>WIFE Coin exists on two primary chains:</p>
-    <p>Solana: The main trading token, facilitating transactions and fostering liquidity.<br>
-    Base Chain: A governance token, empowering holders with voting rights to guide the project's future.</p>
-
-    <h3>4.2 Allocations and Rewards</h3>
-    <p>Team and Development Allocation: 11% or less, distributed as follows:</p>
-    <p>Up to 3% for the team<br>
-    Up to 5% for marketing<br>
-    Up to 3% for development<br>
-    Community Rewards Allocation: To be announced upon integration with Raydium DEX.</p>
-
-    <h3>4.3 Development Focus</h3>
-    <p>Current development efforts are concentrated on the Solana network. Once the Solana token is listed on exchange platforms, development on the Base Chain will commence, ensuring a balanced and phased approach to expansion.</p>
-  </div>
-
-  <div class="section">
-    <h2>5. Cultural Identity and Philosophy</h2>
-    <p>WIFE Coin is not just a cryptocurrency; it is a narrative that champions partnership, empowerment, and fun. The name "WIFE" reflects:</p>
-    <p>Loyalty: A trusted, dependable token in a volatile market.<br>
-    Growth: A nurturing environment for wealth and community expansion.<br>
-    Empowerment: A symbol of shared effort and mutual success.</p>
-    <p>The tagline, "Started for the memes, staying for the dreams," encapsulates its journey from playful beginnings to a serious contender in the crypto space.</p>
-  </div>
-
-  <div class="section">
-    <h2>6. Key Features</h2>
-
-    <h3>6.1 Free Meme Creator Studio</h3>
-    <p>The WIFE Coin website includes a free Meme Creator Studio, encouraging users to create and share content that promotes the token's brand and spirit. This tool enhances engagement and fosters creativity within the community.</p>
-
-    <h3>6.2 Media Expansion</h3>
-    <p>The community is actively developing a YouTube channel and podcast to share news, tutorials, and discussions, further solidifying its role as a dynamic, informative hub.</p>
-
-    <h3>6.3 WIFE Whitelist</h3>
-    <p>The "WIFE" list (WIFElist) is an innovative feature that stores Solana addresses for future developments, giveaways, and rewards, ensuring transparency and strategic planning.</p>
-
-    <h3>6.4 Future Developments</h3>
-    <p>WIFE Coin is committed to building an ecosystem that continuously evolves. Plans include the development of additional tools, global reach campaigns, and diverse creative media to further expand its impact and outreach.</p>
-  </div>
-
-  <div class="section">
-    <h2>7. Community Dynamics</h2>
-
-    <h3>7.1 Merit-Based System</h3>
-    <p>Contributors who support and uplift the community are rewarded with privileges, including token incentives and access to exclusive opportunities.</p>
-
-    <h3>7.2 Loyal Influencers and Promoters</h3>
-    <p>WIFE Coin's promotional network is composed of dedicated influencers who champion the brand with enthusiasm and authenticity, ensuring its message reaches a global audience.</p>
-
-    <h3>7.3 Engagement Rewards</h3>
-    <p>Regular giveaways and airdrops foster excitement and reward active members.<br>
-    Planned larger giveaways as the community grows.</p>
-  </div>
-
-  <div class="section">
-    <h2>8. Financial and Social Impact</h2>
-
-    <h3>8.1 Price Momentum Through Engagement</h3>
-    <p>WIFE Coin's price gains momentum directly through community interaction and growth, making engagement not only rewarding but financially impactful.</p>
-
-    <h3>8.2 Empowering Underserved Communities</h3>
-    <p>By emphasizing accessibility and inclusivity, WIFE Coin aims to provide financial literacy and wealth-building opportunities to individuals who might otherwise be excluded from traditional financial systems.</p>
-  </div>
-
-  <div class="section">
-    <h2>9. Movement</h2>
-    <p>WIFE Coin is a movement that embodies trust, collaboration, and empowerment. With its strong cultural identity, dedicated community, and innovative ecosystem, WIFE Coin is poised to redefine the boundaries of what a meme cryptocurrency can achieve.</p>
-  </div>
-</div>
-</body></html>
+  </body></html>

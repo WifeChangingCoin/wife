@@ -1,0 +1,209 @@
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>WIFEPAPER: BASE CHAIN</title><style>
+  @keyframes subtleGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  @keyframes paperEdge {
+    0% { box-shadow: 2px 2px 15px rgba(0,0,0,0.05); }
+    50% { box-shadow: 3px 3px 20px rgba(0,0,0,0.08); }
+    100% { box-shadow: 2px 2px 15px rgba(0,0,0,0.05); }
+  }
+  
+  @keyframes paperLines {
+    0% { opacity: 0.2; }
+    50% { opacity: 0.4; }
+    100% { opacity: 0.2; }
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #fff 0%, #f8f8f8 50%, #fff 100%);
+    background-size: 400% 400%;
+    animation: subtleGradient 15s ease infinite;
+    position: relative;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(to bottom, transparent 19px, #f0f0f0 20px),
+      linear-gradient(to right, #f4f4f4 1px, transparent 1px);
+    background-size: 100% 20px, 20px 100%;
+    pointer-events: none;
+    opacity: 0.3;
+    z-index: -1;
+    animation: paperLines 8s ease-in-out infinite;
+  }
+  
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(248,248,248,0.95) 100%);
+    box-shadow: 2px 2px 15px rgba(0,0,0,0.05);
+    z-index: -2;
+    animation: paperEdge 5s ease-in-out infinite;
+    border-radius: 2px;
+  }
+  
+  .content-wrapper {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    position: relative;
+    z-index: 1;
+  }
+  
+  h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #000;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-top: 40px;
+    color: #000;
+  }
+  
+  h3 {
+    font-size: 20px;
+    margin-top: 30px;
+    color: #000;
+  }
+  
+  p {
+    margin-bottom: 15px;
+  }
+  
+  .subtitle {
+    font-size: 20px;
+    font-style: italic;
+    margin-bottom: 30px;
+    color: #555;
+  }
+  
+  .section {
+    margin-bottom: 40px;
+  }
+  
+  .back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 100;
+  }
+  
+  .back-button:hover {
+    background: #eee;
+    transform: scale(1.05);
+  }
+  </style></head><body>
+  <div class="content-wrapper">
+    <a href="javascript:history.back()" class="back-button">←</a>
+    
+    <h1>WIFEPAPER: BASE CHAIN</h1>
+    
+    <div class="subtitle">Introduction</div>
+  
+    <div class="section">
+      <p>WIFE Coin on Base Chain is a community-powered cryptocurrency built to provide financial opportunities and foster an engaging ecosystem for its holders. With a focus on empowerment, accessibility, and long-term value, WIFE Coin aims to create a thriving environment where users can actively participate, contribute, and benefit from the growth of the ecosystem. By blending humor with real-world utility, WIFE Coin offers a unique experience in the evolving crypto landscape.</p>
+    </div>
+  
+    <div class="section">
+      <h2>Tokenomics</h2>
+      <p>Total Supply: 1,000,000,000 WIFE</p>
+      <p>Token Distribution:<br>
+      Liquidity: 10%<br>
+      Development: 5%<br>
+      Marketing & Partnerships: 8%<br>
+      Team Allocation: 3%<br>
+      Public Distribution: 74%</p>
+    </div>
+  
+    <div class="section">
+      <h2>Key Features</h2>
+      <p>Liquidity Assurance: A portion of the supply is dedicated to ensuring liquidity, fostering a stable and robust market.<br>
+      Community-Centric Approach: WIFE Coin is driven by its holders, with initiatives aimed at growing and engaging the community.<br>
+      Transparent Governance: The project embraces a transparent approach to decision-making, with regular updates and input from the community.<br>
+      Scalable Ecosystem: The Base Chain infrastructure provides the flexibility needed for future expansions and integrations.<br>
+      Reward Mechanisms: Holders benefit from periodic rewards through staking programs and engagement-based incentives.</p>
+    </div>
+  
+    <div class="section">
+      <h2>Use Cases</h2>
+      <p>Investment Potential: WIFE Coin provides an opportunity for users to diversify their portfolios with a promising asset.<br>
+      Community Engagement: Participate in social events, contests, and governance initiatives that shape the ecosystem.<br>
+      Utility Expansion: Future partnerships and integrations aim to expand the usability of WIFE Coin in various decentralized applications.<br>
+      Merchandising and Branding: WIFE Coin offers unique branded merchandise and collaborative products that align with the project's identity.</p>
+    </div>
+  
+    <div class="section">
+      <h2>Roadmap</h2>
+      
+      <h3>Phase 1: Foundation & Awareness</h3>
+      <p>Launch official website and social media platforms<br>
+      Initial token distribution and listing on decentralized exchanges<br>
+      Community-building campaigns and ambassador programs<br>
+      Introduction of staking opportunities</p>
+  
+      <h3>Phase 2: Ecosystem Development</h3>
+      <p>Development of a decentralized application (dApp)<br>
+      Strategic collaborations with key industry players<br>
+      Enhanced marketing efforts to boost awareness<br>
+      Expansion of governance features to include community-driven proposals</p>
+  
+      <h3>Phase 3: Expansion & Innovation</h3>
+      <p>Introduction of NFT marketplace integration<br>
+      Cross-chain compatibility research and implementation<br>
+      Further enhancement of staking and rewards programs<br>
+      Global outreach campaigns to attract a wider audience</p>
+    </div>
+  
+    <div class="section">
+      <h2>Security</h2>
+      <p>WIFE Coin prioritizes the safety of its holders through robust security measures. The contract undergoes rigorous audits to identify and mitigate vulnerabilities. Additionally, security best practices, such as multi-signature wallets and transparent reporting, are implemented to safeguard the ecosystem.</p>
+    </div>
+  
+    <div class="section">
+      <h2>Conclusion</h2>
+      <p>WIFE Coin on Base Chain is more than a digital asset; it represents a community-driven movement toward financial growth and creative engagement. With a strong focus on accessibility, security, and innovation, WIFE Coin is positioned to offer value to its holders and provide an inclusive platform for all participants.</p>
+    </div>
+  
+    <div class="section">
+      <h2>Disclaimer</h2>
+      <p>This whitepaper is intended for informational purposes only and should not be considered financial advice. Cryptocurrency investments carry inherent risks. Potential investors are encouraged to conduct thorough research and seek professional advice before participating.</p>
+      <p>Join the WIFE Coin movement and take part in an exciting journey of growth, opportunity, and collaboration.</p>
+    </div>
+  </div>
+  </body></html>
