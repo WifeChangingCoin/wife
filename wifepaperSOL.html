@@ -1,0 +1,609 @@
+<html><head><base href="/">
+<title>WIFE Coin - Portfolio &amp; Blog</title>
+<style>
+:root {
+  --primary: #ff69b4;
+  --secondary: #4a90e2;
+  --text: #333;
+  --bg: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.nav {
+  position: fixed;
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  color: white;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: fadeInUp 1s ease;
+}
+
+.hero h1:hover {
+  animation: wiggle 0.5s ease-in-out infinite;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.tokenomics {
+  position: relative;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4rem 0;
+  padding-top: 6rem;
+}
+
+.center-text {
+  position: absolute;
+  font-size: 2.5rem;
+  color: var(--primary);
+  font-weight: bold;
+  z-index: 1;
+}
+
+.token-circle {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: white;
+  border-radius: 50%;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s;
+  animation: rotate 20s linear infinite;
+  font-size: 0.9rem;
+}
+
+.token-circle:hover {
+  transform: scale(1.1);
+  z-index: 2;
+}
+
+.token-circle h3 {
+  margin-bottom: 0.5rem;  
+  color: var(--primary);
+  font-size: 1.1rem;  
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.token-circle:nth-child(1) { animation-delay: 0s; }
+.token-circle:nth-child(2) { animation-delay: -5s; }
+.token-circle:nth-child(3) { animation-delay: -10s; }
+.token-circle:nth-child(4) { animation-delay: -15s; }
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg) translateX(250px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(250px) rotate(-360deg);
+  }
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 4rem 0;
+}
+
+.stat {
+  text-align: center;
+  animation: fadeInUp 1s ease;
+  position: relative;
+}
+
+.stat:hover::after {
+  content: attr(data-description);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+.stats:hover .stat-value {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.community {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.section-about {
+  min-height: 100vh;
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, rgba(255,105,180,0.1), rgba(74,144,226,0.1));
+}
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-text {
+  animation: slideInLeft 1s ease;
+}
+
+.about-text ul li {
+  position: relative;
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+  animation: fadeInLeft 1s ease-out;
+  animation-fill-mode: backwards;
+}
+
+.about-text ul li:nth-child(1) { animation-delay: 0.2s; }
+.about-text ul li:nth-child(2) { animation-delay: 0.4s; }
+.about-text ul li:nth-child(3) { animation-delay: 0.6s; }
+.about-text ul li:nth-child(4) { animation-delay: 0.8s; }
+
+.about-text ul li::before {
+  content: "🚀";
+  position: absolute;
+  left: 0;
+  animation: pulse 2s infinite;
+}
+
+.about-image {
+  position: relative;
+  height: 400px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.about-banner {
+  width: 100%;
+  height: 300px;
+  margin-top: 2rem;
+  background: linear-gradient(to right, 
+    rgba(255,105,180,0.2), 
+    rgba(74,144,226,0.2)
+  ),
+  url('https://images.unsplash.com/photo-1605792657660-596af9009e82?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.community-section {
+  min-height: 100vh;
+  padding: 6rem 2rem;
+  background: linear-gradient(45deg, rgba(255,105,180,0.05), rgba(74,144,226,0.05));
+  text-align: center;
+}
+
+.community-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.community-image {
+  width: 300px;
+  height: 300px;
+  margin: 2rem auto;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.social-links a {
+  color: var(--primary);
+  font-size: 1.5rem;
+  transition: transform 0.3s;
+}
+
+.social-links a:hover {
+  transform: scale(1.2);
+}
+
+.social-links i:hover {
+  animation: pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.highlight {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.tech-diagram {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 2;
+  animation: drawPath 3s ease-in-out forwards;
+}
+
+@keyframes drawPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.home-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.home-btn .fa-arrow-down {
+  transition: transform 0.3s ease;
+}
+
+.home-btn.scrolled .fa-arrow-down {
+  transform: rotate(180deg);
+}
+
+.home-text {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.home-btn.scrolled .home-text {
+  display: inline;
+  opacity: 1;
+}
+
+.home-btn.scrolled .fa-arrow-down {
+  display: none;
+  opacity: 0;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: linear-gradient(to bottom, rgba(255,105,180,0.1), rgba(74,144,226,0.1));
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  border-radius: 10px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, var(--secondary), var(--primary));
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) rgba(255,105,180,0.1);
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-links">
+    <a href="#home" class="home-btn">
+      <i class="fas fa-arrow-down"></i>
+      <span class="home-text">Home</span>
+    </a>
+    <a href="#about">About</a>
+    <a href="#tokenomics">Tokenomics</a>
+    <a href="#community">Community</a>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div>
+    <h1>WIFE Coin</h1>
+    <p>The Ultimate Token for Wealth, Investment, Financial Freedom, and Empowerment</p>
+    <div class="social-links">
+      <a href="https://t.me/wifercoin"><i class="fab fa-telegram"></i></a>
+      <a href="https://x.com/WIFECOINLIFE"><i class="fab fa-twitter"></i></a>
+      <a href="https://wifecoin.life"><i class="fas fa-globe"></i></a>
+    </div>
+  </div>
+</section>
+
+<div class="content">
+  <section id="stats">
+    <div class="stats">
+      <div class="stat" data-description="One billion tokens to ever exist">
+        <div class="stat-value">1B</div>
+        <div>Total Supply</div>
+      </div>
+      <div class="stat" data-description="Team: &#x2264;3%, Marketing: &#x2264;5%, Development: &#x2264;3%">
+        <div class="stat-value">&#x2264;11%</div>
+        <div>Team &amp; Development</div>
+      </div>
+      <div class="stat" data-description="Rewarding community with prizes">
+        <div class="stat-value">TBA%</div>
+        <div>Community Rewards</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tokenomics" class="tokenomics" style="padding-top: 6rem;">
+    <div class="center-text">WIFE</div>
+    <div class="token-circle">
+      <h3>&#x1f525; Wealth</h3>
+      <p>A trusted investment opportunity for financial growth.</p>
+    </div>
+    <div class="token-circle">
+      <h3>&#x1f4c8; Investment</h3>
+      <p>Encourages long-term holding with rewards.</p>
+    </div>
+    <div class="token-circle">
+      <h3>&#x1f4b8; Financial Freedom</h3>
+      <p>Offers the chance to achieve financial independence.</p>
+    </div>
+    <div class="token-circle">
+      <h3>&#x1f31f; Empowerment</h3>
+      <p>Builds a community where everyone thrives together.</p>
+    </div>
+  </section>
+
+  <section id="about" class="section-about">
+    <div class="about-content">
+      <div class="about-text">
+        <h2>Understanding WIFE Coin</h2>
+        <p>Let&apos;s be honest - WIFE Coin started as a fun meme token (because who doesn&apos;t want a WIFE that makes them money? &#x1f60a;). But we&apos;re building something bigger here! While we embrace our humorous origins, we&apos;re developing real utility and growing an amazing community.</p>
+        <p>Our roadmap includes:</p>
+        <ul>
+          <li>Community-driven development (because your voice matters!)</li>
+          <li>NFT collections featuring the best WIFE memes</li>
+          <li>Staking rewards for long-term HODLers</li>
+          <li>Governance system where holders vote on future features</li>
+        </ul>
+        <p class="highlight" style="margin-top: 1rem; font-style: italic; color: var(--primary);">Remember: We started for the memes, but we&apos;re staying for the dreams! Join our growing family of WIFErs today.</p>
+      </div>
+      <div class="about-image">
+        <svg class="tech-diagram" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="50" stroke-dasharray="314" stroke-dashoffset="314"/>
+          <path d="M50,100 L150,100 M100,50 L100,150" stroke-dasharray="200" stroke-dashoffset="200"/>
+          <text x="100" y="100" text-anchor="middle" fill="var(--primary)">WIFE</text>
+        </svg>
+      </div>
+    </div>
+    <div class="about-banner"></div>
+  </section>
+
+  <section id="community" class="community-section">
+    <div class="community-content">
+      <h2>Join the WIFE Life! &#x1f389;</h2>
+      <div class="community-image">
+        <svg viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="80" fill="var(--primary)" opacity="0.1"/>
+          <path d="M60,100 Q100,150 140,100" stroke="var(--primary)" fill="none" stroke-width="3"/>
+        </svg>
+      </div>
+      <p>Ready to be part of the most entertaining crypto community? Here at WIFE Coin, we believe finance doesn&apos;t have to be boring! Our community enjoys:</p>
+      <div class="benefits" style="margin: 2rem 0;">
+        <p>&#x1f381; Regular giveaways and airdrops</p>
+        <p>&#x1f3c6; Meme competitions (yes, we&apos;re serious about not being serious)</p>
+        <p>&#x1f4da; Educational resources (because smart investing leads to a happy WIFE)</p>
+      </div>
+      <p style="font-style: italic;">&quot;Join now, and you might finally have a WIFE that makes you money!&quot; &#x1f60a;</p>
+      <div class="social-links">
+        <a href="https://t.me/wifercoin"><i class="fab fa-telegram"></i></a>
+        <a href="https://x.com/WIFECOINLIFE"><i class="fab fa-twitter"></i></a>
+        <a href="https://discord.gg/jp7ktNJXTG"><i class="fab fa-discord"></i></a>
+        <a href="https://wifecoin.life"><i class="fas fa-globe"></i></a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>document.addEventListener('DOMContentLoaded', function () {
+  const homeBtn = document.querySelector('.home-btn');
+  let autoScrolling = false;
+  let lastScrollTop = 0;
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', e => {
+      if (link.classList.contains('home-btn')) return;
+      e.preventDefault();
+      autoScrolling = false;
+      const targetId = link.getAttribute('href').substring(1);
+      const targetSection = document.getElementById(targetId);
+      if (targetSection) {
+        const offset = targetId === 'tokenomics' ? -200 : 0;
+        const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset + offset;
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+  document.addEventListener('click', e => {
+    if (autoScrolling && !e.target.closest('.home-btn')) {
+      autoScrolling = false;
+    }
+  });
+  window.addEventListener('scroll', () => {
+    if (!autoScrolling) {
+      const st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > 100) {
+        homeBtn.classList.add('scrolled');
+      } else {
+        homeBtn.classList.remove('scrolled');
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    }
+  });
+  window.addEventListener('scroll', () => {
+    if (!autoScrolling) return;
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
+      autoScrolling = false;
+    }
+  }, {
+    passive: true
+  });
+  homeBtn.addEventListener('click', e => {
+    e.preventDefault();
+    if (homeBtn.classList.contains('scrolled')) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    } else {
+      autoScrolling = true;
+      const duration = 60000;
+      const start = window.pageYOffset;
+      const end = document.documentElement.scrollHeight - window.innerHeight;
+      const distance = end - start;
+      let startTime = null;
+      function animation(currentTime) {
+        if (!autoScrolling) return;
+        if (startTime === null) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+        window.scrollTo(0, start + distance * progress);
+        if (progress < 1 && autoScrolling) {
+          requestAnimationFrame(animation);
+        } else {
+          autoScrolling = false;
+        }
+      }
+      requestAnimationFrame(animation);
+    }
+  });
+});</script>
+
+</body></html>
