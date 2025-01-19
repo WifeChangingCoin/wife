@@ -455,11 +455,11 @@ body {
   position: fixed;
   left: 0px;
   bottom: 40px;
-  width: 520px;
+  width: 720px;
   padding: 20px;
   background: transparent;
   color: white;
-  font-size: 16px;
+  font-size: 10px;
   line-height: 1.6;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   z-index: 90;
@@ -478,7 +478,7 @@ body {
 
 .paragraph-column {
   width: 50%;
-  font-size: 16px;
+  font-size: 10px;
   transition: width 0.1s ease;
   overflow: hidden;
   padding: 0 15px;
@@ -517,4 +517,25 @@ body {
 .paragraph-column p {
   margin: 0;
   transition: font-size 0.2s ease;
+}
+
+.wifepaper-link {
+  display: block;
+  color: white;
+  text-decoration: none;
+  font-size: 1.5em;
+  font-weight: bold;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
 }
