@@ -180,3 +180,60 @@ document.addEventListener('DOMContentLoaded', () => {
     divider.classList.remove('dragging');
   });
 });
+
+// WIFEPAPER loading optimization
+document.addEventListener('DOMContentLoaded', () => {
+  const wifePaperLink = document.querySelector('.wifepaper-link');
+  if (!wifePaperLink) return;
+
+  // Create loading overlay
+  const loadingOverlay = document.createElement('div');
+  loadingOverlay.className = 'loading-overlay';
+  loadingOverlay.innerHTML = '<div class="loading-spinner"></div>';
+  document.body.appendChild(loadingOverlay);
+
+  // Handle WIFEPAPER link click
+  wifePaperLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    const url = wifePaperLink.href;
+
+    // Show loading overlay
+    loadingOverlay.style.display = 'flex';
+
+    // Create a temporary iframe to check if the page is loaded
+    const tempIframe = document.createElement('iframe');
+    tempIframe.style.display = 'none';
+    document.body.appendChild(tempIframe);
+
+    tempIframe.onload = () => {
+      // Page is loaded, redirect
+      loadingOverlay.style.display = 'none';
+      window.location.href = url;
+      document.body.removeChild(tempIframe);
+    };
+
+    tempIframe.onerror = () => {
+      loadingOverlay.style.display = 'none';
+      document.body.removeChild(tempIframe);
+      window.location.href = url; // Fallback to direct navigation
+    };
+
+    // Start loading
+    tempIframe.src = url;
+
+    // Timeout after 5 seconds
+    setTimeout(() => {
+      if (document.body.contains(tempIframe)) {
+        loadingOverlay.style.display = 'none';
+        document.body.removeChild(tempIframe);
+        window.location.href = url; // Fallback to direct navigation
+      }
+    }, 5000);
+  });
+
+  // Preload the WIFEPAPER page
+  const link = document.createElement('link');
+  link.rel = 'prefetch';
+  link.href = wifePaperLink.href;
+  document.head.appendChild(link);
+});
