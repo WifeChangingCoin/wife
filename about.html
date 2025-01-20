@@ -1,4 +1,4 @@
-<html><head>
+<html><head><base href="/">
 <title>WIFE Coin - Portfolio &amp; Blog</title>
 <style>
 :root {
@@ -309,6 +309,26 @@ body {
   background: linear-gradient(45deg, #FF3366, #FF9933);
 }
 
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 24px;
+  color: var(--primary);
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  z-index: 1001;
+}
+
+.back-button:hover {
+  transform: translateX(-5px);
+  box-shadow: 0 2px 15px rgba(0,0,0,0.15);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateX(-50%) translateY(10px); }
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -457,202 +477,202 @@ body {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+  <a href="javascript:history.back()" class="back-button">←</a>
+  <nav class="nav">
+    <div class="nav-links">
+      <a href="#home" class="home-btn">
+        <i class="fas fa-arrow-down"></i>
+        <span class="home-text">Home</span>
+      </a>
+      <a href="#about">About</a>
+      <a href="#tokenomics">Tokenomics</a>
+      <a href="#community">Community</a>
+    </div>
+  </nav>
 
-<nav class="nav">
-  <div class="nav-links">
-    <a href="#home" class="home-btn">
-      <i class="fas fa-arrow-down"></i>
-      <span class="home-text">Home</span>
-    </a>
-    <a href="#about">About</a>
-    <a href="#tokenomics">Tokenomics</a>
-    <a href="#community">Community</a>
-  </div>
-</nav>
-
-<section class="hero" id="home">
-  <div>
-    <h1>WIFE Coin</h1>
-    <p>The Ultimate Token for Wealth, Investment, Financial Freedom, and Empowerment</p>
-    <div class="social-links">
-      <a href="https://t.me/wifercoin"><i class="fab fa-telegram"></i></a>
-      <a href="https://x.com/WIFECOINLIFE"><i class="fab fa-twitter"></i></a>
-      <a href="https://wifecoin.life"><i class="fas fa-globe"></i></a>
-    </div>
-  </div>
-</section>
-
-<div class="content">
-  <section id="stats">
-    <div class="stats">
-      <div class="stat" data-description="One billion tokens to ever exist">
-        <div class="stat-value">1B</div>
-        <div>Total Supply</div>
-      </div>
-      <div class="stat" data-description="Team: &#x2264;3%, Marketing: &#x2264;5%, Development: &#x2264;3%">
-        <div class="stat-value">&#x2264;11%</div>
-        <div>Team &amp; Development</div>
-      </div>
-      <div class="stat" data-description="Rewarding community with prizes">
-        <div class="stat-value">TBA%</div>
-        <div>Community Rewards</div>
-      </div>
-    </div>
-  </section>
-
-  <section id="tokenomics" class="tokenomics" style="padding-top: 6rem;">
-    <div class="center-text">WIFE</div>
-    <div class="token-circle">
-      <h3>&#x1f525; Wealth</h3>
-      <p>A trusted investment opportunity for financial growth.</p>
-    </div>
-    <div class="token-circle">
-      <h3>&#x1f4c8; Investment</h3>
-      <p>Encourages long-term holding with rewards.</p>
-    </div>
-    <div class="token-circle">
-      <h3>&#x1f4b8; Financial Freedom</h3>
-      <p>Offers the chance to achieve financial independence.</p>
-    </div>
-    <div class="token-circle">
-      <h3>&#x1f31f; Empowerment</h3>
-      <p>Builds a community where everyone thrives together.</p>
-    </div>
-  </section>
-
-  <section id="about" class="section-about">
-    <div class="about-content">
-      <div class="about-text">
-        <h2>Understanding WIFE Coin</h2>
-        <p>Let&apos;s be honest - WIFE Coin started as a fun meme token (because who doesn&apos;t want a WIFE that makes them money? &#x1f60a;). But we&apos;re building something bigger here! While we embrace our humorous origins, we&apos;re developing real utility and growing an amazing community.</p>
-        <p>Our roadmap includes:</p>
-        <ul>
-          <li>Community-driven development (because your voice matters!)</li>
-          <li>NFT collections featuring the best WIFE memes</li>
-          <li>Staking rewards for long-term HODLers</li>
-          <li>Governance system where holders vote on future features</li>
-        </ul>
-        <p class="highlight" style="margin-top: 1rem; font-style: italic; color: var(--primary);">Remember: We started for the memes, but we're staying for the dreams! Join our growing family of WIFErs today.</p>
-      </div>
-      <div class="about-image">
-        <svg class="tech-diagram" viewBox="0 0 200 200">
-          <circle cx="100" cy="100" r="50" stroke-dasharray="314" stroke-dashoffset="314"/>
-          <path d="M50,100 L150,100 M100,50 L100,150" stroke-dasharray="200" stroke-dashoffset="200"/>
-          <text x="100" y="100" text-anchor="middle" fill="var(--primary)">WIFE</text>
-        </svg>
-      </div>
-    </div>
-    <div class="about-banner"></div>
-    <p style="text-align: center; font-size: 1.2em; margin-bottom: 2rem;">
-      
-    </p>
-    <div class="wifepaper-links-container">
-      <a href="wifepapers/wpSOL.html" class="wifepaper-link link-sol">WIFEPAPER SOL</a>
-      <a href="wifepapers/wpBASE.html" class="wifepaper-link link-base">WIFEPAPER BASE</a>
-      <a href="wifepapers/wpAI.html" class="wifepaper-link link-ai">W.I.F.E. PAPER AI</a>
-    </div>
-  </section>
-
-  <section id="community" class="community-section">
-    <div class="community-content">
-      <h2>Join the WIFE Life! &#x1f389;</h2>
-      <div class="community-image">
-        <svg viewBox="0 0 200 200">
-          <circle cx="100" cy="100" r="80" fill="var(--primary)" opacity="0.1"/>
-          <path d="M60,100 Q100,150 140,100" stroke="var(--primary)" fill="none" stroke-width="3"/>
-        </svg>
-      </div>
-      <p>Ready to be part of the most entertaining crypto community? Here at WIFE Coin, we believe finance doesn&apos;t have to be boring! Our community enjoys:</p>
-      <div class="benefits" style="margin: 2rem 0;">
-        <p>&#x1f381; Regular giveaways and airdrops</p>
-        <p>&#x1f3c6; Meme competitions (yes, we&apos;re serious about not being serious)</p>
-        <p>&#x1f4da; Educational resources (because smart investing leads to a happy WIFE)</p>
-      </div>
-      <p style="font-style: italic;">&quot;Join now, and you might finally have a WIFE that makes you money!&quot; &#x1f60a;</p>
+  <section class="hero" id="home">
+    <div>
+      <h1>WIFE Coin</h1>
+      <p>The Ultimate Token for Wealth, Investment, Financial Freedom, and Empowerment</p>
       <div class="social-links">
         <a href="https://t.me/wifercoin"><i class="fab fa-telegram"></i></a>
         <a href="https://x.com/WIFECOINLIFE"><i class="fab fa-twitter"></i></a>
-        <a href="https://discord.gg/jp7ktNJXTG"><i class="fab fa-discord"></i></a>
         <a href="https://wifecoin.life"><i class="fas fa-globe"></i></a>
       </div>
     </div>
   </section>
-</div>
 
-<script>document.addEventListener('DOMContentLoaded', function () {
-  const homeBtn = document.querySelector('.home-btn');
-  let autoScrolling = false;
-  let lastScrollTop = 0;
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', e => {
-      if (link.classList.contains('home-btn')) return;
-      e.preventDefault();
-      autoScrolling = false;
-      const targetId = link.getAttribute('href').substring(1);
-      const targetSection = document.getElementById(targetId);
-      if (targetSection) {
-        const offset = targetId === 'tokenomics' ? -200 : 0;
-        const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset + offset;
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
-        });
+  <div class="content">
+    <section id="stats">
+      <div class="stats">
+        <div class="stat" data-description="One billion tokens to ever exist">
+          <div class="stat-value">1B</div>
+          <div>Total Supply</div>
+        </div>
+        <div class="stat" data-description="Team: &#x2264;3%, Marketing: &#x2264;5%, Development: &#x2264;3%">
+          <div class="stat-value">&#x2264;11%</div>
+          <div>Team &amp; Development</div>
+        </div>
+        <div class="stat" data-description="Rewarding community with prizes">
+          <div class="stat-value">TBA%</div>
+          <div>Community Rewards</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tokenomics" class="tokenomics" style="padding-top: 6rem;">
+      <div class="center-text">WIFE</div>
+      <div class="token-circle">
+        <h3>&#x1f525; Wealth</h3>
+        <p>A trusted investment opportunity for financial growth.</p>
+      </div>
+      <div class="token-circle">
+        <h3>&#x1f4c8; Investment</h3>
+        <p>Encourages long-term holding with rewards.</p>
+      </div>
+      <div class="token-circle">
+        <h3>&#x1f4b8; Financial Freedom</h3>
+        <p>Offers the chance to achieve financial independence.</p>
+      </div>
+      <div class="token-circle">
+        <h3>&#x1f31f; Empowerment</h3>
+        <p>Builds a community where everyone thrives together.</p>
+      </div>
+    </section>
+
+    <section id="about" class="section-about">
+      <div class="about-content">
+        <div class="about-text">
+          <h2>Understanding WIFE Coin</h2>
+          <p>Let&apos;s be honest - WIFE Coin started as a fun meme token (because who doesn&apos;t want a WIFE that makes them money? &#x1f60a;). But we&apos;re building something bigger here! While we embrace our humorous origins, we&apos;re developing real utility and growing an amazing community.</p>
+          <p>Our roadmap includes:</p>
+          <ul>
+            <li>Community-driven development (because your voice matters!)</li>
+            <li>NFT collections featuring the best WIFE memes</li>
+            <li>Staking rewards for long-term HODLers</li>
+            <li>Governance system where holders vote on future features</li>
+          </ul>
+          <p class="highlight" style="margin-top: 1rem; font-style: italic; color: var(--primary);">Remember: We started for the memes, but we're staying for the dreams! Join our growing family of WIFErs today.</p>
+        </div>
+        <div class="about-image">
+          <svg class="tech-diagram" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="50" stroke-dasharray="314" stroke-dashoffset="314"/>
+            <path d="M50,100 L150,100 M100,50 L100,150" stroke-dasharray="200" stroke-dashoffset="200"/>
+            <text x="100" y="100" text-anchor="middle" fill="var(--primary)">WIFE</text>
+          </svg>
+        </div>
+      </div>
+      <div class="about-banner"></div>
+      <p style="text-align: center; font-size: 1.2em; margin-bottom: 2rem;">
+        
+      </p>
+      <div class="wifepaper-links-container">
+        <a href="wifepapers/wpSOL.html" class="wifepaper-link link-sol">WIFEPAPER SOL</a>
+        <a href="wifepapers/wpBASE.html" class="wifepaper-link link-base">WIFEPAPER BASE</a>
+        <a href="wifepapers/wpAI.html" class="wifepaper-link link-ai">W.I.F.E. PAPER AI</a>
+      </div>
+    </section>
+
+    <section id="community" class="community-section">
+      <div class="community-content">
+        <h2>Join the WIFE Life! &#x1f389;</h2>
+        <div class="community-image">
+          <svg viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="80" fill="var(--primary)" opacity="0.1"/>
+            <path d="M60,100 Q100,150 140,100" stroke="var(--primary)" fill="none" stroke-width="3"/>
+          </svg>
+        </div>
+        <p>Ready to be part of the most entertaining crypto community? Here at WIFE Coin, we believe finance doesn&apos;t have to be boring! Our community enjoys:</p>
+        <div class="benefits" style="margin: 2rem 0;">
+          <p>&#x1f381; Regular giveaways and airdrops</p>
+          <p>&#x1f3c6; Meme competitions (yes, we&apos;re serious about not being serious)</p>
+          <p>&#x1f4da; Educational resources (because smart investing leads to a happy WIFE)</p>
+        </div>
+        <p style="font-style: italic;">&quot;Join now, and you might finally have a WIFE that makes you money!&quot; &#x1f60a;</p>
+        <div class="social-links">
+          <a href="https://t.me/wifercoin"><i class="fab fa-telegram"></i></a>
+          <a href="https://x.com/WIFECOINLIFE"><i class="fab fa-twitter"></i></a>
+          <a href="https://discord.gg/jp7ktNJXTG"><i class="fab fa-discord"></i></a>
+          <a href="https://wifecoin.life"><i class="fas fa-globe"></i></a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>document.addEventListener('DOMContentLoaded', function () {
+    const homeBtn = document.querySelector('.home-btn');
+    let autoScrolling = false;
+    let lastScrollTop = 0;
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', e => {
+        if (link.classList.contains('home-btn')) return;
+        e.preventDefault();
+        autoScrolling = false;
+        const targetId = link.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          const offset = targetId === 'tokenomics' ? -200 : 0;
+          const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset + offset;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    document.addEventListener('click', e => {
+      if (autoScrolling && !e.target.closest('.home-btn')) {
+        autoScrolling = false;
       }
     });
-  });
-  document.addEventListener('click', e => {
-    if (autoScrolling && !e.target.closest('.home-btn')) {
-      autoScrolling = false;
-    }
-  });
-  window.addEventListener('scroll', () => {
-    if (!autoScrolling) {
-      const st = window.pageYOffset || document.documentElement.scrollTop;
-      if (st > 100) {
-        homeBtn.classList.add('scrolled');
-      } else {
-        homeBtn.classList.remove('scrolled');
-      }
-      lastScrollTop = st <= 0 ? 0 : st;
-    }
-  });
-  window.addEventListener('scroll', () => {
-    if (!autoScrolling) return;
-    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
-      autoScrolling = false;
-    }
-  }, {
-    passive: true
-  });
-  homeBtn.addEventListener('click', e => {
-    e.preventDefault();
-    if (homeBtn.classList.contains('scrolled')) {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    } else {
-      autoScrolling = true;
-      const duration = 60000;
-      const start = window.pageYOffset;
-      const end = document.documentElement.scrollHeight - window.innerHeight;
-      const distance = end - start;
-      let startTime = null;
-      function animation(currentTime) {
-        if (!autoScrolling) return;
-        if (startTime === null) startTime = currentTime;
-        const timeElapsed = currentTime - startTime;
-        const progress = Math.min(timeElapsed / duration, 1);
-        window.scrollTo(0, start + distance * progress);
-        if (progress < 1 && autoScrolling) {
-          requestAnimationFrame(animation);
+    window.addEventListener('scroll', () => {
+      if (!autoScrolling) {
+        const st = window.pageYOffset || document.documentElement.scrollTop;
+        if (st > 100) {
+          homeBtn.classList.add('scrolled');
         } else {
-          autoScrolling = false;
+          homeBtn.classList.remove('scrolled');
         }
+        lastScrollTop = st <= 0 ? 0 : st;
       }
-      requestAnimationFrame(animation);
-    }
-  });
-});</script>
+    });
+    window.addEventListener('scroll', () => {
+      if (!autoScrolling) return;
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
+        autoScrolling = false;
+      }
+    }, {
+      passive: true
+    });
+    homeBtn.addEventListener('click', e => {
+      e.preventDefault();
+      if (homeBtn.classList.contains('scrolled')) {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      } else {
+        autoScrolling = true;
+        const duration = 60000;
+        const start = window.pageYOffset;
+        const end = document.documentElement.scrollHeight - window.innerHeight;
+        const distance = end - start;
+        let startTime = null;
+        function animation(currentTime) {
+          if (!autoScrolling) return;
+          if (startTime === null) startTime = currentTime;
+          const timeElapsed = currentTime - startTime;
+          const progress = Math.min(timeElapsed / duration, 1);
+          window.scrollTo(0, start + distance * progress);
+          if (progress < 1 && autoScrolling) {
+            requestAnimationFrame(animation);
+          } else {
+            autoScrolling = false;
+          }
+        }
+        requestAnimationFrame(animation);
+      }
+    });
+  });</script>
 
 </body></html>
