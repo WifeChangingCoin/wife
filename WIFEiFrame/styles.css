@@ -199,17 +199,47 @@ body {
 .copy-btn {
   background: transparent;
   border: none;
+  color: white;
   cursor: pointer;
   padding: 5px;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transition: transform 0.2s;
 }
 
 .copy-btn:hover {
   transform: scale(1.1);
+}
+
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.toast {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 20px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.hide {
+  opacity: 0;
+  transform: translateY(-20px);
 }
 
 .overlay-text {
@@ -251,34 +281,6 @@ body {
 
 .drag-handle svg {
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-.toast-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;
-}
-
-.toast {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  padding: 15px 25px;
-  border-radius: 20px;
-  color: white;
-  margin-bottom: 10px;
-  font-size: 14px;
-  transform: translateX(150%);
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  white-space: nowrap;
-}
-
-.toast.show {
-  transform: translateX(0);
-}
-
-.toast.hide {
-  transform: translateX(150%);
 }
 
 .icon-bar {
