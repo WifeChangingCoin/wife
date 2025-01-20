@@ -1,0 +1,50 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dual Frame Viewer</title>
+  <link rel="stylesheet" href="DualPanelstyles.css">
+</head>
+<body>
+  <div id="main-container">
+    <div id="telegram-frame-container">
+      <iframe id="telegram-frame" src="https://wifecoin.life/WIFEiFrame/index3.html" scrolling="yes"></iframe>
+      <div id="resize-handle"></div>
+    </div>
+
+    <div id="bottom-bar">
+      <div class="controls-container">
+        <button id="menu-button">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+          </svg>
+        </button>
+        <span class="bar-text">&lt;- WIFEVERSE | WIFE MEME STUDIO -&gt;</span>
+        <div id="expand-icon"></div>
+        <div id="image-carousel">
+          <div id="carousel-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="menu-popup" class="hidden">
+      <ul>
+        <li data-url="https://wifecoin.life/WIFEiFrame/index.html">SOL</li>
+        <li data-url="https://ape.store/base/0x17c2682363d2a373ba06eb1502b848db47224e7c">BASE</li>
+        <li data-url="https://creator.bid/agents/677b2e8fbca7efbb2749520f">W.I.F.E AI</li>
+      </ul>
+    </div>
+
+    <div id="expanded-container">
+      <iframe id="wifecoin-frame" src="https://wifecoin.life" scrolling="yes"></iframe>
+      <div id="mobile-scroll-indicator">
+        <div class="scroll-arrow up"></div>
+        <div class="scroll-track"></div>
+        <div class="scroll-arrow down"></div>
+      </div>
+    </div>
+  </div>
+  <script src="DualPanel/frame-styles.js"></script>
+  <script src="DualPanel/script.js"></script>
+</body>
+</html>
